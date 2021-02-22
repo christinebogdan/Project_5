@@ -1,0 +1,127 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+* {
+  font-family: "DM Sans", sans-serif;
+}
+
+.skip-to-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -600px;
+  font-size: 1.125rem;
+  text-decoration: none;
+  font-weight: 700;
+  width: 170px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #d3573c;
+  color: #000000;
+}
+.skip-to-content:focus {
+  top: 6px;
+}
+
+.header__logo {
+  width: 150px;
+  height: 37.5px;
+  margin-top: 40px;
+  margin-left: 20px;
+  margin-bottom: 31px;
+}
+@media (min-width: 700px) {
+  .header__logo {
+    width: 200px;
+    height: 50px;
+    margin-top: 42px;
+    margin-left: 100px;
+  }
+}
+.header__nav-ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0 40px;
+}
+.header__nav-ul--listItem {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  height: 22px;
+  border: 0.5px solid #c4c4c4;
+  border-radius: 11px;
+  padding: 3px 6px;
+  color: #901c1c;
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-right: 5px;
+  margin-bottom: 6px;
+}
+.header__nav-ul--listItem:hover, .header__nav-ul--listItem:focus {
+  background-color: #901c1c;
+  color: #ffffff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.main__headline {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  font-size: 0.875rem;
+  color: #901c1c;
+  font-weight: 400;
+  line-height: 1.125rem;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.photographer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.photographer__name {
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: 2.9375rem;
+}
+.photographer__location {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.0625rem;
+  color: #901c1c;
+}
+.photographer__tagline {
+  font-size: 0.625rem;
+  font-weight: 400;
+  line-height: 0.8125rem;
+  margin-top: 3px;
+}
+.photographer__price {
+  font-size: 0.5625rem;
+  font-weight: 400;
+  line-height: 0.75rem;
+  color: #757575;
+  margin-top: 3px;
+}
+
+/*# sourceMappingURL=style.css.map */

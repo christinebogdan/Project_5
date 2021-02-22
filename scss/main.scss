@@ -1,0 +1,200 @@
+@import "./resets";
+
+// ---------------------------------------- //
+// ---------------VARIABLES---------------- //
+// ---------------------------------------- //
+
+$primary-background: #901c1c;
+$primary-text-dark: #bf5138;
+$primary-text-light: #ffffff;
+$secondary-background-dark: #d3573c;
+$secondary-background-light: #fafafa;
+$secondary-text-dark: #901c1c;
+$secondary-text-light: #525252;
+$secondary-text-black: #000000;
+
+$font: "DM Sans", sans-serif;
+
+// ---------------------------------------- //
+// ---------------COMPONENTS--------------- //
+// ---------------------------------------- //
+
+// ---------------------------------------- //
+// -----------------MIXINS----------------- //
+// ---------------------------------------- //
+
+@mixin button-static {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 170px;
+  height: 69px;
+  border-radius: 5px;
+  background-color: $primary-background;
+  //   padding: 23px 51px;
+  line-height: getRem(23);
+  font-size: getRem(18);
+  font-weight: 700;
+}
+
+@mixin button-hover-focus {
+  background-color: $secondary-background-dark;
+  color: $secondary-text-black;
+}
+
+@mixin listItem {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  height: 22px;
+  border: 0.5px solid #c4c4c4;
+  border-radius: 11px;
+  padding: 3px 6px;
+  color: $secondary-text-dark;
+  font-weight: 500;
+  font-size: getRem(12);
+  line-height: getRem(16);
+  margin-right: 5px;
+  margin-bottom: 6px;
+}
+
+@mixin link-hover-focus {
+  background-color: $primary-background;
+  color: $primary-text-light;
+}
+
+@mixin responsive {
+  @media (min-width: 700px) {
+    @content;
+  }
+}
+
+// ---------------------------------------- //
+// ---------------FUNCTIONS---------------- //
+// ---------------------------------------- //
+
+@function getRem($font-size) {
+  @return ($font-size/16) * 1rem;
+}
+
+// ---------------------------------------- //
+// -----------------BODY------------------- //
+// ---------------------------------------- //
+
+* {
+  font-family: $font;
+}
+
+// ---------------------------------------- //
+// ----------------HEADER------------------ //
+// ---------------------------------------- //
+
+.skip-to-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -600px;
+  font-size: getRem(18);
+  text-decoration: none;
+  font-weight: 700;
+  width: 170px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: $secondary-background-dark;
+  color: $secondary-text-black;
+  &:focus {
+    top: 6px;
+  }
+}
+
+.header {
+  &__logo {
+    width: 150px;
+    height: 37.5px;
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-bottom: 31px;
+    @include responsive {
+      width: 200px;
+      height: 50px;
+      margin-top: 42px;
+      margin-left: 100px;
+    }
+  }
+  &__nav-ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    margin: 0 40px;
+    &--listItem {
+      @include listItem;
+      &:hover,
+      &:focus {
+        @include link-hover-focus;
+      }
+    }
+  }
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+// ---------------------------------------- //
+// -----------------MAIN------------------- //
+// ---------------------------------------- //
+
+.main {
+  &__headline {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    font-size: getRem(14);
+    color: $secondary-text-dark;
+    font-weight: 400;
+    line-height: getRem(18);
+    letter-spacing: 0em;
+    text-align: center;
+  }
+}
+
+.photographer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__name {
+    font-size: getRem(36);
+    font-weight: 400;
+    line-height: getRem(47);
+  }
+  &__location {
+    font-size: getRem(13);
+    font-weight: 400;
+    line-height: getRem(17);
+    color: $secondary-text-dark;
+  }
+  &__tagline {
+    font-size: getRem(10);
+    font-weight: 400;
+    line-height: getRem(13);
+    margin-top: 3px;
+  }
+  &__price {
+    font-size: getRem(9);
+    font-weight: 400;
+    line-height: getRem(12);
+    color: #757575;
+    margin-top: 3px;
+  }
+}
