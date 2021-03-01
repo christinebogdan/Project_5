@@ -14,6 +14,8 @@
   align-items: center;
   position: absolute;
   top: -600px;
+  left: 50%;
+  margin-left: -85px;
   font-size: 1.125rem;
   text-decoration: none;
   font-weight: 700;
@@ -27,7 +29,7 @@
   top: 6px;
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 1330px) {
   .header {
     display: flex;
     align-items: center;
@@ -40,7 +42,7 @@
   margin-left: 20px;
   margin-bottom: 31px;
 }
-@media (min-width: 1300px) {
+@media (min-width: 1330px) {
   .header__logo {
     width: 200px;
     height: 50px;
@@ -55,12 +57,12 @@
   list-style: none;
   margin: 0 40px;
 }
-@media (min-width: 1300px) {
+@media (min-width: 1330px) {
   .header__nav-ul {
     margin-top: 15px;
   }
 }
-.header__nav-ul--tag {
+.header__nav-ul--li {
   text-align: center;
   height: 22px;
   border: 0.5px solid #c4c4c4;
@@ -73,10 +75,12 @@
   margin-right: 5px;
   margin-bottom: 6px;
 }
-.header__nav-ul--tag:hover, .header__nav-ul--tag:focus {
+.header__nav-ul--li:hover {
+  cursor: pointer;
+}
+.header__nav-ul--li[data-state=active] {
   background-color: #901c1c;
   color: #ffffff;
-  outline: none;
 }
 
 .sr-only {
@@ -105,7 +109,7 @@
   letter-spacing: 0em;
   text-align: center;
 }
-@media (min-width: 1300px) {
+@media (min-width: 1330px) {
   .main__headline {
     font-size: 2.25rem;
     font-weight: 400;
@@ -114,8 +118,12 @@
     right: 106px;
   }
 }
-@media (min-width: 1300px) {
+.main__overview {
+  margin-top: 15px;
+}
+@media (min-width: 1330px) {
   .main__overview {
+    margin-top: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -123,11 +131,12 @@
 }
 
 .photographer {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-@media (min-width: 1300px) {
+@media (min-width: 1330px) {
   .photographer {
     flex-basis: 32%;
     margin-top: 20px;
@@ -142,18 +151,13 @@
   color: #901c1c;
   text-decoration: none;
 }
-.photographer__container {
+.photographer__img {
   width: 200px;
   height: 200px;
-  overflow: hidden;
+  object-fit: cover;
   border-radius: 100px;
   background: #c4c4c4;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
-  margin-top: 30px;
-}
-.photographer__img {
-  width: 100%;
-  height: auto;
 }
 .photographer__name {
   font-size: 2.25rem;
@@ -200,10 +204,12 @@
   margin-right: 5px;
   margin-bottom: 6px;
 }
-.photographer__tag:hover, .photographer__tag:focus {
+.photographer__tag:hover {
+  cursor: pointer;
+}
+.photographer__tag[data-state=active] {
   background-color: #901c1c;
   color: #ffffff;
-  outline: none;
 }
 
 /*# sourceMappingURL=style.css.map */

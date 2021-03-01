@@ -59,14 +59,18 @@ $font: "DM Sans", sans-serif;
   margin-bottom: 6px;
 }
 
-@mixin tag-hover-focus {
+@mixin tag-focus {
   background-color: $primary-background;
   color: $primary-text-light;
-  outline: none;
+  // outline: none;
+}
+
+@mixin tag-hover {
+  cursor: pointer;
 }
 
 @mixin responsive {
-  @media (min-width: 1300px) {
+  @media (min-width: 1330px) {
     @content;
   }
 }
@@ -97,6 +101,8 @@ $font: "DM Sans", sans-serif;
   align-items: center;
   position: absolute;
   top: -600px;
+  left: 50%;
+  margin-left: -85px;
   font-size: getRem(18);
   text-decoration: none;
   font-weight: 700;
@@ -138,11 +144,13 @@ $font: "DM Sans", sans-serif;
     @include responsive {
       margin-top: 15px;
     }
-    &--tag {
+    &--li {
       @include tag;
-      &:hover,
-      &:focus {
-        @include tag-hover-focus;
+      &:hover {
+        @include tag-hover;
+      }
+      &[data-state="active"] {
+        @include tag-focus;
       }
     }
   }
@@ -185,7 +193,9 @@ $font: "DM Sans", sans-serif;
     }
   }
   &__overview {
+    margin-top: 15px;
     @include responsive {
+      margin-top: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -194,6 +204,7 @@ $font: "DM Sans", sans-serif;
 }
 
 .photographer {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -210,18 +221,14 @@ $font: "DM Sans", sans-serif;
       text-decoration: none;
     }
   }
-  &__container {
+
+  &__img {
     width: 200px;
     height: 200px;
-    overflow: hidden;
+    object-fit: cover;
     border-radius: 100px;
     background: #c4c4c4;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
-    margin-top: 30px;
-  }
-  &__img {
-    width: 100%;
-    height: auto;
   }
   &__name {
     font-size: getRem(36);
@@ -257,9 +264,11 @@ $font: "DM Sans", sans-serif;
   }
   &__tag {
     @include tag;
-    &:hover,
-    &:focus {
-      @include tag-hover-focus;
+    &:hover {
+      @include tag-hover;
+    }
+    &[data-state="active"] {
+      @include tag-focus;
     }
   }
 }

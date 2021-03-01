@@ -1,16 +1,46 @@
 const main = document.getElementById("main");
+const nav = document.querySelector(".header__nav");
 const overview = document.getElementById("overview");
-const categories = [
-  "#portrait",
-  "#art",
-  "#fashion",
-  "#architecture",
-  "#sport",
-  "#animals",
-  "#events",
-];
+const navTags = document.querySelectorAll(".header__nav-ul--li");
+const firstTag = navTags[0];
+const lastTag = navTags[navTags.length - 1];
+const categories = {};
 
-// filter functionality for navigation
+// filter functionality for nav items
+function filterFunction(e) {
+  // get target button
+  let target = e.target;
+  // get filter name
+  let filterName = target.getAttribute("data-name");
+
+  // when the data-state is inactive, hides the tiles and sets data-state to active
+  if (target.getAttribute("data-state") === "inactive") {
+    target.setAttribute("data-state", "active");
+    target.setAttribute("aria-selected", "true");
+    // loop over photographers and their categories
+    for (let key of Object.keys(categories)) {
+      // select photographer and their tile that matches the current key
+      let photographerTile = document.getElementById(key);
+      // when photographer does not have current category, hide tile
+      if (!categories[key].some((el) => el === filterName)) {
+        photographerTile.style.display = "none";
+      }
+    }
+  } else if (target.getAttribute("data-state") === "active") {
+    target.setAttribute("data-state", "inactive");
+    target.setAttribute("aria-selected", "false");
+
+    // loop over photographers and their categories
+    for (let key of Object.keys(categories)) {
+      // select photographer and their tile that matches the current key
+      let photographerTile = document.getElementById(key);
+      // remove all matching previously hidden tiles
+      if (!categories[key].some((el) => el === filterName)) {
+        photographerTile.style.display = "flex";
+      }
+    }
+  }
+}
 
 // how can I use this function in my buildOverview function (with async await?)
 async function getPhotographerData() {
@@ -30,11 +60,21 @@ async function getPhotographerData() {
 function buildTags(array) {
   let tags = document.createElement("ul");
   tags.className = "photographer__tags";
+  // add Event Listeners (how can I reduce duplicate code of filter in nav?)
+
+  tags.addEventListener("click", filterFunction);
+  tags.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      filterFunction(e);
+    }
+  });
 
   for (let i = 0; i < array.length; i++) {
     let tag = document.createElement("li");
     tag.textContent = `#${array[i]}`;
     tag.className = "photographer__tag";
+    tag.setAttribute("data-name", array[i]);
+    tag.setAttribute("data-state", "inactive");
     let srOnlySpan = document.createElement("span");
     srOnlySpan.textContent = "Tag";
     srOnlySpan.className = "sr-only";
@@ -45,27 +85,33 @@ function buildTags(array) {
 }
 
 // function to build overview tiles for each photographer
+// and the object (id and tags) for filter functionality
 function buildOverview(data) {
   data.forEach((person) => {
+    // populate photographerCategories object
+    categories[`${person.id}`] = person.tags;
+
     // create photographer tile
     let tile = document.createElement("article");
     tile.className = "photographer";
+    tile.id = `${person.id}`;
 
     // create clickable image and headline wrapped in anchor tag //
     let link = document.createElement("a");
     link.className = "photographer__link";
+    link.setAttribute("aria-label", person.name);
+
     // create href attribute
-    link.href = `./photographers/${person.name}`;
+    link.href = `./pages/${person.name.replace(/ /g, "_")}`;
+
     // set aria-label to person name
     link.setAttribute = ("aria-label", `${person.name}`);
-    // create div container for image
-    let div = document.createElement("div");
-    div.className = "photographer__container";
-    link.appendChild(div);
+
     // create image
     let img = document.createElement("img");
-    div.appendChild(img);
+    link.appendChild(img);
     img.src = `./img/photographers/ID_Photos/${person.portrait}`;
+
     // How to set empty alt attribute
     img.setAttribute("alt", `""`);
     img.className = "photographer__img";
@@ -104,4 +150,44 @@ function buildOverview(data) {
   });
 }
 
+// manage focus on navigation
+nav.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") {
+    firstTag.focus();
+  }
+});
+
+// manage focus inside navigation and add filter functionality
+for (let i = 0; i < navTags.length; i++) {
+  // add filter functionality to navigation, mouse and keyboard
+  navTags[i].addEventListener("click", filterFunction);
+  navTags[i].addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      filterFunction(e);
+    }
+  });
+
+  // manage focus inside navigation via keyboard
+  navTags[i].addEventListener("keydown", (e) => {
+    e.stopPropagation();
+    let target = e.target;
+
+    if (e.key === "ArrowRight") {
+      if (target === lastTag) {
+        firstTag.focus();
+      } else {
+        navTags[i + 1].focus();
+      }
+    }
+    if (e.key === "ArrowLeft") {
+      if (target === firstTag) {
+        lastTag.focus();
+      } else {
+        navTags[i - 1].focus();
+      }
+    }
+  });
+}
+
+// build page's main content
 getPhotographerData();
