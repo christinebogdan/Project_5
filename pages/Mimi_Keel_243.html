@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/pages_style.css" />
+    <title>Mimi_Keel</title>
+  </head>
+  <body>
+    <header role="banner" class="header">
+      <a href="../index.html"
+        ><img
+          src="../img/logo.svg"
+          alt="Fisheye Home page"
+          class="header__logo"
+      /></a>
+    </header>
+    <main class="main">
+      <article class="main__article">
+        <div>
+          <h1 class="main__article--headline">Mimi Keel</h1>
+          <p class="main__article--location">London, UK</p>
+          <p class="main__article--tagline">
+            Finding beauty in everyday things
+          </p>
+        </div>
+        <img
+          src="../img/photographers/ID_Photos/MimiKeel.jpg"
+          class="main__article--img"
+          alt=""
+        />
+      </article>
+      <label for="select-menu">Order by:</label>
+      <select id="select-menu">
+        <option value="popularity" selected>Popularity</option>
+        <option value="date">Date</option>
+        <option value="title">Title</option>
+      </select>
+      <button class="main__btn">Contact me</button>
+    </main>
+    <script type="text/javascript" src="./script.js"></script>
+  </body>
+</html>

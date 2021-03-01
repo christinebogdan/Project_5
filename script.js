@@ -5,6 +5,8 @@ const navTags = document.querySelectorAll(".header__nav-ul--li");
 const firstTag = navTags[0];
 const lastTag = navTags[navTags.length - 1];
 const categories = {};
+const pathname = window.location.pathname;
+const photographerID = pathname.replace(/[^0-9]/g, "");
 
 // filter functionality for nav items
 function filterFunction(e) {
@@ -102,7 +104,7 @@ function buildOverview(data) {
     link.setAttribute("aria-label", person.name);
 
     // create href attribute
-    link.href = `./pages/${person.name.replace(/ /g, "_")}`;
+    link.href = `./pages/${person.name.replace(/ /g, "_")}_${person.id}.html`;
 
     // set aria-label to person name
     link.setAttribute = ("aria-label", `${person.name}`);
