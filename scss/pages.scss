@@ -41,6 +41,38 @@ $font: "DM Sans", sans-serif;
   color: $secondary-text-black;
 }
 
+@mixin tag {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  text-decoration: none;
+  border: 0.5px solid #c4c4c4;
+  border-radius: 11px;
+  padding: 3px 6px;
+  color: $secondary-text-dark;
+  font-weight: 500;
+  font-size: getRem(12);
+  line-height: getRem(16);
+  margin-right: 5px;
+  margin-bottom: 6px;
+  @include responsive {
+    font-size: getRem(18);
+    padding: 6px 12px;
+    border-radius: 22px;
+  }
+}
+
+@mixin tag-focus {
+  background-color: $primary-background;
+  color: $primary-text-light;
+  // outline: none;
+}
+
+@mixin tag-hover {
+  cursor: pointer;
+}
+
 @mixin responsive {
   @media (min-width: 1330px) {
     @content;
@@ -105,20 +137,41 @@ $font: "DM Sans", sans-serif;
 
 .main {
   margin: 0 20px;
+  @include responsive {
+    margin: 0 100px;
+  }
+
   &__article {
     display: flex;
     justify-content: space-between;
+    @include responsive {
+      margin: 50px 0 20px;
+      background-color: #fafafa;
+      border-radius: 5px;
+      padding: 56px 50px 48px;
+    }
+    &--wrapper {
+      display: flex;
+    }
     &--headline {
       color: $primary-text-dark;
       font-weight: 400;
       font-size: getRem(36);
       line-height: getRem(47);
+      @include responsive {
+        font-size: getRem(64);
+        line-height: getRem(83);
+      }
     }
     &--location {
       font-weight: 400;
       font-size: getRem(13);
       line-height: getRem(17);
       color: $secondary-text-dark;
+      @include responsive {
+        font-size: getRem(24);
+        line-height: getRem(31);
+      }
     }
     &--tagline {
       margin-top: 4px;
@@ -126,6 +179,44 @@ $font: "DM Sans", sans-serif;
       font-size: getRem(13);
       line-height: getRem(17);
       color: #757575;
+      @include responsive {
+        font-size: getRem(18);
+        line-height: getRem(23);
+        margin-top: 19px;
+      }
+    }
+    &--tags {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 6px;
+      @include responsive {
+        margin-top: 9px;
+      }
+    }
+    &--tag {
+      @include tag;
+      &:hover {
+        @include tag-hover;
+        @include tag-focus;
+      }
+      &[data-state="active"] {
+        @include tag-focus;
+      }
+    }
+    &--btn {
+      position: absolute;
+      margin-left: -85px;
+      bottom: 30px;
+      left: 50%;
+      @include button-static;
+      &:hover {
+        @include button-hover-focus;
+      }
+      @include responsive {
+        height: 70px;
+        position: static;
+        margin-left: 0;
+      }
     }
     &--img {
       height: 100px;
@@ -134,16 +225,201 @@ $font: "DM Sans", sans-serif;
       background: #c4c4c4;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
       border-radius: 50px;
+      flex-shrink: 0;
+      @include responsive {
+        height: 200px;
+        width: 200px;
+        border-radius: 100px;
+      }
+    }
+  }
+}
+
+// ---------------------------------------- //
+// ----------------LISTBOX----------------- //
+// ---------------------------------------- //
+
+.listbox-area {
+  display: none;
+  @include responsive {
+    display: block;
+  }
+}
+
+.left-area {
+  display: flex;
+  align-items: baseline;
+}
+
+#list-wrapper {
+  position: relative;
+}
+
+#listbox {
+  list-style: none;
+  background-color: $primary-background;
+  border-radius: 5px;
+  width: 170px;
+  margin-left: 22px;
+  position: absolute;
+  top: 0px;
+  // padding: 9px 10px 0;
+  display: none;
+}
+
+#filter-button {
+  @include button-static;
+  margin-left: 22px;
+  height: 70px;
+  text-align: left;
+  padding: 0 20px;
+}
+
+#popularity {
+  padding-top: 24px;
+}
+
+#time {
+  padding-bottom: 24px;
+}
+#filter-button::after {
+  content: "";
+}
+
+// hr {
+//   width: 80%;
+//   margin: 0 auto;
+// }
+
+[role="option"] {
+  display: block;
+  // position: relative;
+  // padding: 14px 10px;
+  padding: 14px 20px;
+  // height: auto;
+  // text-align: left;
+  line-height: getRem(23);
+  font-size: getRem(18);
+  font-weight: 700;
+  border: none;
+  color: $primary-text-light;
+}
+// [role="option"] + [role="option"] {
+//   border-top: 1px solid white;
+// }
+
+.is-active {
+  background-color: $secondary-background-dark;
+  color: $secondary-text-black;
+}
+
+// ---------------------------------------- //
+// -----------------ASIDE------------------ //
+// ---------------------------------------- //
+
+.aside {
+  display: none;
+  @include responsive {
+    display: block;
+  }
+  position: absolute;
+  bottom: 0;
+  right: 36px;
+  width: 367px;
+  background-color: #db8876;
+  border-radius: 5px 5px 0 0;
+  font-weight: 500;
+  font-size: getRem(24);
+  line-height: getRem(31);
+  padding: 21px 37px;
+  &__wrapper {
+    display: flex;
+  }
+}
+
+// ---------------------------------------- //
+// -----------------MODAL------------------ //
+// ---------------------------------------- //
+
+.modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #db8876;
+  border-radius: 5px;
+  padding: 0px 19px;
+  &__close {
+    position: absolute;
+    right: 26.5px;
+    top: 26.5px;
+    width: 18.5px;
+    height: 19.5px;
+    opacity: 1;
+    cursor: pointer;
+    &:before,
+    &:after {
+      position: absolute;
+      left: 15px;
+      content: " ";
+      height: 26px;
+      width: 3px;
+      background-color: #fff;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(196, 196, 196, 0.4);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  &__headline {
+    font-size: getRem(36);
+    line-height: getRem(46);
+    margin-top: 20px;
+    margin-bottom: 26px;
+  }
+  &__label {
+    display: block;
+    font-weight: 400;
+    font-size: getRem(24);
+    line-height: getRem(31);
+    color: #312e2e;
+    margin-bottom: 6px;
+  }
+  &__input {
+    display: block;
+    width: 338px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 14px;
+    font-size: getRem(24);
+    padding: 5px;
+    &--text {
+      height: 52px;
+    }
+    &--textarea {
+      height: 184px;
+      margin-bottom: 26px;
     }
   }
   &__btn {
-    position: absolute;
-    margin-left: -85px;
-    bottom: 30px;
-    left: 50%;
     @include button-static;
-    &:hover {
-      @include button-hover-focus;
-    }
+    margin: auto;
   }
 }

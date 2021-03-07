@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/pages_style.css" />
+    <title>Mimi_Keel</title>
+  </head>
+  <body>
+    <header role="banner" class="header">
+      <a href="../index.html"
+        ><img
+          src="../img/logo.svg"
+          alt="Fisheye Home page"
+          class="header__logo"
+      /></a>
+    </header>
+    <main class="main">
+      <article class="main__article"></article>
+
+      <!-- kann listbox-area hier raus? -->
+      <!-- arrow für button fehlt noch -->
+      <div class="listbox-area">
+        <div class="left-area">
+          <span id="area-label">Order by</span>
+          <div id="list-wrapper">
+            <button
+              aria-haspopup="listbox"
+              aria-labelledby="area-label filter-button"
+              id="filter-button"
+            >
+              Popularity
+            </button>
+            <ul
+              id="listbox"
+              tabindex="-1"
+              role="listbox"
+              aria-labelledby="area-label"
+              class="hidden"
+            >
+              <li id="popularity" role="option">Popularity</li>
+              <li id="date" role="option">Date</li>
+              <li id="time" role="option">Time</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+    <aside class="aside"></aside>
+    <div
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dialog-headline"
+    >
+      <span
+        id="close"
+        class="modal__close"
+        role="button"
+        aria-label="Close Contact Form"
+        tabindex="-1"
+      ></span>
+      <form class="form">
+        <h1 class="form__headline" id="dialog-headline">
+          Contact me<br />Mimi Keel
+        </h1>
+        <label for="firstname" class="form__label">First name</label>
+        <input
+          id="firstname"
+          type="text"
+          name="firstname"
+          class="form__input form__input--text"
+        />
+        <label for="lastname" class="form__label">Last name</label>
+        <input
+          id="lastname"
+          type="text"
+          name="lastname"
+          class="form__input form__input--text"
+        />
+        <label for="email" class="form__label">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          class="form__input form__input--text"
+        />
+        <label for="message" class="form__label">Your message:</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="15"
+          cols="30"
+          class="form__input form__input--textarea"
+        ></textarea>
+        <input type="submit" value="Send" class="form__btn" id="submit" />
+      </form>
+    </div>
+    <div class="modal__overlay"></div>
+
+    <script type="text/javascript" src="./script.js"></script>
+  </body>
+</html>

@@ -89,7 +89,8 @@ function buildTags(array) {
 // function to build overview tiles for each photographer
 // and the object (id and tags) for filter functionality
 function buildOverview(data) {
-  data.forEach((person) => {
+  for (let i = 0; i < data.length; i++) {
+    let person = data[i];
     // populate photographerCategories object
     categories[`${person.id}`] = person.tags;
 
@@ -104,7 +105,7 @@ function buildOverview(data) {
     link.setAttribute("aria-label", person.name);
 
     // create href attribute
-    link.href = `./pages/${person.name.replace(/ /g, "_")}_${person.id}.html`;
+    link.href = `./pages/${person.name.replace(/ /g, "_")}_${i}.html`;
 
     // set aria-label to person name
     link.setAttribute = ("aria-label", `${person.name}`);
@@ -149,8 +150,74 @@ function buildOverview(data) {
     tile.appendChild(tagline);
     tile.appendChild(price);
     tile.appendChild(tags);
-  });
+  }
 }
+
+// // function to build overview tiles for each photographer
+// // and the object (id and tags) for filter functionality
+// function buildOverview(data) {
+//   data.forEach((person) => {
+//     // populate photographerCategories object
+//     categories[`${person.id}`] = person.tags;
+
+//     // create photographer tile
+//     let tile = document.createElement("article");
+//     tile.className = "photographer";
+//     tile.id = `${person.id}`;
+
+//     // create clickable image and headline wrapped in anchor tag //
+//     let link = document.createElement("a");
+//     link.className = "photographer__link";
+//     link.setAttribute("aria-label", person.name);
+
+//     // create href attribute
+//     link.href = `./pages/${person.name.replace(/ /g, "_")}_${person.id}.html`;
+
+//     // set aria-label to person name
+//     link.setAttribute = ("aria-label", `${person.name}`);
+
+//     // create image
+//     let img = document.createElement("img");
+//     link.appendChild(img);
+//     img.src = `./img/photographers/ID_Photos/${person.portrait}`;
+
+//     // How to set empty alt attribute
+//     img.setAttribute("alt", `""`);
+//     img.className = "photographer__img";
+
+//     // create name
+//     let name = document.createElement("h2");
+//     name.textContent = person.name;
+//     name.className = "photographer__name";
+//     link.appendChild(name);
+
+//     // create location
+//     let location = document.createElement("p");
+//     location.textContent = `${person.city}, ${person.country}`;
+//     location.className = "photographer__location";
+
+//     //create tagline
+//     let tagline = document.createElement("p");
+//     tagline.textContent = person.tagline;
+//     tagline.className = "photographer__tagline";
+
+//     // create price
+//     let price = document.createElement("p");
+//     price.textContent = `$${person.price}/day`;
+//     price.className = "photographer__price";
+
+//     // create tags
+//     let tags = buildTags(person.tags);
+
+//     //append all to DOM
+//     overview.appendChild(tile);
+//     tile.appendChild(link);
+//     tile.appendChild(location);
+//     tile.appendChild(tagline);
+//     tile.appendChild(price);
+//     tile.appendChild(tags);
+//   });
+// }
 
 // manage focus on navigation
 nav.addEventListener("keydown", (e) => {
