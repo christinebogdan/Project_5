@@ -192,6 +192,7 @@ $font: "DM Sans", sans-serif;
       @include responsive {
         margin-top: 9px;
       }
+      margin-bottom: 40px;
     }
     &--tag {
       @include tag;
@@ -204,7 +205,7 @@ $font: "DM Sans", sans-serif;
       }
     }
     &--btn {
-      position: absolute;
+      position: fixed;
       margin-left: -85px;
       bottom: 30px;
       left: 50%;
@@ -273,6 +274,14 @@ $font: "DM Sans", sans-serif;
   height: 70px;
   text-align: left;
   padding: 0 20px;
+  position: relative;
+}
+
+#filter-button::after {
+  content: url(../img/arrow.svg);
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 
 #popularity {
@@ -322,7 +331,7 @@ $font: "DM Sans", sans-serif;
   @include responsive {
     display: block;
   }
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 36px;
   width: 367px;
@@ -342,7 +351,7 @@ $font: "DM Sans", sans-serif;
 // ---------------------------------------- //
 
 .modal {
-  display: none;
+  // display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -351,6 +360,23 @@ $font: "DM Sans", sans-serif;
   background-color: #db8876;
   border-radius: 5px;
   padding: 0px 19px;
+  @include responsive {
+    width: 669px;
+    height: 900px;
+    padding: 0px 35px;
+    position: relative;
+  }
+  &__overlay {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(196, 196, 196, 0.4);
+  }
   &__close {
     position: absolute;
     right: 26.5px;
@@ -375,14 +401,6 @@ $font: "DM Sans", sans-serif;
       transform: rotate(-45deg);
     }
   }
-  &__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(196, 196, 196, 0.4);
-  }
 }
 
 .form {
@@ -393,6 +411,10 @@ $font: "DM Sans", sans-serif;
     line-height: getRem(46);
     margin-top: 20px;
     margin-bottom: 26px;
+    @include responsive {
+      font-size: getRem(64);
+      line-height: getRem(83);
+    }
   }
   &__label {
     display: block;
@@ -401,25 +423,114 @@ $font: "DM Sans", sans-serif;
     line-height: getRem(31);
     color: #312e2e;
     margin-bottom: 6px;
+    @include responsive {
+      font-size: getRem(36);
+      line-height: getRem(46);
+      margin-bottom: 0;
+    }
   }
   &__input {
     display: block;
-    width: 338px;
     border: none;
     border-radius: 5px;
     margin-bottom: 14px;
     font-size: getRem(24);
     padding: 5px;
+    @include responsive {
+      margin-bottom: 0;
+    }
     &--text {
       height: 52px;
+      @include responsive {
+        height: 68px;
+      }
     }
     &--textarea {
       height: 184px;
       margin-bottom: 26px;
+      @include responsive {
+        height: 170px;
+      }
     }
   }
   &__btn {
     @include button-static;
     margin: auto;
+    @include responsive {
+      width: 170px;
+      height: 70px;
+      margin: 0;
+    }
+  }
+}
+
+// ---------------------------------------- //
+// ----------------GALLERY----------------- //
+// ---------------------------------------- //
+
+// wie in SASS?
+// .gallery__element + .gallery__element {
+//   margin-top: 10px;
+// }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @include responsive {
+    margin-top: 58px;
+  }
+  &__element {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__mediaItem {
+    width: 335px;
+    height: 190px;
+    object-fit: cover;
+    flex-basis: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    @include responsive {
+      width: 350px;
+      height: 300px;
+    }
+  }
+  &__mediaInfo {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 10px;
+    &--title {
+      font-weight: 400;
+      font-size: getRem(14);
+      line-height: getRem(18);
+      color: #911c1c;
+      @include responsive {
+        font-size: getRem(24);
+        line-height: getRem(31);
+      }
+    }
+    &--price {
+      // wieso funktioniert margin-left nicht mehr
+      margin-left: auto;
+      font-weight: 500;
+      font-size: getRem(12);
+      line-height: getRem(16);
+      margin-right: 16px;
+      text-align: right;
+      color: #911c1c;
+    }
+    &--likes {
+      font-weight: 400;
+      font-size: getRem(14);
+      line-height: getRem(18);
+      color: #911c1c;
+      &::after {
+        content: url("../img/Vector.svg");
+        margin-left: 5px;
+        width: 10px;
+        height: 11px;
+      }
+    }
   }
 }

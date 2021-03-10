@@ -69,7 +69,8 @@
       "tags": ["fashion"],
       "likes": 62,
       "date": "2011-12-08",
-      "price": 55
+      "price": 55,
+      "alt": "Woman at the beach, dressed in a yellow hoodie and yellow pants"
     },
     {
       "id": 8520927,
@@ -78,7 +79,8 @@
       "tags": ["fashion"],
       "likes": 11,
       "date": "2011-11-06",
-      "price": 55
+      "price": 55,
+      "alt": "Woman kneeling on a bridge, dressed in an outfit with green jungle pattern"
     },
     {
       "id": 9025895,
@@ -87,7 +89,8 @@
       "tags": ["fashion"],
       "likes": 72,
       "date": "2013-08-12",
-      "price": 55
+      "price": 55,
+      "alt": "Woman dressed in a yellow, turquoise, black striped blazer"
     },
     {
       "id": 9275938,
@@ -96,7 +99,8 @@
       "tags": ["events"],
       "likes": 69,
       "date": "2018-02-22",
-      "price": 55
+      "price": 55,
+      "alt": "A wedding gazebo decorated with flowers and lined with chair rows"
     },
     {
       "id": 2053494,
@@ -105,7 +109,8 @@
       "tags": ["events"],
       "likes": 2,
       "date": "2020-05-25",
-      "price": 55
+      "price": 55,
+      "alt": "People at an event holding glowing sparklers in the evening"
     },
     {
       "id": 7324238,
@@ -114,7 +119,8 @@
       "tags": ["events"],
       "likes": 33,
       "date": "2019-06-12",
-      "price": 55
+      "price": 55,
+      "alt": "Event location for an 18th birthday, with decorated tables and a balloon in form of the number 18"
     },
     {
       "id": 8328953,
@@ -123,7 +129,8 @@
       "tags": ["art"],
       "likes": 24,
       "date": "2011-12-08",
-      "price": 100
+      "price": 100,
+      "alt": "Video about wooden horse sculpture"
     },
     {
       "id": 7502053,
@@ -132,7 +139,8 @@
       "tags": ["art"],
       "likes": 88,
       "date": "2007-05-07",
-      "price": 55
+      "price": 55,
+      "alt": "Art showing a white triangle with a man behind"
     },
     {
       "id": 8523492,
@@ -141,7 +149,8 @@
       "tags": ["art"],
       "likes": 24,
       "date": "2018-05-05",
-      "price": 55
+      "price": 55,
+      "alt": "Graffiti in purple light"
     },
     {
       "id": 75902334,
@@ -150,7 +159,8 @@
       "tags": ["art"],
       "likes": 75,
       "date": "2019-11-25",
-      "price": 55
+      "price": 55,
+      "alt": "Graffiti showing pigeons in blue and red"
     },
     {
       "id": 73852953,
@@ -159,7 +169,8 @@
       "tags": ["sport"],
       "likes": 52,
       "date": "2013-02-30",
-      "price": 70
+      "price": 70,
+      "alt": "People rowing, shown from above"
     },
     {
       "id": 92758372,
@@ -168,7 +179,8 @@
       "tags": ["fashion"],
       "likes": 58,
       "date": "2018-07-17",
-      "price": 70
+      "price": 70,
+      "alt": "Man in beige suit, woman in blue dress, holding up their arms"
     },
     {
       "id": 32958383,
@@ -177,7 +189,8 @@
       "tags": ["fashion"],
       "likes": 11,
       "date": "2019-08-12",
-      "price": 70
+      "price": 70,
+      "alt": "Woman on steps wearing a bright red dress"
     },
     {
       "id": 928587383,
@@ -186,7 +199,8 @@
       "tags": ["events"],
       "likes": 2,
       "date": "2019-01-02",
-      "price": 70
+      "price": 70,
+      "alt": "People on a conference"
     },
     {
       "id": 725639493,
@@ -195,7 +209,8 @@
       "tags": ["events"],
       "likes": 3,
       "date": "2019-05-20",
-      "price": 70
+      "price": 70,
+      "alt": "A man delivering a pitch in front of seated people"
     },
     {
       "id": 23394384,
@@ -204,7 +219,8 @@
       "tags": ["events"],
       "likes": 52,
       "date": "2019-07-18",
-      "price": 70
+      "price": 70,
+      "alt": "Woman checking a keyboard before performance"
     },
     {
       "id": 87367293,
@@ -213,7 +229,8 @@
       "tags": ["events"],
       "likes": 23,
       "date": "2018-02-22",
-      "price": 70
+      "price": 70,
+      "alt": "Man on stage holding a microphone"
     },
     {
       "id": 593834784,
@@ -222,7 +239,8 @@
       "tags": ["animals"],
       "likes": 52,
       "date": "2017-03-13",
-      "price": 70
+      "price": 70,
+      "alt": "A stag on a meadow"
     },
     {
       "id": 83958935,
@@ -231,7 +249,8 @@
       "tags": ["animals"],
       "likes": 52,
       "date": "2016-06-12",
-      "price": 70
+      "price": 70,
+      "alt": "Video showing puppies"
     },
     {
       "id": 394583434,
@@ -249,7 +268,8 @@
       "tags": ["travel"],
       "likes": 101,
       "date": "2017-04-03",
-      "price": 45
+      "price": 45,
+      "alt": "People bathing in a hot spring"
     },
     {
       "id": 73434243,
@@ -258,7 +278,8 @@
       "tags": ["travel"],
       "likes": 99,
       "date": "2018-04-30",
-      "price": 45
+      "price": 45,
+      "alt": "A road leading up a hill"
     },
     {
       "id": 23425523,
@@ -267,7 +288,8 @@
       "tags": ["travel"],
       "likes": 34,
       "date": "2016-04-05",
-      "price": 45
+      "price": 45,
+      "alt": "A bridge leading into a forest"
     },
     {
       "id": 23134513,
@@ -276,7 +298,8 @@
       "tags": ["travel"],
       "likes": 23,
       "date": "2017-03-18",
-      "price": 45
+      "price": 45,
+      "alt": "View from a boat over a lake between mountains"
     },
     {
       "id": 92352352,
@@ -285,7 +308,8 @@
       "tags": ["portrait"],
       "likes": 66,
       "date": "2018-05-24",
-      "price": 45
+      "price": 45,
+      "alt": "Girl with red hear and freckles in the evening light"
     },
     {
       "id": 34513453,
@@ -294,7 +318,8 @@
       "tags": ["portait"],
       "likes": 52,
       "date": "2017-04-21",
-      "price": 45
+      "price": 45,
+      "alt": "A black and white portrait of a man"
     },
     {
       "id": 23523533,
@@ -303,7 +328,8 @@
       "tags": ["portait"],
       "likes": 95,
       "date": "2018-11-02",
-      "price": 45
+      "price": 45,
+      "alt": "A portrait of a young woman"
     },
     {
       "id": 525834234,
@@ -312,7 +338,8 @@
       "tags": ["portait"],
       "likes": 25,
       "date": "2019-01-02",
-      "price": 45
+      "price": 45,
+      "alt": "A man holding a cigarette and taking a break"
     },
     {
       "id": 623534343,
@@ -321,7 +348,8 @@
       "tags": ["travel"],
       "likes": 88,
       "date": "2019-02-03",
-      "price": 45
+      "price": 45,
+      "alt": "Landscape shot of a mountain range with a person standing on a hill top far away"
     },
     {
       "id": 625025343,
@@ -330,7 +358,8 @@
       "tags": ["travel"],
       "likes": 85,
       "date": "2019-04-03",
-      "price": 45
+      "price": 45,
+      "alt": "Hill full of colorful houses on the Italien coast"
     },
     {
       "id": 2525345343,
@@ -339,7 +368,8 @@
       "tags": ["portait"],
       "likes": 34,
       "date": "2019-04-07",
-      "price": 45
+      "price": 45,
+      "alt": "Black and white portrait of a bored girl"
     },
     {
       "id": 2523434634,
@@ -348,7 +378,8 @@
       "tags": ["portait"],
       "likes": 63,
       "date": "2019-04-07",
-      "price": 45
+      "price": 45,
+      "alt": "A black girl with glasses"
     },
     {
       "id": 398847109,
@@ -357,7 +388,8 @@
       "tags": ["portait"],
       "likes": 55,
       "date": "2019-06-20",
-      "price": 45
+      "price": 45,
+      "alt": "Black and white portrait of a woman in front of a black background"
     },
     {
       "id": 2534342,
@@ -366,7 +398,8 @@
       "tags": ["events"],
       "likes": 25,
       "date": "2019-06-21",
-      "price": 45
+      "price": 45,
+      "alt": "Wedding tables setup next to the sea"
     },
     {
       "id": 65235234,
@@ -375,7 +408,8 @@
       "tags": ["events"],
       "likes": 52,
       "date": "2019-06-25",
-      "price": 45
+      "price": 45,
+      "alt": "A married couple in their suit and wedding dress standing under a tree"
     },
     {
       "id": 23523434,
@@ -384,7 +418,8 @@
       "tags": ["events"],
       "likes": 77,
       "date": "2019-06-28",
-      "price": 45
+      "price": 45,
+      "alt": "A married couple in their suit and wedding dress"
     },
     {
       "id": 5234343,
@@ -393,7 +428,8 @@
       "tags": ["animals"],
       "likes": 142,
       "date": "2019-08-23",
-      "price": 60
+      "price": 60,
+      "alt": "Wild horses in the mountains"
     },
     {
       "id": 95234343,
@@ -402,7 +438,8 @@
       "tags": ["animals"],
       "likes": 59,
       "date": "2019-07-02",
-      "price": 60
+      "price": 60,
+      "alt": "Lilac breasted roller, closeup view"
     },
     {
       "id": 52343416,
@@ -411,7 +448,8 @@
       "tags": ["travel"],
       "likes": 25,
       "date": "2019-04-03",
-      "price": 60
+      "price": 60,
+      "alt": "Street with a temple in the background"
     },
     {
       "id": 2523434,
@@ -420,7 +458,8 @@
       "tags": ["travel"],
       "likes": 53,
       "date": "2019-05-06",
-      "price": 60
+      "price": 60,
+      "alt": "Venetian canal at sunset"
     },
     {
       "id": 95293534,
@@ -429,7 +468,8 @@
       "tags": ["travel"],
       "likes": 33,
       "date": "2019-05-12",
-      "price": 60
+      "price": 60,
+      "alt": "A mountain lake with a mountain in the background"
     },
     {
       "id": 356234343,
@@ -447,7 +487,8 @@
       "tags": ["travel"],
       "likes": 63,
       "date": "2019-06-26",
-      "price": 60
+      "price": 60,
+      "alt": "A bike chained to stairs"
     },
     {
       "id": 6234234343,
@@ -456,7 +497,8 @@
       "tags": ["architecture"],
       "likes": 52,
       "date": "2019-06-30",
-      "price": 60
+      "price": 60,
+      "alt": "Closeup of a church roof"
     },
     {
       "id": 6525666253,
@@ -465,7 +507,8 @@
       "tags": ["architecture"],
       "likes": 63,
       "date": "2019-07-20",
-      "price": 60
+      "price": 60,
+      "alt": "A little village on a hill"
     },
     {
       "id": 98252523433,
@@ -474,7 +517,8 @@
       "tags": ["architecture"],
       "likes": 88,
       "date": "2020-01-05",
-      "price": 60
+      "price": 60,
+      "alt": "The tower of Naples, frog perspective"
     },
     {
       "id": 9259398453,
@@ -483,7 +527,8 @@
       "tags": ["architecture"],
       "likes": 57,
       "date": "2020-01-20",
-      "price": 65
+      "price": 65,
+      "alt": "Aerial view onto a highway intersection"
     },
     {
       "id": 3523523534,
@@ -492,7 +537,8 @@
       "tags": ["architecture"],
       "likes": 54,
       "date": "2020-05-05",
-      "price": 60
+      "price": 60,
+      "alt": "Upper levels and roof of a corner house"
     },
     {
       "id": 952343423,
@@ -501,7 +547,8 @@
       "tags": ["sport"],
       "likes": 150,
       "date": "2018-02-30",
-      "price": 70
+      "price": 70,
+      "alt": "Sport tricks in the air"
     },
     {
       "id": 235234343,
@@ -510,7 +557,8 @@
       "tags": ["sport"],
       "likes": 101,
       "date": "2018-03-05",
-      "price": 65
+      "price": 65,
+      "alt": "A woman climbing up a rock, aerial view"
     },
     {
       "id": 235343222,
@@ -519,7 +567,8 @@
       "tags": ["sport"],
       "likes": 103,
       "date": "2018-03-10",
-      "price": 70
+      "price": 70,
+      "alt": "A surfer inside a wave"
     },
     {
       "id": 7775342343,
@@ -537,7 +586,8 @@
       "tags": ["sport"],
       "likes": 88,
       "date": "2018-04-22",
-      "price": 65
+      "price": 65,
+      "alt": "A skier in the air, crossing their ski"
     },
     {
       "id": 22299394,
@@ -546,7 +596,8 @@
       "tags": ["sport"],
       "likes": 95,
       "date": "2018-04-27",
-      "price": 70
+      "price": 70,
+      "alt": "A skateboarder jumping in a pipe"
     },
     {
       "id": 3452342633,
@@ -555,7 +606,8 @@
       "tags": ["architecture"],
       "likes": 52,
       "date": "2018-05-03",
-      "price": 75
+      "price": 75,
+      "alt": "White building with class roof, looking up"
     },
     {
       "id": 939234243,
@@ -564,7 +616,8 @@
       "tags": ["architecture"],
       "likes": 55,
       "date": "2018-05-10",
-      "price": 72
+      "price": 72,
+      "alt": "Modern building next to water"
     },
     {
       "id": 222959233,
@@ -573,7 +626,8 @@
       "tags": ["architecture"],
       "likes": 85,
       "date": "2018-05-15",
-      "price": 71
+      "price": 71,
+      "alt": "Looking up a building shaped as a horseshoe, frog perspective"
     },
     {
       "id": 965933434,
@@ -582,7 +636,8 @@
       "tags": ["architecture"],
       "likes": 66,
       "date": "2018-05-20",
-      "price": 58
+      "price": 58,
+      "alt": "Frog perspective, looking up between two skyscrapers"
     },
     {
       "id": 777723343,
@@ -591,7 +646,8 @@
       "tags": ["architecture"],
       "likes": 79,
       "date": "2018-05-21",
-      "price": 80
+      "price": 80,
+      "alt": "White building with a curvy front"
     }
   ]
 }

@@ -1,11 +1,12 @@
 const pathname = window.location.pathname;
-const photographerID = pathname.replace(/[^0-9]/g, "");
+const photographerID = parseInt(pathname.replace(/[^0-9]/g, ""));
 
 // change class of main__article
 const articleElement = document.querySelector(".main__article");
 const filterButton = document.getElementById("filter-button");
 const listbox = document.getElementById("listbox");
 const optionItems = document.querySelectorAll("#listbox li");
+const gallery = document.querySelector(".gallery");
 const aside = document.querySelector(".aside");
 const modal = document.querySelector(".modal");
 const modalOverlay = document.querySelector(".modal__overlay");
@@ -15,25 +16,41 @@ const submitBtn = document.querySelector("form__btn");
 const focusableElements = document.querySelectorAll(
   "#close, #firstname, #lastname, #email, #message, #submit"
 );
+const photographerMedia = [];
 
+// build page content
+buildPageContent();
 // --------------------------------------------------------- //
 // ------------------- PHOTOGRAPHER INFO ------------------- //
 // --------------------------------------------------------- //
 
-// get photographer data from json and build photographer
-// info element on photographer's page
-async function getPhotographerData() {
+async function getData() {
   try {
     const data = await fetch("../data.json");
     const parsedData = await data.json();
-    const photographers = parsedData.photographers;
     console.log(parsedData);
-    console.log(photographers);
-    createPhotographerInfo(photographers);
     return parsedData;
   } catch (e) {
     console.error(e);
   }
+}
+
+function getPhotographerMedia(media) {
+  for (let i = 0; i < media.length; i++) {
+    let mediaItem = media[i];
+    if (mediaItem.photographerId === photographerID) {
+      photographerMedia.push(mediaItem);
+    }
+  }
+}
+
+async function buildPageContent() {
+  const data = await getData();
+  const media = data.media;
+  const photographers = data.photographers;
+  getPhotographerMedia(media);
+  createPhotographerInfo(photographers);
+  createGallery(photographerMedia);
 }
 
 // function to build tags in photographer info section
@@ -72,7 +89,13 @@ function buildTags(array) {
 
 // create Photographer info element and append to DOM
 function createPhotographerInfo(data) {
-  const photographer = data[photographerID];
+  let photographer;
+
+  for (let i = 0; i < data.length; i++) {
+    if (Object.values(data[i]).some((el) => el === photographerID)) {
+      photographer = data[i];
+    }
+  }
 
   const textContainer = document.createElement("div");
   const wrapper = document.createElement("div");
@@ -251,7 +274,7 @@ listbox.addEventListener("keydown", (e) => {
 // ----------------------- Open Modal ---------------------- //
 
 function openingModal() {
-  modal.style.display = "block";
+  modalOverlay.style.display = "flex";
   document.getElementById("firstname").focus();
 }
 
@@ -266,7 +289,7 @@ modal.addEventListener("keydown", (e) => {
 });
 
 function closingModal() {
-  modal.style.display = "none";
+  modalOverlay.style.display = "none";
   document.querySelector(".main__article--btn").focus();
 }
 
@@ -323,8 +346,189 @@ form.addEventListener("submit", (e) => {
   closingModal();
 });
 
-// build page content
-getPhotographerData();
+// --------------------------------------------------------- //
+// ------------------------- GALLERY------------------------ //
+// --------------------------------------------------------- //
+
+// could sort media into video and image array beforehand?
+
+// Factory Method: "Define an interface for creating an object,
+// but let the classes which implement the interface decide which class
+// to instantiate. The Factory method lets a class defer
+// instantiation to subclasses" (c) GoF.
+
+// can this be a class or does it have to be a
+// constructor function?
+
+class Video {
+  constructor(element) {
+    this.video = element.video;
+  }
+
+  render() {
+    // let html = `<video>
+    // <source src="../img/photographers/${photographerID}/${this.video}">
+    // </video>`;
+    let videoTag = document.createElement("video");
+    videoTag.classList.add("gallery__mediaItem");
+    let sourceTag = document.createElement("source");
+    sourceTag.src = `../img/photographers/${photographerID}/${this.video}`;
+    videoTag.appendChild(sourceTag);
+    return videoTag;
+  }
+}
+
+class Image {
+  constructor(element) {
+    this.image = element.image;
+  }
+
+  render() {
+    // let html = `<img src="../img/photographers/${photographerID}/${this.image}>`;
+    let imgTag = document.createElement("img");
+    imgTag.src = `../img/photographers/${photographerID}/${this.image}`;
+    imgTag.classList.add("gallery__mediaItem");
+    return imgTag;
+  }
+}
+
+// const mediaItems = { Video, Image };
+
+// actual Factory Method in form of a constructor function (called with new)
+// client instructs factory what type of media to create by
+// passing a type argument into the Factory Method
+
+// exposes the API for creating new instances
+
+function Factory() {
+  this.createMedia = function (element) {
+    let type;
+
+    // wieso nicht this.element und this.type in constructor function?
+    if ("image" in element) {
+      type = "image";
+    } else {
+      type = "video";
+    }
+    switch (type) {
+      case "image":
+        return new Image(element);
+        break; // can delete
+      case "video":
+        return new Video(element);
+        break; // can delete
+    }
+  };
+}
+// QUESTION: filter for time does not make sense
+
+// function that runs the factory by calling the Factory
+// that accesses the media classes to instantiate an object
+
+function galleryElement(element) {
+  const factory = new Factory();
+  const mediaItem = factory.createMedia(element).render();
+
+  // does this stay here or go into VIDEO and IMAGE - or into Factory?
+  // crate remaining elements for media item
+
+  // create extra function for this
+  const galleryElement = document.createElement("div");
+  galleryElement.classList.add("gallery__element");
+  const mediaInfo = document.createElement("div");
+  mediaInfo.classList.add("gallery__mediaInfo");
+  const title = document.createElement("p");
+  const likes = document.createElement("p");
+  likes.textContent = element.likes;
+  likes.classList.add("gallery__mediaInfo--likes");
+  const price = document.createElement("p");
+  price.textContent = `${element.price} $`;
+  price.classList.add("gallery__mediaInfo--price");
+  mediaInfo.appendChild(title);
+  mediaInfo.appendChild(price);
+  mediaInfo.appendChild(likes);
+  galleryElement.appendChild(mediaItem);
+  galleryElement.appendChild(mediaInfo);
+
+  return galleryElement;
+}
+
+function createGallery(data) {
+  data.forEach((item) => gallery.appendChild(galleryElement(item)));
+}
+
+// let video = Factory.createMedia({
+//   video: "Animals_Wild_Horses_in_the_mountains.mp4",
+// });
+
+// class MediaFactory {
+//   constructor(element) {
+//     this.element = element;
+//     if ("image" in this.element) {
+//       this.type = "image";
+//     } else {
+//       this.type = "video";
+//     }
+//   }
+//   createMedia() {
+//     switch (this.type) {
+//       case "image":
+//         return new Image(this.element).render();
+//         break;
+//       case "video":
+//         return new Video(this.element).render();
+//         break;
+//     }
+//   }
+// }
+
+// function GalleryElement(element) {
+//   const galleryElement = createElement("div");
+//   galleryElement.classList.add("gallery__element");
+// }
+// // can this bei constructor function instead of class?
+// function GalleryElement(element) {
+//   this.create = (element) => {
+//     if ("image" in element) {
+//       return new Image(element);
+//     } else {
+//       return new Video(element);
+//     }
+//   };
+// }
+
+// class GalleryElement {
+//   constructor(element) {
+//     this.element = element;
+//     if ("video" in this.element) {
+//       this.type = "video";
+//     } else {
+//       this.type = "image";
+//     }
+//   }
+// }
+
+// let image = new Image({
+//   image: "Event_18thAnniversary.jpg",
+// });
+
+// let html = video.render();
+// document.querySelector(".test").innerHTML = video.render();
+// video.render();
+// image.render();
+// use factory pattern to create DOM elements for img and video
+// put functions in module files and import them here
+// www.youtube.com/watch?v=3pXVHRT-amw
+
+// date: "2019-02-03";
+// id: 623534343;
+// image: "Travel_Lonesome.jpg";
+// likes: 88;
+// photographerId: 243;
+// price: 45;
+// tags: ["travel"];
+
+// sorting with merge sort
 
 // BODY
 // when clicking outside of listbox, close listbox
