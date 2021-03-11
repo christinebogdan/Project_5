@@ -58,15 +58,6 @@ function buildTags(array) {
   const tags = document.createElement("div");
   tags.className = "main__article--tags";
 
-  // add Event Listeners (how can I reduce duplicate code of filter in nav?)
-
-  // tags.addEventListener("click", filterFunction);
-  // tags.addEventListener("keydown", (e) => {
-  //   if (e.key === "Enter") {
-  //     filterFunction(e);
-  //   }
-  // });
-
   for (let i = 0; i < array.length; i++) {
     const tag = document.createElement("a");
     tag.textContent = `#${array[i]}`;
@@ -76,7 +67,7 @@ function buildTags(array) {
       "aria-label",
       `Link to FishEye homepage showing only photographers that match the filter ${array[i]}`
     );
-    tag.href = "../index.html";
+    tag.href = `../index.html?${array[i]}`;
     // tag.setAttribute("data-state", "inactive");
     const srOnlySpan = document.createElement("span");
     srOnlySpan.textContent = "Tag";
@@ -175,8 +166,9 @@ function hideListBox() {
 }
 
 // Click Event on Button
-filterButton.addEventListener("click", () => {
+filterButton.addEventListener("click", (e) => {
   if (document.activeElement === filterButton) {
+    filterButton.setAttribute("aria-expanded", "true");
     showListBox();
   } else if (document.activeElement === listbox) {
     // add option of clicking on body to close listbox
@@ -362,33 +354,102 @@ form.addEventListener("submit", (e) => {
 
 class Video {
   constructor(element) {
-    this.video = element.video;
+    this.element = element;
+  }
+
+  #getTitle(string) {
+    // "Sport_Sky_Cross.jpg";
+    let title = string.substring(string.indexOf("_") + 1);
+    title = title.replace("_", " ");
+    title = title.replace(".mp4", "");
+    return title;
   }
 
   render() {
-    // let html = `<video>
-    // <source src="../img/photographers/${photographerID}/${this.video}">
-    // </video>`;
-    let videoTag = document.createElement("video");
+    // create container for gallery element
+    const galleryElement = document.createElement("div");
+    galleryElement.classList.add("gallery__element");
+
+    // create video
+    const videoTag = document.createElement("video");
     videoTag.classList.add("gallery__mediaItem");
-    let sourceTag = document.createElement("source");
-    sourceTag.src = `../img/photographers/${photographerID}/${this.video}`;
+    const sourceTag = document.createElement("source");
+    sourceTag.src = `../img/photographers/${photographerID}/${this.element.video}`;
     videoTag.appendChild(sourceTag);
-    return videoTag;
+
+    // create container for title, price, likes
+    const mediaInfo = document.createElement("div");
+    mediaInfo.classList.add("gallery__mediaInfo");
+
+    // create title, price, likes
+    const title = document.createElement("p");
+    // title.textContent = this.#getTitle(this.element.video);
+    // title.classList.add("gallery__mediaInfo--title");
+
+    const likes = document.createElement("p");
+    likes.textContent = this.element.likes;
+    likes.classList.add("gallery__mediaInfo--likes");
+    const price = document.createElement("p");
+    price.textContent = `${this.element.price} $`;
+    price.classList.add("gallery__mediaInfo--price");
+
+    // append all
+    mediaInfo.appendChild(title);
+    mediaInfo.appendChild(price);
+    mediaInfo.appendChild(likes);
+    galleryElement.appendChild(videoTag);
+    galleryElement.appendChild(mediaInfo);
+
+    return galleryElement;
   }
 }
 
 class Image {
   constructor(element) {
-    this.image = element.image;
+    this.element = element;
+  }
+
+  #getTitle(string) {
+    // "Sport_Sky_Cross.jpg";
+    let title = string.substring(string.indexOf("_") + 1);
+    title = title.replace("_", " ");
+    title = title.replace(".jpg", "");
+    return title;
   }
 
   render() {
-    // let html = `<img src="../img/photographers/${photographerID}/${this.image}>`;
-    let imgTag = document.createElement("img");
-    imgTag.src = `../img/photographers/${photographerID}/${this.image}`;
+    // create container for gallery element
+    const galleryElement = document.createElement("div");
+    galleryElement.classList.add("gallery__element");
+
+    // create image
+    const imgTag = document.createElement("img");
+    imgTag.src = `../img/photographers/${photographerID}/${this.element.image}`;
     imgTag.classList.add("gallery__mediaItem");
-    return imgTag;
+
+    // create container for title, price, likes
+    const mediaInfo = document.createElement("div");
+    mediaInfo.classList.add("gallery__mediaInfo");
+
+    // create title, price, likes
+    const title = document.createElement("p");
+    // title.textContent = this.#getTitle(this.element.image);
+    // title.classList.add("gallery__mediaInfo--title");
+    const likes = document.createElement("p");
+    likes.textContent = this.element.likes;
+    likes.classList.add("gallery__mediaInfo--likes");
+    const price = document.createElement("p");
+    price.textContent = `${this.element.price} $`;
+    price.classList.add("gallery__mediaInfo--price");
+
+    // append all
+    mediaInfo.appendChild(title);
+    mediaInfo.appendChild(price);
+    mediaInfo.appendChild(likes);
+    galleryElement.appendChild(imgTag);
+    galleryElement.appendChild(mediaInfo);
+
+    return galleryElement;
   }
 }
 
@@ -398,7 +459,7 @@ class Image {
 // client instructs factory what type of media to create by
 // passing a type argument into the Factory Method
 
-// exposes the API for creating new instances
+// exposes the API for video and image factories, i.e. creating new instances
 
 function Factory() {
   this.createMedia = function (element) {
@@ -413,43 +474,18 @@ function Factory() {
     switch (type) {
       case "image":
         return new Image(element);
-        break; // can delete
       case "video":
         return new Video(element);
-        break; // can delete
     }
   };
 }
-// QUESTION: filter for time does not make sense
 
 // function that runs the factory by calling the Factory
 // that accesses the media classes to instantiate an object
 
 function galleryElement(element) {
   const factory = new Factory();
-  const mediaItem = factory.createMedia(element).render();
-
-  // does this stay here or go into VIDEO and IMAGE - or into Factory?
-  // crate remaining elements for media item
-
-  // create extra function for this
-  const galleryElement = document.createElement("div");
-  galleryElement.classList.add("gallery__element");
-  const mediaInfo = document.createElement("div");
-  mediaInfo.classList.add("gallery__mediaInfo");
-  const title = document.createElement("p");
-  const likes = document.createElement("p");
-  likes.textContent = element.likes;
-  likes.classList.add("gallery__mediaInfo--likes");
-  const price = document.createElement("p");
-  price.textContent = `${element.price} $`;
-  price.classList.add("gallery__mediaInfo--price");
-  mediaInfo.appendChild(title);
-  mediaInfo.appendChild(price);
-  mediaInfo.appendChild(likes);
-  galleryElement.appendChild(mediaItem);
-  galleryElement.appendChild(mediaInfo);
-
+  const galleryElement = factory.createMedia(element).render();
   return galleryElement;
 }
 
@@ -457,76 +493,13 @@ function createGallery(data) {
   data.forEach((item) => gallery.appendChild(galleryElement(item)));
 }
 
-// let video = Factory.createMedia({
-//   video: "Animals_Wild_Horses_in_the_mountains.mp4",
-// });
-
-// class MediaFactory {
-//   constructor(element) {
-//     this.element = element;
-//     if ("image" in this.element) {
-//       this.type = "image";
-//     } else {
-//       this.type = "video";
-//     }
-//   }
-//   createMedia() {
-//     switch (this.type) {
-//       case "image":
-//         return new Image(this.element).render();
-//         break;
-//       case "video":
-//         return new Video(this.element).render();
-//         break;
-//     }
+// findTitle("Sport_Sky_Cross.jpg");
+// if (url.includes("?")) {
+//   const urlPara = url.substring(url.indexOf("?") + 1);
+//   if (urlPara) {
+//     document.querySelector(`[data-name=${urlPara}]`).click();
 //   }
 // }
-
-// function GalleryElement(element) {
-//   const galleryElement = createElement("div");
-//   galleryElement.classList.add("gallery__element");
-// }
-// // can this bei constructor function instead of class?
-// function GalleryElement(element) {
-//   this.create = (element) => {
-//     if ("image" in element) {
-//       return new Image(element);
-//     } else {
-//       return new Video(element);
-//     }
-//   };
-// }
-
-// class GalleryElement {
-//   constructor(element) {
-//     this.element = element;
-//     if ("video" in this.element) {
-//       this.type = "video";
-//     } else {
-//       this.type = "image";
-//     }
-//   }
-// }
-
-// let image = new Image({
-//   image: "Event_18thAnniversary.jpg",
-// });
-
-// let html = video.render();
-// document.querySelector(".test").innerHTML = video.render();
-// video.render();
-// image.render();
-// use factory pattern to create DOM elements for img and video
-// put functions in module files and import them here
-// www.youtube.com/watch?v=3pXVHRT-amw
-
-// date: "2019-02-03";
-// id: 623534343;
-// image: "Travel_Lonesome.jpg";
-// likes: 88;
-// photographerId: 243;
-// price: 45;
-// tags: ["travel"];
 
 // sorting with merge sort
 
