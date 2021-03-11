@@ -278,15 +278,20 @@ $font: "DM Sans", sans-serif;
   position: relative;
 }
 
-#filter-button::after {
-  content: url(../img/arrow.svg);
+// #filter-button::after {
+//   content: url(../img/arrow.svg);
+//   position: absolute;
+//   right: 18px;
+//   top: 25px;
+//   z-index: 10;
+// }
+
+#filter-button-arrow {
   position: absolute;
   right: 18px;
-  top: 25px;
+  top: 30px;
   z-index: 10;
-  &:active {
-    transform: rotate(180deg);
-  }
+  transition-duration: 0.5s;
 }
 
 #popularity {
@@ -296,11 +301,6 @@ $font: "DM Sans", sans-serif;
 #time {
   padding-bottom: 24px;
 }
-
-// hr {
-//   width: 80%;
-//   margin: 0 auto;
-// }
 
 [role="option"] {
   display: block;
@@ -345,6 +345,16 @@ $font: "DM Sans", sans-serif;
   padding: 21px 37px;
   &__wrapper {
     display: flex;
+    align-items: baseline;
+  }
+  &__heart {
+    width: 17.5px;
+    height: 18px;
+    fill: black;
+    margin-left: 6px;
+  }
+  &__price {
+    margin-left: auto;
   }
 }
 
@@ -485,6 +495,10 @@ $font: "DM Sans", sans-serif;
   &__element {
     display: flex;
     flex-wrap: wrap;
+    width: 335px;
+    @include responsive {
+      width: 350px;
+    }
   }
   &__mediaItem {
     width: 335px;
@@ -521,17 +535,30 @@ $font: "DM Sans", sans-serif;
       margin-right: 16px;
       text-align: right;
       color: #911c1c;
+      flex-shrink: 0;
+      @include responsive {
+        font-size: getRem(24);
+        line-height: getRem(31);
+      }
     }
     &--likes {
       font-weight: 400;
       font-size: getRem(14);
       line-height: getRem(18);
       color: #911c1c;
-      &::after {
-        content: url("../img/Vector.svg");
-        margin-left: 5px;
-        width: 10px;
-        height: 11px;
+      @include responsive {
+        font-size: getRem(24);
+        line-height: getRem(31);
+      }
+    }
+    &--likesImg {
+      display: inline-block;
+      margin-left: 5px;
+      width: 10px;
+      height: 11px;
+      @include responsive {
+        width: 17px;
+        height: 18px;
       }
     }
   }

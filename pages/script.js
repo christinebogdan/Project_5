@@ -5,6 +5,7 @@ const photographerID = parseInt(pathname.replace(/[^0-9]/g, ""));
 const articleElement = document.querySelector(".main__article");
 const filterButton = document.getElementById("filter-button");
 const listbox = document.getElementById("listbox");
+const buttonArrow = document.getElementById("filter-button-arrow");
 const optionItems = document.querySelectorAll("#listbox li");
 const gallery = document.querySelector(".gallery");
 const aside = document.querySelector(".aside");
@@ -17,6 +18,7 @@ const focusableElements = document.querySelectorAll(
   "#close, #firstname, #lastname, #email, #message, #submit"
 );
 const photographerMedia = [];
+let likeCount = 0;
 
 // build page content
 buildPageContent();
@@ -40,6 +42,7 @@ function getPhotographerMedia(media) {
     let mediaItem = media[i];
     if (mediaItem.photographerId === photographerID) {
       photographerMedia.push(mediaItem);
+      likeCount += mediaItem.likes;
     }
   }
 }
@@ -127,14 +130,21 @@ function createPhotographerInfo(data) {
   articleElement.appendChild(wrapper);
   articleElement.appendChild(img);
 
+  // aside
   const priceLikeLabel = document.createElement("div");
   priceLikeLabel.classList.add("aside__wrapper");
   const likes = document.createElement("span");
+  likes.textContent = likeCount;
+  const heart = document.createElement("img");
+  heart.src = "../img/heart-black.svg";
+  heart.classList.add("aside__heart");
   const price = document.createElement("span");
+  price.classList.add("aside__price");
   price.textContent = `${photographer.price}$ / Day`;
 
   aside.appendChild(priceLikeLabel);
   priceLikeLabel.appendChild(likes);
+  priceLikeLabel.appendChild(heart);
   priceLikeLabel.appendChild(price);
 }
 
@@ -154,6 +164,7 @@ function showListBox() {
   listbox.setAttribute("aria-activedescendant", currentOption.id);
   listbox.style.display = "block";
   listbox.focus();
+  buttonArrow.style.WebkitTransform = "rotate(180deg)";
 }
 
 // Function to hide Listbox
@@ -161,6 +172,8 @@ function hideListBox() {
   listbox.style.display = "none";
   filterButton.setAttribute("aria-expanded", "false");
   listbox.removeAttribute("aria-activedescendant");
+  buttonArrow.style.WebkitTransform = "rotate(0deg)";
+
   // wieso bricht das den e.key === Enter Mechanismus?
   // filterButton.focus();
 }
@@ -170,13 +183,16 @@ filterButton.addEventListener("click", (e) => {
   if (document.activeElement === filterButton) {
     filterButton.setAttribute("aria-expanded", "true");
     showListBox();
-  } else if (document.activeElement === listbox) {
-    // add option of clicking on body to close listbox
-    // add choice of new option before hiding listbox
-    // warum funktioniert das hier, wenn ich den eventListener
-    // auf button setze, und nicht auf listbox
-    hideListBox();
   }
+  // else if (document.activeElement === listbox) {
+  //   buttonArrow.style.WebkitTransform = "rotate(0deg)";
+
+  //   // add option of clicking on body to close listbox
+  //   // add choice of new option before hiding listbox
+  //   // warum funktioniert das hier, wenn ich den eventListener
+  //   // auf button setze, und nicht auf listbox
+  //   hideListBox();
+  // }
 });
 
 // Keydown Event on Button
@@ -194,7 +210,6 @@ filterButton.addEventListener("keydown", (e) => {
 // -------------------- Focus on Listbox -------------------- //
 
 // Click Event on Listbox
-// ERROR wenn ich an die Ecke des Buttons clicke, wählt er alle drei aus
 listbox.addEventListener("click", (e) => {
   // liegt an event target listbox (s. nächste Zeile)
   console.log(e.target);
@@ -211,6 +226,7 @@ listbox.addEventListener("click", (e) => {
 
 // Keydown Event on Listbox
 listbox.addEventListener("keydown", (e) => {
+  e.preventDefault();
   const currentOption = document.querySelector(".is-active");
   let selectedOption;
   let buttonText;
@@ -360,7 +376,7 @@ class Video {
   #getTitle(string) {
     // "Sport_Sky_Cross.jpg";
     let title = string.substring(string.indexOf("_") + 1);
-    title = title.replace("_", " ");
+    title = title.replace(/_/g, " ");
     title = title.replace(".mp4", "");
     return title;
   }
@@ -383,12 +399,14 @@ class Video {
 
     // create title, price, likes
     const title = document.createElement("p");
-    // title.textContent = this.#getTitle(this.element.video);
-    // title.classList.add("gallery__mediaInfo--title");
-
+    title.textContent = this.#getTitle(this.element.video);
+    title.classList.add("gallery__mediaInfo--title");
     const likes = document.createElement("p");
     likes.textContent = this.element.likes;
     likes.classList.add("gallery__mediaInfo--likes");
+    const heart = document.createElement("img");
+    heart.src = "../img/heart-red.svg";
+    heart.classList.add("gallery__mediaInfo--likesImg");
     const price = document.createElement("p");
     price.textContent = `${this.element.price} $`;
     price.classList.add("gallery__mediaInfo--price");
@@ -397,6 +415,7 @@ class Video {
     mediaInfo.appendChild(title);
     mediaInfo.appendChild(price);
     mediaInfo.appendChild(likes);
+    mediaInfo.appendChild(heart);
     galleryElement.appendChild(videoTag);
     galleryElement.appendChild(mediaInfo);
 
@@ -412,7 +431,7 @@ class Image {
   #getTitle(string) {
     // "Sport_Sky_Cross.jpg";
     let title = string.substring(string.indexOf("_") + 1);
-    title = title.replace("_", " ");
+    title = title.replace(/_/g, " ");
     title = title.replace(".jpg", "");
     return title;
   }
@@ -433,11 +452,14 @@ class Image {
 
     // create title, price, likes
     const title = document.createElement("p");
-    // title.textContent = this.#getTitle(this.element.image);
-    // title.classList.add("gallery__mediaInfo--title");
+    title.textContent = this.#getTitle(this.element.image);
+    title.classList.add("gallery__mediaInfo--title");
     const likes = document.createElement("p");
     likes.textContent = this.element.likes;
     likes.classList.add("gallery__mediaInfo--likes");
+    const heart = document.createElement("img");
+    heart.src = "../img/heart-red.svg";
+    heart.classList.add("gallery__mediaInfo--likesImg");
     const price = document.createElement("p");
     price.textContent = `${this.element.price} $`;
     price.classList.add("gallery__mediaInfo--price");
@@ -446,6 +468,7 @@ class Image {
     mediaInfo.appendChild(title);
     mediaInfo.appendChild(price);
     mediaInfo.appendChild(likes);
+    mediaInfo.appendChild(heart);
     galleryElement.appendChild(imgTag);
     galleryElement.appendChild(mediaInfo);
 
@@ -492,14 +515,6 @@ function galleryElement(element) {
 function createGallery(data) {
   data.forEach((item) => gallery.appendChild(galleryElement(item)));
 }
-
-// findTitle("Sport_Sky_Cross.jpg");
-// if (url.includes("?")) {
-//   const urlPara = url.substring(url.indexOf("?") + 1);
-//   if (urlPara) {
-//     document.querySelector(`[data-name=${urlPara}]`).click();
-//   }
-// }
 
 // sorting with merge sort
 
