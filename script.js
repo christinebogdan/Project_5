@@ -5,44 +5,92 @@ const navTags = document.querySelectorAll(".header__nav-ul--li");
 const firstTag = navTags[0];
 const lastTag = navTags[navTags.length - 1];
 const categories = {};
+const photographerDisplay = {};
 const pathname = window.location.pathname;
 const photographerID = pathname.replace(/[^0-9]/g, "");
 
-// filter functionality for nav items
+const filter = {
+  portrait: "inactive",
+  art: "inactive",
+  fashion: "inactive",
+  architecture: "inactive",
+  travel: "inactive",
+  sports: "inactive",
+  animals: "inactive",
+  events: "inactive",
+};
+
 function filterFunction(e) {
-  // get target button
+  // get target
   let target = e.target;
   // get filter name
   let filterName = target.getAttribute("data-name");
 
-  // when the data-state is inactive, hides the tiles and sets data-state to active
-  if (target.getAttribute("data-state") === "inactive") {
+  if (filter[filterName] === "inactive") {
+    filter[filterName] = "active";
     target.setAttribute("data-state", "active");
     target.setAttribute("aria-selected", "true");
-    // loop over photographers and their categories
-    for (let key of Object.keys(categories)) {
-      // select photographer and their tile that matches the current key
-      let photographerTile = document.getElementById(key);
-      // when photographer does not have current category, hide tile
-      if (!categories[key].some((el) => el === filterName)) {
-        photographerTile.style.display = "none";
-      }
-    }
-  } else if (target.getAttribute("data-state") === "active") {
+  } else if (filter[filterName] === "active") {
+    filter[filterName] = "inactive";
     target.setAttribute("data-state", "inactive");
     target.setAttribute("aria-selected", "false");
+  }
 
-    // loop over photographers and their categories
-    for (let key of Object.keys(categories)) {
-      // select photographer and their tile that matches the current key
-      let photographerTile = document.getElementById(key);
-      // remove all matching previously hidden tiles
-      if (!categories[key].some((el) => el === filterName)) {
-        photographerTile.style.display = "flex";
+  for (let key of Object.keys(filter)) {
+    if (filter[key] === "active") {
+      for (let person of Object.keys(categories)) {
+        if (!categories[person].includes(key)) {
+          document.getElementById(person).style.display = "none";
+          console.log("hide" + person);
+        }
+      }
+    }
+    if (filter[key] === "inactive") {
+      for (let person of Object.keys(categories)) {
+        if (!categories[person].includes(key)) {
+          document.getElementById(person).style.display = "flex";
+          console.log("show" + person);
+        }
       }
     }
   }
 }
+
+// // filter functionality for nav items
+// function filterFunction(e) {
+//   // get target button
+//   let target = e.target;
+//   // get filter name
+//   let filterName = target.getAttribute("data-name");
+
+//   // when the data-state is inactive, hides the tiles and sets data-state to active
+//   if (target.getAttribute("data-state") === "inactive") {
+//     target.setAttribute("data-state", "active");
+//     target.setAttribute("aria-selected", "true");
+//     // loop over photographers and their categories
+//     for (let key of Object.keys(categories)) {
+//       // select photographer and their tile that matches the current key
+//       let photographerTile = document.getElementById(key);
+//       // when photographer does not have current category, hide tile
+//       if (!categories[key].some((el) => el === filterName)) {
+//         photographerTile.style.display = "none";
+//       }
+//     }
+//   } else if (target.getAttribute("data-state") === "active") {
+//     target.setAttribute("data-state", "inactive");
+//     target.setAttribute("aria-selected", "false");
+
+//     // loop over photographers and their categories
+//     for (let key of Object.keys(categories)) {
+//       // select photographer and their tile that matches the current key
+//       let photographerTile = document.getElementById(key);
+//       // remove all matching previously hidden tiles
+//       if (!categories[key].some((el) => el === filterName)) {
+//         photographerTile.style.display = "flex";
+//       }
+//     }
+//   }
+// }
 
 // how can I use this function in my buildOverview function (with async await?)
 async function getPhotographerData() {
@@ -93,6 +141,10 @@ function buildOverview(data) {
     let person = data[i];
     // populate photographerCategories object
     categories[`${person.id}`] = person.tags;
+    photographerDisplay[`${person.id}`] = "display";
+    // let obj = {};
+    // obj[`${person.id}`] = person.tags;
+    // photographerCategories.push(obj);
 
     // create photographer tile
     let tile = document.createElement("article");
