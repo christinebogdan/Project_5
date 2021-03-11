@@ -230,6 +230,7 @@
   font-weight: 700;
   border: none;
   color: #ffffff;
+  position: relative;
   margin-left: 22px;
   height: 70px;
   text-align: left;
@@ -240,8 +241,12 @@
 #filter-button::after {
   content: url(../img/arrow.svg);
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 18px;
+  top: 25px;
+  z-index: 10;
+}
+#filter-button::after:active {
+  transform: rotate(180deg);
 }
 
 #popularity {
@@ -250,10 +255,6 @@
 
 #time {
   padding-bottom: 24px;
-}
-
-#filter-button::after {
-  content: "";
 }
 
 [role=option] {
@@ -460,6 +461,7 @@
   display: flex;
   align-items: baseline;
   margin-bottom: 10px;
+  flex-grow: 1;
 }
 .gallery__mediaInfo--title {
   font-weight: 400;

@@ -270,6 +270,7 @@ $font: "DM Sans", sans-serif;
 
 #filter-button {
   @include button-static;
+  position: relative;
   margin-left: 22px;
   height: 70px;
   text-align: left;
@@ -280,8 +281,12 @@ $font: "DM Sans", sans-serif;
 #filter-button::after {
   content: url(../img/arrow.svg);
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 18px;
+  top: 25px;
+  z-index: 10;
+  &:active {
+    transform: rotate(180deg);
+  }
 }
 
 #popularity {
@@ -290,9 +295,6 @@ $font: "DM Sans", sans-serif;
 
 #time {
   padding-bottom: 24px;
-}
-#filter-button::after {
-  content: "";
 }
 
 // hr {
@@ -500,6 +502,7 @@ $font: "DM Sans", sans-serif;
     display: flex;
     align-items: baseline;
     margin-bottom: 10px;
+    flex-grow: 1;
     &--title {
       font-weight: 400;
       font-size: getRem(14);
@@ -511,7 +514,6 @@ $font: "DM Sans", sans-serif;
       }
     }
     &--price {
-      // wieso funktioniert margin-left nicht mehr
       margin-left: auto;
       font-weight: 500;
       font-size: getRem(12);
