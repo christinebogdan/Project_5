@@ -6,111 +6,121 @@ const firstTag = navTags[0];
 const lastTag = navTags[navTags.length - 1];
 const categories = {};
 const photographerDisplay = {};
-const pathname = window.location.pathname;
-const photographerID = pathname.replace(/[^0-9]/g, "");
+const url = window.location.href;
+const filter = [];
 
-const filter = {
-  portrait: "inactive",
-  art: "inactive",
-  fashion: "inactive",
-  architecture: "inactive",
-  travel: "inactive",
-  sports: "inactive",
-  animals: "inactive",
-  events: "inactive",
-};
+// --------------------------------------------------------- //
+// ------------------- NAVIGATION FOCUS -------------------- //
+// --------------------------------------------------------- //
+
+// manage focus on navigation
+nav.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") {
+    firstTag.focus();
+  }
+});
+
+// manage focus inside navigation and add filter functionality
+for (let i = 0; i < navTags.length; i++) {
+  // add filter functionality to navigation, mouse and keyboard
+  navTags[i].addEventListener("click", filterFunction);
+  navTags[i].addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      filterFunction(e);
+    }
+  });
+
+  // manage focus inside navigation via keyboard
+  navTags[i].addEventListener("keydown", (e) => {
+    e.stopPropagation();
+    let target = e.target;
+
+    switch (e.key) {
+      case "ArrowRight":
+        if (target === lastTag) {
+          firstTag.focus();
+        } else {
+          navTags[i + 1].focus();
+        }
+        break;
+      case "ArrowLeft":
+        if (target === firstTag) {
+          lastTag.focus();
+        } else {
+          navTags[i - 1].focus();
+        }
+        break;
+      // do I need those two?
+      case "Home":
+        firstTag.focus();
+        break;
+      case "End":
+        lastTag.focus();
+        break;
+    }
+  });
+}
+
+// --------------------------------------------------------- //
+// -------------------- FILTER FUNCTION -------------------- //
+// --------------------------------------------------------- //
 
 function filterFunction(e) {
-  // get target
   let target = e.target;
-  // get filter name
   let filterName = target.getAttribute("data-name");
+  let filterState = target.getAttribute("data-state");
 
-  if (filter[filterName] === "inactive") {
-    filter[filterName] = "active";
+  if (filterState === "inactive") {
     target.setAttribute("data-state", "active");
     target.setAttribute("aria-selected", "true");
-  } else if (filter[filterName] === "active") {
-    filter[filterName] = "inactive";
+    filter.push(filterName);
+  } else {
+    filter.splice(filter.indexOf(filterName), 1);
     target.setAttribute("data-state", "inactive");
     target.setAttribute("aria-selected", "false");
   }
 
-  for (let key of Object.keys(filter)) {
-    if (filter[key] === "active") {
-      for (let person of Object.keys(categories)) {
-        if (!categories[person].includes(key)) {
-          document.getElementById(person).style.display = "none";
-          console.log("hide" + person);
-        }
+  for (let person of Object.keys(categories)) {
+    let DOMElement = document.getElementById(person);
+    if (filter.length > 0) {
+      if (filter.every((el) => categories[person].includes(el))) {
+        DOMElement.style.display = "flex";
+      } else {
+        DOMElement.style.display = "none";
       }
-    }
-    if (filter[key] === "inactive") {
-      for (let person of Object.keys(categories)) {
-        if (!categories[person].includes(key)) {
-          document.getElementById(person).style.display = "flex";
-          console.log("show" + person);
-        }
-      }
+    } else {
+      DOMElement.style.display = "flex";
     }
   }
 }
 
-// // filter functionality for nav items
-// function filterFunction(e) {
-//   // get target button
-//   let target = e.target;
-//   // get filter name
-//   let filterName = target.getAttribute("data-name");
+// --------------------------------------------------------- //
+// ------------------- PHOTOGRAPHER INFO ------------------- //
+// --------------------------------------------------------- //
 
-//   // when the data-state is inactive, hides the tiles and sets data-state to active
-//   if (target.getAttribute("data-state") === "inactive") {
-//     target.setAttribute("data-state", "active");
-//     target.setAttribute("aria-selected", "true");
-//     // loop over photographers and their categories
-//     for (let key of Object.keys(categories)) {
-//       // select photographer and their tile that matches the current key
-//       let photographerTile = document.getElementById(key);
-//       // when photographer does not have current category, hide tile
-//       if (!categories[key].some((el) => el === filterName)) {
-//         photographerTile.style.display = "none";
-//       }
-//     }
-//   } else if (target.getAttribute("data-state") === "active") {
-//     target.setAttribute("data-state", "inactive");
-//     target.setAttribute("aria-selected", "false");
-
-//     // loop over photographers and their categories
-//     for (let key of Object.keys(categories)) {
-//       // select photographer and their tile that matches the current key
-//       let photographerTile = document.getElementById(key);
-//       // remove all matching previously hidden tiles
-//       if (!categories[key].some((el) => el === filterName)) {
-//         photographerTile.style.display = "flex";
-//       }
-//     }
-//   }
-// }
-
-// how can I use this function in my buildOverview function (with async await?)
-async function getPhotographerData() {
+// get data from json
+async function getData() {
   try {
     const data = await fetch("./data.json");
     const parsedData = await data.json();
     const photographers = parsedData.photographers;
     console.log(photographers);
-    buildOverview(photographers);
     return photographers;
   } catch (e) {
     console.error(e);
   }
 }
 
-// function to build tags in photographer overview
+// build page content
+async function buildPageContent() {
+  const data = await getData();
+  buildOverview(data);
+}
+
+// build tags in phtographer tiles
 function buildTags(array) {
   let tags = document.createElement("ul");
   tags.className = "photographer__tags";
-  // add Event Listeners (how can I reduce duplicate code of filter in nav?)
 
   tags.addEventListener("click", filterFunction);
   tags.addEventListener("keydown", (e) => {
@@ -120,14 +130,21 @@ function buildTags(array) {
   });
 
   for (let i = 0; i < array.length; i++) {
+    // create tag list element
     let tag = document.createElement("li");
     tag.textContent = `#${array[i]}`;
     tag.className = "photographer__tag";
     tag.setAttribute("data-name", array[i]);
     tag.setAttribute("data-state", "inactive");
+    tag.setAttribute("role", "link");
+    tag.setAttribute("tabindex", "0");
+
+    // create span element
     let srOnlySpan = document.createElement("span");
     srOnlySpan.textContent = "Tag";
     srOnlySpan.className = "sr-only";
+
+    // append all
     tag.appendChild(srOnlySpan);
     tags.appendChild(tag);
   }
@@ -135,16 +152,13 @@ function buildTags(array) {
 }
 
 // function to build overview tiles for each photographer
-// and the object (id and tags) for filter functionality
+// and the categories object (id and tags) for filter functionality
 function buildOverview(data) {
   for (let i = 0; i < data.length; i++) {
     let person = data[i];
     // populate photographerCategories object
     categories[`${person.id}`] = person.tags;
     photographerDisplay[`${person.id}`] = "display";
-    // let obj = {};
-    // obj[`${person.id}`] = person.tags;
-    // photographerCategories.push(obj);
 
     // create photographer tile
     let tile = document.createElement("article");
@@ -203,46 +217,14 @@ function buildOverview(data) {
     tile.appendChild(price);
     tile.appendChild(tags);
   }
-}
 
-// manage focus on navigation
-nav.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight") {
-    firstTag.focus();
+  // if url contains parameter, set filter to parameter
+  if (url.includes("?")) {
+    const urlPara = url.substring(url.indexOf("?") + 1);
+    if (urlPara) {
+      document.querySelector(`[data-name=${urlPara}]`).click();
+    }
   }
-});
-
-// manage focus inside navigation and add filter functionality
-for (let i = 0; i < navTags.length; i++) {
-  // add filter functionality to navigation, mouse and keyboard
-  navTags[i].addEventListener("click", filterFunction);
-  navTags[i].addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      filterFunction(e);
-    }
-  });
-
-  // manage focus inside navigation via keyboard
-  navTags[i].addEventListener("keydown", (e) => {
-    e.stopPropagation();
-    let target = e.target;
-
-    if (e.key === "ArrowRight") {
-      if (target === lastTag) {
-        firstTag.focus();
-      } else {
-        navTags[i + 1].focus();
-      }
-    }
-    if (e.key === "ArrowLeft") {
-      if (target === firstTag) {
-        lastTag.focus();
-      } else {
-        navTags[i - 1].focus();
-      }
-    }
-  });
 }
 
-// build page's main content
-getPhotographerData();
+buildPageContent();
