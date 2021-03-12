@@ -13,6 +13,7 @@
     <title>Mimi_Keel</title>
   </head>
   <body class="body">
+    <!-- header -->
     <header role="banner" class="header">
       <a href="../index.html"
         ><img
@@ -22,10 +23,10 @@
       /></a>
     </header>
     <main class="main">
+      <!-- photographer info -->
       <article class="main__article"></article>
-
+      <!-- Select Element -->
       <!-- kann listbox-area hier raus? -->
-      <!-- arrow für button fehlt noch -->
       <div class="listbox-area">
         <div class="left-area">
           <span id="area-label">Order by</span>
@@ -47,14 +48,17 @@
             >
               <li id="popularity" role="option">Popularity</li>
               <li id="date" role="option">Date</li>
-              <li id="time" role="option">Time</li>
+              <li id="title" role="option">Title</li>
             </ul>
           </div>
         </div>
       </div>
+      <!-- media gallery -->
       <article class="gallery"></article>
     </main>
+    <!-- aside with likes cound and price per day -->
     <aside class="aside"></aside>
+    <!-- modal -->
     <div class="modal__overlay">
       <div
         class="modal"
@@ -62,13 +66,21 @@
         aria-modal="true"
         aria-labelledby="dialog-headline"
       >
-        <span
+        <!-- <span
           id="close"
           class="modal__close"
           role="button"
           aria-label="Close Contact Form"
           tabindex="-1"
-        ></span>
+        ></span> -->
+        <img
+          src="../img/form-close.svg"
+          id="close"
+          class="modal__close"
+          role="button"
+          aria-label="Close Contact Form"
+          tabindex="-1"
+        />
         <form class="form" novalidte>
           <h1 class="form__headline" id="dialog-headline">
             Contact me<br />Mimi Keel
@@ -106,8 +118,6 @@
         </form>
       </div>
     </div>
-
-    <!-- <div class="modal__overlay"></div> -->
 
     <script type="text/javascript" src="./script.js"></script>
   </body>

@@ -205,6 +205,7 @@ $font: "DM Sans", sans-serif;
       }
     }
     &--btn {
+      cursor: pointer;
       position: fixed;
       margin-left: -85px;
       bottom: 30px;
@@ -266,6 +267,8 @@ $font: "DM Sans", sans-serif;
   top: 0px;
   // padding: 9px 10px 0;
   display: none;
+  z-index: 10;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 #filter-button {
@@ -276,6 +279,10 @@ $font: "DM Sans", sans-serif;
   text-align: left;
   padding: 0 20px;
   position: relative;
+  cursor: pointer;
+  &:hover {
+    @include button-hover-focus;
+  }
 }
 
 // #filter-button::after {
@@ -290,7 +297,7 @@ $font: "DM Sans", sans-serif;
   position: absolute;
   right: 18px;
   top: 30px;
-  z-index: 10;
+  z-index: 11;
   transition-duration: 0.5s;
 }
 
@@ -298,8 +305,9 @@ $font: "DM Sans", sans-serif;
   padding-top: 24px;
 }
 
-#time {
+#title {
   padding-bottom: 24px;
+  border-radius: 0 0 5px 5px;
 }
 
 [role="option"] {
@@ -377,12 +385,13 @@ $font: "DM Sans", sans-serif;
     height: 900px;
     padding: 0px 35px;
     position: relative;
+    filter: drop-shadow(-5px 10px 30px rgba(0, 0, 0, 0.25));
   }
   &__overlay {
     display: none;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -393,24 +402,13 @@ $font: "DM Sans", sans-serif;
     position: absolute;
     right: 26.5px;
     top: 26.5px;
-    width: 18.5px;
-    height: 19.5px;
-    opacity: 1;
+    // opacity: 1;
     cursor: pointer;
-    &:before,
-    &:after {
-      position: absolute;
-      left: 15px;
-      content: " ";
-      height: 26px;
-      width: 3px;
-      background-color: #fff;
-    }
-    &:before {
-      transform: rotate(45deg);
-    }
-    &:after {
-      transform: rotate(-45deg);
+    @include responsive {
+      width: 42px;
+      height: 42px;
+      right: 35px;
+      top: 35px;
     }
   }
 }
@@ -423,6 +421,7 @@ $font: "DM Sans", sans-serif;
     line-height: getRem(46);
     margin-top: 20px;
     margin-bottom: 26px;
+    font-weight: 400;
     @include responsive {
       font-size: getRem(64);
       line-height: getRem(83);
@@ -433,6 +432,7 @@ $font: "DM Sans", sans-serif;
     font-weight: 400;
     font-size: getRem(24);
     line-height: getRem(31);
+    font-weight: 400;
     color: #312e2e;
     margin-bottom: 6px;
     @include responsive {
@@ -466,12 +466,16 @@ $font: "DM Sans", sans-serif;
     }
   }
   &__btn {
+    cursor: pointer;
     @include button-static;
     margin: auto;
     @include responsive {
       width: 170px;
       height: 70px;
       margin: 0;
+    }
+    &:hover {
+      @include button-hover-focus;
     }
   }
 }
@@ -562,4 +566,18 @@ $font: "DM Sans", sans-serif;
       }
     }
   }
+}
+
+// ---------------------------------------- //
+// ----------------LIGHTBOX---------------- //
+// ---------------------------------------- //
+
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: white;
 }

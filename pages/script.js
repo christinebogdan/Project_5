@@ -18,10 +18,11 @@ const focusableElements = document.querySelectorAll(
   "#close, #firstname, #lastname, #email, #message, #submit"
 );
 const photographerMedia = [];
-let likeCount = 0;
+let totalLikeCount = 0;
 
 // build page content
 buildPageContent();
+
 // --------------------------------------------------------- //
 // ------------------- PHOTOGRAPHER INFO ------------------- //
 // --------------------------------------------------------- //
@@ -42,18 +43,19 @@ function getPhotographerMedia(media) {
     let mediaItem = media[i];
     if (mediaItem.photographerId === photographerID) {
       photographerMedia.push(mediaItem);
-      likeCount += mediaItem.likes;
+      totalLikeCount += mediaItem.likes;
     }
   }
 }
 
 async function buildPageContent() {
   const data = await getData();
-  const media = data.media;
+  let media = data.media;
   const photographers = data.photographers;
   getPhotographerMedia(media);
   createPhotographerInfo(photographers);
   createGallery(photographerMedia);
+  sortGallery("popularity");
 }
 
 // function to build tags in photographer info section
@@ -134,7 +136,8 @@ function createPhotographerInfo(data) {
   const priceLikeLabel = document.createElement("div");
   priceLikeLabel.classList.add("aside__wrapper");
   const likes = document.createElement("span");
-  likes.textContent = likeCount;
+  likes.id = "aside__count";
+  likes.textContent = totalLikeCount;
   const heart = document.createElement("img");
   heart.src = "../img/heart-black.svg";
   heart.classList.add("aside__heart");
@@ -173,6 +176,7 @@ function hideListBox() {
   filterButton.setAttribute("aria-expanded", "false");
   listbox.removeAttribute("aria-activedescendant");
   buttonArrow.style.WebkitTransform = "rotate(0deg)";
+  filterButton.focus();
 
   // wieso bricht das den e.key === Enter Mechanismus?
   // filterButton.focus();
@@ -184,6 +188,7 @@ filterButton.addEventListener("click", (e) => {
     filterButton.setAttribute("aria-expanded", "true");
     showListBox();
   }
+
   // else if (document.activeElement === listbox) {
   //   buttonArrow.style.WebkitTransform = "rotate(0deg)";
 
@@ -195,13 +200,22 @@ filterButton.addEventListener("click", (e) => {
   // }
 });
 
+document.getElementById("filter-button-arrow").addEventListener("click", () => {
+  filterButton.focus();
+  if (document.activeElement === filterButton) {
+    filterButton.setAttribute("aria-expanded", "true");
+    showListBox();
+    // prints test to console even when closing listbox with arrow
+    console.log("test");
+  }
+});
+
 // Keydown Event on Button
-// wieso funktioniert es hier nicht, wenn ich eventListener auf
-// button setze?
 filterButton.addEventListener("keydown", (e) => {
   // if focus is on button
   if (document.activeElement === filterButton) {
     if (e.key === "ArrowDown" || e.key === "ArrowUp" || e.key === "Enter") {
+      e.preventDefault();
       showListBox();
     }
   }
@@ -211,8 +225,6 @@ filterButton.addEventListener("keydown", (e) => {
 
 // Click Event on Listbox
 listbox.addEventListener("click", (e) => {
-  // liegt an event target listbox (s. nächste Zeile)
-  console.log(e.target);
   e.stopPropagation();
   const currentOption = document.querySelector(".is-active");
   const selectedOption = e.target;
@@ -222,7 +234,16 @@ listbox.addEventListener("click", (e) => {
   let buttonText = document.querySelector(".is-active").innerText;
   filterButton.textContent = buttonText;
   hideListBox();
+  sortGallery(buttonText.toLowerCase());
 });
+
+document
+  .getElementById("filter-button-arrow")
+  .addEventListener("click", (e) => {
+    if (document.activeElement === listbox) {
+      hideListBox();
+    }
+  });
 
 // Keydown Event on Listbox
 listbox.addEventListener("keydown", (e) => {
@@ -231,49 +252,91 @@ listbox.addEventListener("keydown", (e) => {
   let selectedOption;
   let buttonText;
   if (document.activeElement === listbox) {
-    if (e.key === "Home") {
-      selectedOption = listbox.firstElementChild;
-    }
-    if (e.key === "End") {
-      selectedOption = listbox.lastElementChild;
-      // wieso kann ich diesen Block nicht einfach ans Ende packen und nur einmal
-      // durchlaufen lassen. Bekomme Error "cannot read property classList of null
-      // at HTMLULListElement"
-      currentOption.classList.remove("is-active");
-      selectedOption.classList.add("is-active");
-      listbox.setAttribute("aria-activedescendant", selectedOption.id);
-    }
-    if (e.key === "ArrowDown") {
-      selectedOption = currentOption.nextElementSibling;
-      if (selectedOption === null) {
+    switch (e.key) {
+      case "Home":
         selectedOption = listbox.firstElementChild;
-      }
-      currentOption.classList.remove("is-active");
-      selectedOption.classList.add("is-active");
-      listbox.setAttribute("aria-activedescendant", selectedOption.id);
-    }
-    if (e.key === "ArrowUp") {
-      selectedOption = currentOption.previousElementSibling;
-      if (selectedOption === null) {
+        break;
+      case "End":
         selectedOption = listbox.lastElementChild;
-      }
-      currentOption.classList.remove("is-active");
-      selectedOption.classList.add("is-active");
-      listbox.setAttribute("aria-activedescendant", selectedOption.id);
+        break;
+      case "ArrowDown":
+        selectedOption = currentOption.nextElementSibling;
+        if (selectedOption === null) {
+          selectedOption = listbox.firstElementChild;
+        }
+        break;
+      case "ArrowUp":
+        selectedOption = currentOption.previousElementSibling;
+        if (selectedOption === null) {
+          selectedOption = listbox.lastElementChild;
+        }
+        break;
+      // warum button focus style, wenn Enter, aber nicht, wenn click
+      case "Enter":
+        selectedOption = document.querySelector(".is-active").innerText;
+        filterButton.textContent = selectedOption;
+        hideListBox();
+        sortGallery(selectedOption.toLowerCase());
+        break;
+      case "Escape":
+        selectedOption = document.querySelector(".is-active");
+        hideListBox();
+        break;
     }
-    if (e.key === "Enter") {
-      let buttonText = document.querySelector(".is-active").innerText;
-      filterButton.textContent = buttonText;
-      // warum funktioniert hier console.log(selectedOption nicht - und ich
-      // kriege undefined)
-      // console.log(selectedOption);
-      hideListBox();
-    }
-    if (e.key === "Escape") {
-      hideListBox();
-    }
+    currentOption.classList.remove("is-active");
+    selectedOption.classList.add("is-active");
+    listbox.setAttribute("aria-activedescendant", selectedOption.id);
   }
 });
+
+// sort gallery by popularity, date, title
+function sortGallery(sortBy) {
+  const gallery = document.querySelector(".gallery");
+  const nodes = Array.from(gallery.children);
+  // nodes = [...nodes];
+  switch (sortBy) {
+    case "popularity":
+      nodes.sort(sortByPopularity);
+      break;
+    case "date":
+      nodes.sort(sortByDate);
+      break;
+    case "title":
+      nodes.sort(sortByTitle);
+      break;
+  }
+  nodes.forEach((node) => {
+    gallery.appendChild(node);
+  });
+  countLikes();
+}
+
+// sorting function by popularity
+function sortByPopularity(a, b) {
+  const valueA = parseInt(a.getAttribute("data-likes"));
+  const valueB = parseInt(b.getAttribute("data-likes"));
+  return valueB - valueA;
+}
+
+// sorting function by title
+function sortByTitle(a, b) {
+  const valueA = a.getAttribute("data-title");
+  const valueB = b.getAttribute("data-title");
+  if (valueA < valueB) {
+    return -1;
+  } else if (valueA === valueB) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+// sorting function by date
+function sortByDate(a, b) {
+  const valueA = new Date(a.getAttribute("data-date"));
+  const valueB = new Date(b.getAttribute("data-date"));
+  return valueB - valueA;
+}
 
 // --------------------------------------------------------- //
 // ------------------------- MODAL ------------------------- //
@@ -304,7 +367,9 @@ function closingModal() {
 closeModal.addEventListener("click", closingModal);
 
 closeModal.addEventListener("keydown", (e) => {
+  console.log("1");
   if (e.key === "Enter") {
+    console.log("2");
     closingModal();
   }
 });
@@ -324,18 +389,13 @@ modal.addEventListener("keydown", (e) => {
       if (document.activeElement === firstElement) {
         e.preventDefault();
         lastElement.focus();
-        console.log("test");
-      }
-      if (document.activeElement === focusableElements[1]) {
-        e.preventDefault();
-        firstElement.focus();
-        console.log("test");
-      }
-    } else {
-      if (document.activeElement === lastElement) {
+      } else if (document.activeElement === focusableElements[1]) {
         e.preventDefault();
         firstElement.focus();
       }
+    } else if (document.activeElement === lastElement) {
+      e.preventDefault();
+      firstElement.focus();
     }
   }
 });
@@ -377,20 +437,34 @@ class Video {
     // "Sport_Sky_Cross.jpg";
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
-    title = title.replace(".mp4", "");
+    title = title.replace(/.mp4/g, "");
     return title;
+  }
+
+  #getSource(string) {
+    let source = this.element.video;
+    source = source.replace(/.mp4/g, "");
+    return source;
   }
 
   render() {
     // create container for gallery element
     const galleryElement = document.createElement("div");
     galleryElement.classList.add("gallery__element");
+    galleryElement.setAttribute("data-date", this.element.date);
+    galleryElement.setAttribute("data-likes", this.element.likes);
+    galleryElement.setAttribute(
+      "data-title",
+      this.#getTitle(this.element.video)
+    );
 
     // create video
     const videoTag = document.createElement("video");
     videoTag.classList.add("gallery__mediaItem");
     const sourceTag = document.createElement("source");
-    sourceTag.src = `../img/photographers/${photographerID}/${this.element.video}`;
+    sourceTag.src = `../img/photographers/${photographerID}/${this.#getSource(
+      this.element.video
+    )}.mp4`;
     videoTag.appendChild(sourceTag);
 
     // create container for title, price, likes
@@ -406,6 +480,7 @@ class Video {
     likes.classList.add("gallery__mediaInfo--likes");
     const heart = document.createElement("img");
     heart.src = "../img/heart-red.svg";
+    heart.alt = "likes";
     heart.classList.add("gallery__mediaInfo--likesImg");
     const price = document.createElement("p");
     price.textContent = `${this.element.price} $`;
@@ -432,18 +507,32 @@ class Image {
     // "Sport_Sky_Cross.jpg";
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
-    title = title.replace(".jpg", "");
+    title = title.replace(/.jpg/g, "");
     return title;
+  }
+
+  #getSource(string) {
+    let source = this.element.image;
+    source = source.replace(/.jpg/g, "");
+    return source;
   }
 
   render() {
     // create container for gallery element
     const galleryElement = document.createElement("div");
     galleryElement.classList.add("gallery__element");
+    galleryElement.setAttribute("data-date", this.element.date);
+    galleryElement.setAttribute("data-likes", this.element.likes);
+    galleryElement.setAttribute(
+      "data-title",
+      this.#getTitle(this.element.image)
+    );
 
     // create image
     const imgTag = document.createElement("img");
-    imgTag.src = `../img/photographers/${photographerID}/${this.element.image}`;
+    imgTag.src = `../img/photographers/${photographerID}/${this.#getSource(
+      this.element.image
+    )}.jpg`;
     imgTag.classList.add("gallery__mediaItem");
 
     // create container for title, price, likes
@@ -459,6 +548,7 @@ class Image {
     likes.classList.add("gallery__mediaInfo--likes");
     const heart = document.createElement("img");
     heart.src = "../img/heart-red.svg";
+    heart.alt = "likes";
     heart.classList.add("gallery__mediaInfo--likesImg");
     const price = document.createElement("p");
     price.textContent = `${this.element.price} $`;
@@ -475,8 +565,6 @@ class Image {
     return galleryElement;
   }
 }
-
-// const mediaItems = { Video, Image };
 
 // actual Factory Method in form of a constructor function (called with new)
 // client instructs factory what type of media to create by
@@ -512,8 +600,29 @@ function galleryElement(element) {
   return galleryElement;
 }
 
+// create gallery and add Event Listeners
 function createGallery(data) {
   data.forEach((item) => gallery.appendChild(galleryElement(item)));
+}
+
+// function to add event Listeners to Like Count
+function countLikes() {
+  const likeButtons = document.getElementsByClassName("gallery__mediaInfo");
+  console.log(likeButtons);
+
+  for (let i = 0; i < likeButtons.length; i++) {
+    likeButtons[i].addEventListener("click", (e) => {
+      const target = e.target;
+      const imageLikesEl = target.previousElementSibling;
+      const imageLikesCount = parseInt(imageLikesEl.textContent);
+      const totalLikesEl = document.getElementById("aside__count");
+      const totalLikes = parseInt(totalLikesEl.textContent);
+      if (target === likeButtons[i].lastElementChild) {
+        imageLikesEl.textContent = imageLikesCount + 1;
+        totalLikesEl.textContent = totalLikes + 1;
+      }
+    });
+  }
 }
 
 // sorting with merge sort
