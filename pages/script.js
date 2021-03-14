@@ -32,7 +32,7 @@ buildPageContent();
 
 async function getData() {
   try {
-    const data = await fetch("../data.json");
+    const data = await fetch("../../data.json");
     const parsedData = await data.json();
     console.log(parsedData);
     return parsedData;
