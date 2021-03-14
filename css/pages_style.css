@@ -137,12 +137,8 @@
     border-radius: 22px;
   }
 }
-.main__article--tag:hover {
+.main__article--tag:hover, .main__article--tag:focus {
   cursor: pointer;
-  background-color: #901c1c;
-  color: #ffffff;
-}
-.main__article--tag[data-state=active] {
   background-color: #901c1c;
   color: #ffffff;
 }
@@ -163,7 +159,7 @@
   border: none;
   color: #ffffff;
 }
-.main__article--btn:hover {
+.main__article--btn:hover, .main__article--btn:focus {
   background-color: #d3573c;
   color: #000000;
 }
@@ -241,7 +237,7 @@
   position: relative;
   cursor: pointer;
 }
-#filter-button:hover {
+#filter-button:hover, #filter-button:focus {
   background-color: #d3573c;
   color: #000000;
 }
@@ -439,7 +435,7 @@
     margin: 0;
   }
 }
-.form__btn:hover {
+.form__btn:hover, .form__btn:focus {
   background-color: #d3573c;
   color: #000000;
 }

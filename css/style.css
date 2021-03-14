@@ -75,10 +75,8 @@
   margin-right: 5px;
   margin-bottom: 6px;
 }
-.header__nav-ul--li:hover {
+.header__nav-ul--li:hover, .header__nav-ul--li:focus {
   cursor: pointer;
-}
-.header__nav-ul--li[data-state=active] {
   background-color: #901c1c;
   color: #ffffff;
 }
@@ -147,7 +145,7 @@
   flex-direction: column;
   align-items: center;
 }
-.photographer__link:link {
+.photographer__link:visited, .photographer__link:link {
   color: #901c1c;
   text-decoration: none;
 }
@@ -204,10 +202,8 @@
   margin-right: 5px;
   margin-bottom: 6px;
 }
-.photographer__tag:hover {
+.photographer__tag:hover, .photographer__tag:focus {
   cursor: pointer;
-}
-.photographer__tag[data-state=active] {
   background-color: #901c1c;
   color: #ffffff;
 }

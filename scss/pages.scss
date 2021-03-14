@@ -196,13 +196,14 @@ $font: "DM Sans", sans-serif;
     }
     &--tag {
       @include tag;
-      &:hover {
+      &:hover,
+      &:focus {
         @include tag-hover;
         @include tag-focus;
       }
-      &[data-state="active"] {
-        @include tag-focus;
-      }
+      // &[data-state="active"] {
+      //   @include tag-focus;
+      // }
     }
     &--btn {
       cursor: pointer;
@@ -211,7 +212,8 @@ $font: "DM Sans", sans-serif;
       bottom: 30px;
       left: 50%;
       @include button-static;
-      &:hover {
+      &:hover,
+      &:focus {
         @include button-hover-focus;
       }
       @include responsive {
@@ -280,7 +282,8 @@ $font: "DM Sans", sans-serif;
   padding: 0 20px;
   position: relative;
   cursor: pointer;
-  &:hover {
+  &:hover,
+  &:focus {
     @include button-hover-focus;
   }
 }
@@ -474,7 +477,8 @@ $font: "DM Sans", sans-serif;
       height: 70px;
       margin: 0;
     }
-    &:hover {
+    &:hover,
+    &:focus {
       @include button-hover-focus;
     }
   }

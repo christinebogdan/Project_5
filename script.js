@@ -1,5 +1,6 @@
-const main = document.getElementById("main");
+const skipLink = document.querySelector(".skip-to-content");
 const nav = document.querySelector(".header__nav");
+const main = document.getElementById("main");
 const overview = document.getElementById("overview");
 const navTags = document.querySelectorAll(".header__nav-ul--li");
 const firstTag = navTags[0];
@@ -14,11 +15,11 @@ const filter = [];
 // --------------------------------------------------------- //
 
 // manage focus on navigation
-nav.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight") {
-    firstTag.focus();
-  }
-});
+// nav.addEventListener("keydown", (e) => {
+//   if (e.key === "ArrowRight") {
+//     firstTag.focus();
+//   }
+// });
 
 // manage focus inside navigation and add filter functionality
 for (let i = 0; i < navTags.length; i++) {
@@ -31,34 +32,34 @@ for (let i = 0; i < navTags.length; i++) {
   });
 
   // manage focus inside navigation via keyboard
-  navTags[i].addEventListener("keydown", (e) => {
-    e.stopPropagation();
-    let target = e.target;
+  // navTags[i].addEventListener("keydown", (e) => {
+  //   e.stopPropagation();
+  //   let target = e.target;
 
-    switch (e.key) {
-      case "ArrowRight":
-        if (target === lastTag) {
-          firstTag.focus();
-        } else {
-          navTags[i + 1].focus();
-        }
-        break;
-      case "ArrowLeft":
-        if (target === firstTag) {
-          lastTag.focus();
-        } else {
-          navTags[i - 1].focus();
-        }
-        break;
-      // do I need those two?
-      case "Home":
-        firstTag.focus();
-        break;
-      case "End":
-        lastTag.focus();
-        break;
-    }
-  });
+  //   switch (e.key) {
+  //     case "ArrowRight":
+  //       if (target === lastTag) {
+  //         firstTag.focus();
+  //       } else {
+  //         navTags[i + 1].focus();
+  //       }
+  //       break;
+  //     case "ArrowLeft":
+  //       if (target === firstTag) {
+  //         lastTag.focus();
+  //       } else {
+  //         navTags[i - 1].focus();
+  //       }
+  //       break;
+  //     // do I need those two?
+  //     case "Home":
+  //       firstTag.focus();
+  //       break;
+  //     case "End":
+  //       lastTag.focus();
+  //       break;
+  //   }
+  // });
 }
 
 // --------------------------------------------------------- //
@@ -72,27 +73,56 @@ function filterFunction(e) {
 
   if (filterState === "inactive") {
     target.setAttribute("data-state", "active");
-    target.setAttribute("aria-selected", "true");
-    filter.push(filterName);
-  } else {
-    filter.splice(filter.indexOf(filterName), 1);
-    target.setAttribute("data-state", "inactive");
-    target.setAttribute("aria-selected", "false");
-  }
-
-  for (let person of Object.keys(categories)) {
-    let DOMElement = document.getElementById(person);
-    if (filter.length > 0) {
-      if (filter.every((el) => categories[person].includes(el))) {
+    // value "true" or "page"
+    target.setAttribute("aria-current", "true");
+    // target.setAttribute("aria-selected", "true");
+    for (let person of Object.keys(categories)) {
+      let DOMElement = document.getElementById(person);
+      if (categories[person].includes(filterName)) {
         DOMElement.style.display = "flex";
       } else {
         DOMElement.style.display = "none";
       }
-    } else {
+    }
+  } else {
+    target.setAttribute("data-state", "inactive");
+    target.removeAttribute("aria-current");
+    // target.setAttribute("aria-selected", "false");
+    for (let person of Object.keys(categories)) {
+      let DOMElement = document.getElementById(person);
       DOMElement.style.display = "flex";
     }
   }
 }
+
+// function filterFunction(e) {
+//   let target = e.target;
+//   let filterName = target.getAttribute("data-name");
+//   let filterState = target.getAttribute("data-state");
+
+//   if (filterState === "inactive") {
+//     target.setAttribute("data-state", "active");
+//     target.setAttribute("aria-selected", "true");
+//     filter.push(filterName);
+//   } else {
+//     filter.splice(filter.indexOf(filterName), 1);
+//     target.setAttribute("data-state", "inactive");
+//     target.setAttribute("aria-selected", "false");
+//   }
+
+//   for (let person of Object.keys(categories)) {
+//     let DOMElement = document.getElementById(person);
+//     if (filter.length > 0) {
+//       if (filter.every((el) => categories[person].includes(el))) {
+//         DOMElement.style.display = "flex";
+//       } else {
+//         DOMElement.style.display = "none";
+//       }
+//     } else {
+//       DOMElement.style.display = "flex";
+//     }
+//   }
+// }
 
 // --------------------------------------------------------- //
 // ------------------- PHOTOGRAPHER INFO ------------------- //

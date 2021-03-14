@@ -146,12 +146,14 @@ $font: "DM Sans", sans-serif;
     }
     &--li {
       @include tag;
-      &:hover {
+      &:hover,
+      &:focus {
         @include tag-hover;
-      }
-      &[data-state="active"] {
         @include tag-focus;
       }
+      // &[data-state="active"] {
+      //   @include tag-focus;
+      // }
     }
   }
 }
@@ -216,6 +218,7 @@ $font: "DM Sans", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
+    &:visited,
     &:link {
       color: $secondary-text-dark;
       text-decoration: none;
@@ -264,11 +267,13 @@ $font: "DM Sans", sans-serif;
   }
   &__tag {
     @include tag;
-    &:hover {
+    &:hover,
+    &:focus {
       @include tag-hover;
-    }
-    &[data-state="active"] {
       @include tag-focus;
     }
+    // &[data-state="active"] {
+    //   @include tag-focus;
+    // }
   }
 }

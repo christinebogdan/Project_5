@@ -11,12 +11,15 @@ const gallery = document.querySelector(".gallery");
 const aside = document.querySelector(".aside");
 const modal = document.querySelector(".modal");
 const modalOverlay = document.querySelector(".modal__overlay");
-const closeModal = document.querySelector(".modal__close");
-const form = document.querySelector(".form");
-const submitBtn = document.querySelector("form__btn");
+// all focusable elements inside modal
 const focusableElements = document.querySelectorAll(
   "#close, #firstname, #lastname, #email, #message, #submit"
 );
+const firstElement = focusableElements[0];
+const lastElement = focusableElements[focusableElements.length - 1];
+const closeModal = document.querySelector(".modal__close");
+const form = document.querySelector(".form");
+const submitBtn = document.querySelector("form__btn");
 const photographerMedia = [];
 let totalLikeCount = 0;
 
@@ -346,12 +349,17 @@ function sortByDate(a, b) {
 
 function openingModal() {
   modalOverlay.style.display = "flex";
-  document.getElementById("firstname").focus();
+  firstElement.focus();
 }
 
 // Event Listener Added inside Content Building function
 
 // ---------------------- Close Modal ---------------------- //
+
+function closingModal() {
+  modalOverlay.style.display = "none";
+  document.querySelector(".main__article--btn").focus();
+}
 
 modal.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
@@ -359,27 +367,25 @@ modal.addEventListener("keydown", (e) => {
   }
 });
 
-function closingModal() {
-  modalOverlay.style.display = "none";
-  document.querySelector(".main__article--btn").focus();
-}
+modalOverlay.addEventListener("click", closingModal);
 
 closeModal.addEventListener("click", closingModal);
 
 closeModal.addEventListener("keydown", (e) => {
-  console.log("1");
-  if (e.key === "Enter") {
-    console.log("2");
-    closingModal();
+  if (e.target === closeModal) {
+    if (e.key === " ") {
+      closingModal();
+      // enter funktioniert nicht
+    } else if (e.key === "Enter") {
+      console.log(124);
+      closingModal();
+    }
   }
 });
 
 // -------------- Manage Focus Inside Modal --------------- //
 
 modal.addEventListener("keydown", (e) => {
-  const firstElement = focusableElements[0];
-  const lastElement = focusableElements[focusableElements.length - 1];
-
   // die Shift Key Tab Kombi funktioniert nicht
   // von Close X zu Button zurück funktioniert. Aber nicht von
   // first Name zu Close X
