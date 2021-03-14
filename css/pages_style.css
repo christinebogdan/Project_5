@@ -534,13 +534,86 @@
 }
 
 .lightbox {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   background-color: white;
+}
+
+.carousel {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.carousel__section {
+  position: relative;
+}
+.carousel__controls--left {
+  position: absolute;
+  left: -18px;
+}
+@media (min-width: 1330px) {
+  .carousel__controls--left {
+    height: 48px;
+    width: auto;
+    left: -60px;
+  }
+}
+.carousel__controls--right {
+  position: absolute;
+  right: -18px;
+}
+@media (min-width: 1330px) {
+  .carousel__controls--right {
+    height: 48px;
+    width: auto;
+    right: -60px;
+  }
+}
+.carousel__controls--close {
+  position: absolute;
+  right: -18px;
+  top: 3px;
+}
+@media (min-width: 1330px) {
+  .carousel__controls--close {
+    height: 42px;
+    width: auto;
+    right: -68px;
+    top: 10px;
+  }
+}
+.carousel__image {
+  width: 290px;
+  height: 248px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+@media (min-width: 1330px) {
+  .carousel__image {
+    width: 1050px;
+    height: 900px;
+  }
+}
+.carousel__image--title {
+  position: absolute;
+  margin-top: 7px;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  color: #901c1c;
+}
+@media (min-width: 1330px) {
+  .carousel__image--title {
+    font-size: 1.5rem;
+    line-height: 1.9375rem;
+    margin-top: 12px;
+  }
 }
 
 /*# sourceMappingURL=pages_style.css.map */

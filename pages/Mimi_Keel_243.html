@@ -44,9 +44,10 @@
               tabindex="-1"
               role="listbox"
               aria-labelledby="area-label"
-              class="hidden"
             >
-              <li id="popularity" role="option">Popularity</li>
+              <li id="popularity" role="option" class="is-active">
+                Popularity
+              </li>
               <li id="date" role="option">Date</li>
               <li id="title" role="option">Title</li>
             </ul>
@@ -112,7 +113,61 @@
         </form>
       </div>
     </div>
-
+    <!-- lightbox -->
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="image closeup view"
+      class="lightbox"
+    >
+      <section
+        class="carousel"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="image closeup slides"
+      >
+        <div class="carousel__controls">
+          <img
+            role="link"
+            aria-label="previous image"
+            aria-controls="carousel__items"
+            alt=""
+            src="../img/lightbox-arrow-left.svg"
+            class="carousel__controls--left"
+          />
+          <img
+            role="link"
+            aria-label="next image"
+            aria-controls="carousel__items"
+            alt=""
+            src="../img/lightbox-arrow-right.svg"
+            class="carousel__controls--right"
+          />
+          <img
+            role="button"
+            aria-label="close dialog"
+            alt=""
+            src="../img/lightbox-close.svg"
+            class="carousel__controls--close"
+          />
+        </div>
+        <div id="carousel__items" aria-live="polite">
+          <div
+            class="carousel__item active"
+            role="group"
+            aria-roledescription="slide"
+            aria-label="ALTTEXT"
+          >
+            <img
+              src="../img/photographers/82/Art_Purple_light.jpg"
+              alt=""
+              class="carousel__image"
+            />
+            <p class="carousel__image--title">Bildtitel</p>
+          </div>
+        </div>
+      </section>
+    </div>
     <script type="text/javascript" src="./script.js"></script>
   </body>
 </html>

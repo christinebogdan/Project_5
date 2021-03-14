@@ -577,11 +577,74 @@ $font: "DM Sans", sans-serif;
 // ---------------------------------------- //
 
 .lightbox {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   background-color: white;
+}
+
+.carousel {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  &__section {
+    position: relative;
+  }
+  &__controls--left {
+    position: absolute;
+    left: -18px;
+    @include responsive {
+      height: 48px;
+      width: auto;
+      left: -60px;
+    }
+  }
+  &__controls--right {
+    position: absolute;
+    right: -18px;
+    @include responsive {
+      height: 48px;
+      width: auto;
+      right: -60px;
+    }
+  }
+  &__controls--close {
+    position: absolute;
+    right: -18px;
+    top: 3px;
+    @include responsive {
+      height: 42px;
+      width: auto;
+      right: -68px;
+      top: 10px;
+    }
+  }
+  &__image {
+    width: 290px;
+    height: 248px;
+    object-fit: cover;
+    border-radius: 5px;
+    @include responsive {
+      width: 1050px;
+      height: 900px;
+    }
+    &--title {
+      position: absolute;
+      margin-top: 7px;
+      font-size: getRem(14);
+      line-height: getRem(18);
+      color: $secondary-text-dark;
+      @include responsive {
+        font-size: getRem(24);
+        line-height: getRem(31);
+        margin-top: 12px;
+      }
+    }
+  }
 }

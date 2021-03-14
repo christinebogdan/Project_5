@@ -158,19 +158,19 @@ function createPhotographerInfo(data) {
 // -------------------- SELECT ELEMENT --------------------- //
 // --------------------------------------------------------- //
 
-// -------------------- Focus on Button -------------------- //
-
 // Function to show Listbox
 function showListBox() {
   const optionName = filterButton.innerText.toLowerCase();
   const currentOption = document.querySelector(`#${optionName}`);
   // set visual focus on currently selected option
   currentOption.classList.add("is-active");
+  buttonArrow.style.WebkitTransform = "rotate(180deg)";
+  // set aria-expanded
+  filterButton.setAttribute("aria-expanded", "true");
   // set aria-activedescendant
   listbox.setAttribute("aria-activedescendant", currentOption.id);
   listbox.style.display = "block";
   listbox.focus();
-  buttonArrow.style.WebkitTransform = "rotate(180deg)";
 }
 
 // Function to hide Listbox
@@ -180,36 +180,21 @@ function hideListBox() {
   listbox.removeAttribute("aria-activedescendant");
   buttonArrow.style.WebkitTransform = "rotate(0deg)";
   filterButton.focus();
-
-  // wieso bricht das den e.key === Enter Mechanismus?
-  // filterButton.focus();
 }
 
+// -------------------- Focus on Button -------------------- //
+
 // Click Event on Button
-filterButton.addEventListener("click", (e) => {
-  if (document.activeElement === filterButton) {
-    filterButton.setAttribute("aria-expanded", "true");
-    showListBox();
-  }
-
-  // else if (document.activeElement === listbox) {
-  //   buttonArrow.style.WebkitTransform = "rotate(0deg)";
-
-  //   // add option of clicking on body to close listbox
-  //   // add choice of new option before hiding listbox
-  //   // warum funktioniert das hier, wenn ich den eventListener
-  //   // auf button setze, und nicht auf listbox
-  //   hideListBox();
-  // }
-});
+filterButton.addEventListener("click", showListBox);
 
 document.getElementById("filter-button-arrow").addEventListener("click", () => {
-  filterButton.focus();
-  if (document.activeElement === filterButton) {
-    filterButton.setAttribute("aria-expanded", "true");
+  if (document.activeElement !== listbox) {
+    // filterButton.setAttribute("aria-expanded", "true");
     showListBox();
     // prints test to console even when closing listbox with arrow
     console.log("test");
+  } else {
+    hideListBox();
   }
 });
 
@@ -276,10 +261,10 @@ listbox.addEventListener("keydown", (e) => {
         break;
       // warum button focus style, wenn Enter, aber nicht, wenn click
       case "Enter":
-        selectedOption = document.querySelector(".is-active").innerText;
-        filterButton.textContent = selectedOption;
+        selectedOption = document.querySelector(".is-active");
+        filterButton.textContent = selectedOption.innerText;
         hideListBox();
-        sortGallery(selectedOption.toLowerCase());
+        sortGallery(selectedOption.innerText.toLowerCase());
         break;
       case "Escape":
         selectedOption = document.querySelector(".is-active");
@@ -367,7 +352,12 @@ modal.addEventListener("keydown", (e) => {
   }
 });
 
-modalOverlay.addEventListener("click", closingModal);
+// close modal with click on overlay
+modalOverlay.addEventListener("click", (e) => {
+  if (e.target === modalOverlay) {
+    closingModal();
+  }
+});
 
 closeModal.addEventListener("click", closingModal);
 
