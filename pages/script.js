@@ -376,9 +376,6 @@ closeModal.addEventListener("keydown", (e) => {
 // -------------- Manage Focus Inside Modal --------------- //
 
 modal.addEventListener("keydown", (e) => {
-  // die Shift Key Tab Kombi funktioniert nicht
-  // von Close X zu Button zurück funktioniert. Aber nicht von
-  // first Name zu Close X
   // funktioniert nur mit Extra IF (s.u.)
   if (e.key === "Tab") {
     if (e.shiftKey) {
@@ -715,13 +712,52 @@ function createLightBox(data) {
 
 // ------------------- Focus in Lightbox ------------------- //
 
+const focusableElementsLightbox = Array.from(
+  document.getElementsByClassName("carousel__controls")
+);
+
 carousel.addEventListener("keydown", (e) => {
-  if (e.key === "Tab") {
-    if (document.activeElement === closeModal) {
-      closeModal.nextElementSibling.focus();
+  console.log("carousel event listener activated");
+  const firstElement = focusableElementsLightbox[0];
+  const lastElement =
+    focusableElementsLightbox[focusableElementsLightbox.length - 1];
+
+  if (document.activeElement === firstElement) {
+    console.log("closeModal is active Element");
+    if (e.shiftKey && e.key === "Tab") {
+      e.preventDefault();
+      lastElement.focus();
+      console.log("shiftkey pressed");
+      if (e.key === "Tab") {
+        e.preventDefault();
+        console.log("Shift and Tab pressed");
+        lastElement.focus();
+      }
+    }
+  }
+
+  if (document.activeElement === lastElement) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      firstElement.focus();
     }
   }
 });
+// carousel.addEventListener("keydown", (e) => {
+//   console.log("carousel eventlistener");
+//   if (e.key === "Tab") {
+//     if (e.shiftKey) {
+//       if (document.activeElement === closeCarousel) {
+//         e.preventDefault();
+//         nextImage.focus();
+//       }
+//     }
+//     if (document.activeElement === nextImage) {
+//       e.preventDefault();
+//       closeModal.focus();
+//     }
+//   }
+// });
 
 // ---------------- Lightbox functionality ----------------- //
 
@@ -759,17 +795,21 @@ function openLightbox(e) {
     lightboxOverlay.style.display = "none";
     lightboxElements.forEach((el) => {
       el.classList.remove("active");
+      activeElement.focus();
     });
-    activeElement.focus();
   });
 
-  // keydown event to close lightbox
+  // keydown event to close lightbox and manage keyboard trap
   closeCarousel.addEventListener("keydown", (e) => {
-    e.preventDefault();
     if (e.key === "Enter" || e.key === "Escape" || e.key === " ") {
+      e.stopPropagation();
+      e.preventDefault();
       lightboxOverlay.style.display = "none";
+      lightboxElements.forEach((el) => {
+        el.classList.remove("active");
+      });
+      activeElement.focus();
     }
-    activeElement.focus();
   });
 
   // click event for next image button
