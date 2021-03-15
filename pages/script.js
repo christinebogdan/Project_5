@@ -1,4 +1,6 @@
-const pathname = window.location.pathname;
+const pathname = window.location.pathname.split("/")[
+  window.location.pathname.split("/").length - 1
+];
 const photographerID = parseInt(pathname.replace(/[^0-9]/g, ""));
 
 // change class of main__article
@@ -20,6 +22,13 @@ const lastElement = focusableElements[focusableElements.length - 1];
 const closeModal = document.querySelector(".modal__close");
 const form = document.querySelector(".form");
 const submitBtn = document.querySelector("form__btn");
+const lightboxOverlay = document.querySelector(".lightbox");
+const carousel = document.querySelector(".carousel");
+const carouselItems = document.getElementById("carousel__items");
+const closeCarousel = document.querySelector(".carousel__controls--close");
+const nextImage = document.querySelector(".carousel__controls--right");
+const previousImage = document.querySelector(".carousel__controls--left");
+
 const photographerMedia = [];
 let totalLikeCount = 0;
 
@@ -30,6 +39,7 @@ buildPageContent();
 // ------------------- PHOTOGRAPHER INFO ------------------- //
 // --------------------------------------------------------- //
 
+// get json
 async function getData() {
   try {
     const data = await fetch("../data.json");
@@ -41,6 +51,7 @@ async function getData() {
   }
 }
 
+// get photographer media and total like count
 function getPhotographerMedia(media) {
   for (let i = 0; i < media.length; i++) {
     let mediaItem = media[i];
@@ -51,6 +62,7 @@ function getPhotographerMedia(media) {
   }
 }
 
+// build page content - photographer info, gallery, sorting function, lightbox
 async function buildPageContent() {
   const data = await getData();
   let media = data.media;
@@ -59,6 +71,7 @@ async function buildPageContent() {
   createPhotographerInfo(photographers);
   createGallery(photographerMedia);
   sortGallery("popularity");
+  createLightBox(photographerMedia);
 }
 
 // function to build tags in photographer info section
@@ -129,7 +142,7 @@ function createPhotographerInfo(data) {
 
   const img = document.createElement("img");
   img.src = `../img/photographers/ID_Photos/${photographer.portrait}`;
-  img.alt = "";
+  img.alt = " ";
   img.classList.add("main__article--img");
 
   articleElement.appendChild(wrapper);
@@ -187,17 +200,6 @@ function hideListBox() {
 // Click Event on Button
 filterButton.addEventListener("click", showListBox);
 
-document.getElementById("filter-button-arrow").addEventListener("click", () => {
-  if (document.activeElement !== listbox) {
-    // filterButton.setAttribute("aria-expanded", "true");
-    showListBox();
-    // prints test to console even when closing listbox with arrow
-    console.log("test");
-  } else {
-    hideListBox();
-  }
-});
-
 // Keydown Event on Button
 filterButton.addEventListener("keydown", (e) => {
   // if focus is on button
@@ -224,14 +226,6 @@ listbox.addEventListener("click", (e) => {
   hideListBox();
   sortGallery(buttonText.toLowerCase());
 });
-
-document
-  .getElementById("filter-button-arrow")
-  .addEventListener("click", (e) => {
-    if (document.activeElement === listbox) {
-      hideListBox();
-    }
-  });
 
 // Keydown Event on Listbox
 listbox.addEventListener("keydown", (e) => {
@@ -267,14 +261,23 @@ listbox.addEventListener("keydown", (e) => {
         sortGallery(selectedOption.innerText.toLowerCase());
         break;
       case "Escape":
-        selectedOption = document.querySelector(".is-active");
+        for (
+          let i = 0;
+          i < document.querySelector("#listbox").children.length;
+          i++
+        ) {
+          document
+            .querySelector("#listbox")
+            .children[i].classList.remove("is-active");
+        }
+
         hideListBox();
-        break;
+        return;
     }
-    currentOption.classList.remove("is-active");
-    selectedOption.classList.add("is-active");
-    listbox.setAttribute("aria-activedescendant", selectedOption.id);
   }
+  currentOption.classList.remove("is-active");
+  selectedOption.classList.add("is-active");
+  listbox.setAttribute("aria-activedescendant", selectedOption.id);
 });
 
 // sort gallery by popularity, date, title
@@ -296,7 +299,6 @@ function sortGallery(sortBy) {
   nodes.forEach((node) => {
     gallery.appendChild(node);
   });
-  countLikes();
 }
 
 // sorting function by popularity
@@ -346,6 +348,7 @@ function closingModal() {
   document.querySelector(".main__article--btn").focus();
 }
 
+// escape event
 modal.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closingModal();
@@ -359,17 +362,14 @@ modalOverlay.addEventListener("click", (e) => {
   }
 });
 
+// click events
 closeModal.addEventListener("click", closingModal);
 
+// keydown events
 closeModal.addEventListener("keydown", (e) => {
-  if (e.target === closeModal) {
-    if (e.key === " ") {
-      closingModal();
-      // enter funktioniert nicht
-    } else if (e.key === "Enter") {
-      console.log(124);
-      closingModal();
-    }
+  if (e.target === closeModal && (e.key === " " || e.key === "Enter")) {
+    e.preventDefault();
+    closingModal();
   }
 });
 
@@ -400,7 +400,7 @@ modal.addEventListener("keydown", (e) => {
 // -------------------------- FORM ------------------------- //
 // --------------------------------------------------------- //
 
-// print out the content of input fields to console
+// -------------------- Print to Console ------------------- //
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -424,13 +424,14 @@ form.addEventListener("submit", (e) => {
 // can this be a class or does it have to be a
 // constructor function?
 
+// --------------- Image & Video Factories --------------- //
+
 class Video {
   constructor(element) {
     this.element = element;
   }
 
   #getTitle(string) {
-    // "Sport_Sky_Cross.jpg";
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
     title = title.replace(/.mp4/g, "");
@@ -438,17 +439,18 @@ class Video {
   }
 
   #getSource(string) {
-    let source = this.element.video;
+    let source = string;
     source = source.replace(/.mp4/g, "");
     return source;
   }
 
-  render() {
+  gallery() {
     // create container for gallery element
     const galleryElement = document.createElement("div");
     galleryElement.classList.add("gallery__element");
     galleryElement.setAttribute("data-date", this.element.date);
     galleryElement.setAttribute("data-likes", this.element.likes);
+    galleryElement.setAttribute("data-id", this.element.id);
     galleryElement.setAttribute(
       "data-title",
       this.#getTitle(this.element.video)
@@ -492,6 +494,40 @@ class Video {
 
     return galleryElement;
   }
+
+  // create container for lightbox element
+  lightbox() {
+    // create container
+    const carouselItem = document.createElement("div");
+    carouselItem.classList.add("carousel__item");
+    carouselItem.setAttribute("role", "group");
+    carouselItem.setAttribute("aria-roledescription", "slide");
+    carouselItem.setAttribute("aria-label", this.element.alt);
+    carouselItem.setAttribute("data-id", this.element.id);
+
+    // create video element
+    const carouselVid = document.createElement("video");
+    carouselVid.classList.add("carousel__video");
+    carouselVid.setAttribute("controls", "true");
+
+    // create video source element
+    const source = document.createElement("source");
+    source.src = `../img/photographers/${photographerID}/${this.#getSource(
+      this.element.video
+    )}.mp4`;
+    carouselVid.appendChild(source);
+
+    // create title
+    const title = document.createElement("p");
+    title.textContent = this.#getTitle(this.element.video);
+    title.classList.add("carousel__image--title");
+
+    // append all
+    carouselItem.appendChild(carouselVid);
+    carouselItem.appendChild(title);
+
+    return carouselItem;
+  }
 }
 
 class Image {
@@ -513,12 +549,13 @@ class Image {
     return source;
   }
 
-  render() {
+  gallery() {
     // create container for gallery element
     const galleryElement = document.createElement("div");
     galleryElement.classList.add("gallery__element");
     galleryElement.setAttribute("data-date", this.element.date);
     galleryElement.setAttribute("data-likes", this.element.likes);
+    galleryElement.setAttribute("data-id", this.element.id);
     galleryElement.setAttribute(
       "data-title",
       this.#getTitle(this.element.image)
@@ -560,14 +597,45 @@ class Image {
 
     return galleryElement;
   }
+
+  // create container for lightbox element
+  lightbox() {
+    // create container
+    const carouselItem = document.createElement("div");
+    carouselItem.classList.add("carousel__item");
+    carouselItem.setAttribute("role", "group");
+    carouselItem.setAttribute("aria-roledescription", "slide");
+    carouselItem.setAttribute("aria-label", this.element.alt);
+    carouselItem.setAttribute("data-id", this.element.id);
+
+    // create image element
+    const carouselImg = document.createElement("img");
+    carouselImg.src = `../img/photographers/${photographerID}/${this.#getSource(
+      this.element.image
+    )}.jpg`;
+    carouselImg.alt = " ";
+    carouselImg.classList.add("carousel__image");
+
+    // create title element
+    const title = document.createElement("p");
+    title.textContent = this.#getTitle(this.element.image);
+    title.classList.add("carousel__image--title");
+
+    // append all
+    carouselItem.appendChild(carouselImg);
+    carouselItem.appendChild(title);
+
+    return carouselItem;
+  }
 }
+
+// -------------------- Constructor Function ------------------- //
 
 // actual Factory Method in form of a constructor function (called with new)
 // client instructs factory what type of media to create by
 // passing a type argument into the Factory Method
 
 // exposes the API for video and image factories, i.e. creating new instances
-
 function Factory() {
   this.createMedia = function (element) {
     let type;
@@ -589,73 +657,154 @@ function Factory() {
 
 // function that runs the factory by calling the Factory
 // that accesses the media classes to instantiate an object
-
 function galleryElement(element) {
   const factory = new Factory();
-  const galleryElement = factory.createMedia(element).render();
+  const galleryElement = factory.createMedia(element).gallery();
+  galleryElement.firstElementChild.setAttribute("tabindex", "0");
+  galleryElement.firstElementChild.addEventListener("click", openLightbox);
+  galleryElement.firstElementChild.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      openLightbox(e);
+    }
+  });
   return galleryElement;
 }
 
-// create gallery and add Event Listeners
+// create gallery and add event listener to like buttons
 function createGallery(data) {
   data.forEach((item) => gallery.appendChild(galleryElement(item)));
-}
-
-// function to add event Listeners to Like Count
-function countLikes() {
-  const likeButtons = document.getElementsByClassName("gallery__mediaInfo");
-  console.log(likeButtons);
-
+  const likeButtons = document.getElementsByClassName(
+    "gallery__mediaInfo--likesImg"
+  );
   for (let i = 0; i < likeButtons.length; i++) {
-    likeButtons[i].addEventListener("click", (e) => {
-      const target = e.target;
-      const imageLikesEl = target.previousElementSibling;
-      const imageLikesCount = parseInt(imageLikesEl.textContent);
-      const totalLikesEl = document.getElementById("aside__count");
-      const totalLikes = parseInt(totalLikesEl.textContent);
-      if (target === likeButtons[i].lastElementChild) {
-        imageLikesEl.textContent = imageLikesCount + 1;
-        totalLikesEl.textContent = totalLikes + 1;
-      }
-    });
+    likeButtons[i].addEventListener("click", countLikes);
   }
 }
 
-// sorting with merge sort
+// function to add event Listeners to Like Count
+function countLikes(e) {
+  const target = e.target;
+  const imageLikesEl = target.previousElementSibling;
+  const imageLikesCount = parseInt(imageLikesEl.textContent);
+  const totalLikesEl = document.getElementById("aside__count");
+  const totalLikes = parseInt(totalLikesEl.textContent);
+  imageLikesEl.textContent = imageLikesCount + 1;
+  totalLikesEl.textContent = totalLikes + 1;
+}
 
-// BODY
-// when clicking outside of listbox, close listbox
+// --------------------------------------------------------- //
+// -------------------------LIGHTBOX------------------------ //
+// --------------------------------------------------------- //
 
-// SET focus on filterButton, after choice is made and listbox closed
+// ------------------- Lightbox Elements ------------------- //
 
-// aria - activedescendant = "ID_REF";
-// Set by the JavaScript when it displays and sets focus on the listbox; otherwise is not present.
-// Refers to the option in the listbox that is visually indicated as having keyboard focus.
-// When navigation keys, such as Down Arrow, are pressed, the JavaScript changes the value.
-// Enables assistive technologies to know which element the application regards as focused while DOM focus remains on the ul element.
-// For more information about this focus management technique, see Using aria-activedescendant to Manage Focus.
+// create lightbox elements
+function lightBoxElement(element) {
+  const factory = new Factory();
+  const lightBoxElement = factory.createMedia(element).lightbox();
+  return lightBoxElement;
+}
 
-// DONE //
-// DONE //
-// DONE //
+// append all lightbox elements to DOM
+function createLightBox(data) {
+  console.log(data);
+  data.forEach((item) => {
+    carouselItems.appendChild(lightBoxElement(item));
+  });
+}
 
-// ESCAPE
-//	If the listbox is displayed, collapses the listbox and moves focus to the button.
+// ------------------- Focus in Lightbox ------------------- //
 
-// UP ARROW
-// Moves focus to and selects the previous option.
-// If the listbox is collapsed, also expands the list.
+carousel.addEventListener("keydown", (e) => {
+  if (e.key === "Tab") {
+    if (document.activeElement === closeModal) {
+      closeModal.nextElementSibling.focus();
+    }
+  }
+});
 
-// DOWN ARROW
-// Moves focus to and selects the next option.
-// If the listbox is collapsed, also expands the list.
+// ---------------- Lightbox functionality ----------------- //
 
-// ENTER
-// If the focus is on the button, expands the listbox and places focus on the currently selected option in the list.
-// If focus is in the listbox , collapses the listbox and keeps the currently selected option as the button label.
+// function to open lightbox, set initial caroulse item, set event listeners
+function openLightbox(e) {
+  const activeElement = document.activeElement;
+  const firstGalleryElement = document.querySelector(".gallery")
+    .firstElementChild;
+  const lastGalleryElement = document.querySelector(".gallery")
+    .lastElementChild;
 
-// HOME
-// If the listbox is displayed, moves focus to and selects the first option.
+  // get all lightbox elements
+  const lightboxElements = Array.from(
+    document.querySelectorAll(".carousel__item")
+  );
+  const target = e.target;
+  let galleryItem = target.parentElement;
+  let galleryItemID = target.parentElement.getAttribute("data-id");
 
-// END
-// If the listbox is displayed, moves focus to and selects the last option.
+  // find lightbox element with same ID as event target
+  let carouselItem = lightboxElements.find(
+    (element) => element.getAttribute("data-id") === galleryItemID
+  );
+  lightboxOverlay.style.display = "flex";
+  carouselItem.classList.add("active");
+  // if (target.classList.contains("gallery__mediaItem")) {
+
+  // }
+
+  // set initial focus on button to close lightbox
+  closeCarousel.focus();
+
+  // click event to close lightbox
+  closeCarousel.addEventListener("click", () => {
+    lightboxOverlay.style.display = "none";
+    lightboxElements.forEach((el) => {
+      el.classList.remove("active");
+    });
+    activeElement.focus();
+  });
+
+  // keydown event to close lightbox
+  closeCarousel.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    if (e.key === "Enter" || e.key === "Escape" || e.key === " ") {
+      lightboxOverlay.style.display = "none";
+    }
+    activeElement.focus();
+  });
+
+  // click event for next image button
+  nextImage.addEventListener("click", seeNextImage);
+
+  // click event to previous image button
+  previousImage.addEventListener("click", seePreviousImage);
+
+  function seeNextImage(e) {
+    carouselItem.style.display = "none";
+    // if gallery item is last item, then show first item
+    if (galleryItem === lastGalleryElement) {
+      galleryItem = firstGalleryElement;
+    } else {
+      galleryItem = galleryItem.nextElementSibling;
+    }
+    galleryItemID = galleryItem.getAttribute("data-id");
+    carouselItem = lightboxElements.find(
+      (element) => element.getAttribute("data-id") === galleryItemID
+    );
+    carouselItem.style.display = "block";
+  }
+
+  function seePreviousImage(e) {
+    carouselItem.style.display = "none";
+    // if gallery item is first item, then show last item
+    if (galleryItem === firstGalleryElement) {
+      galleryItem = lastGalleryElement;
+    } else {
+      galleryItem = galleryItem.previousElementSibling;
+    }
+    galleryItemID = galleryItem.getAttribute("data-id");
+    carouselItem = lightboxElements.find(
+      (element) => element.getAttribute("data-id") === galleryItemID
+    );
+    carouselItem.style.display = "block";
+  }
+}
