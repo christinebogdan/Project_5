@@ -612,6 +612,9 @@ body {
       left: -60px;
     }
   }
+  &__controls {
+    cursor: pointer;
+  }
   &__controls--right {
     position: absolute;
     right: -18px;

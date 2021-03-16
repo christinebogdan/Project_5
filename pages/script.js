@@ -14,17 +14,17 @@ const aside = document.querySelector(".aside");
 const modal = document.querySelector(".modal");
 const modalOverlay = document.querySelector(".modal__overlay");
 // all focusable elements inside modal
-const focusableElements = document.querySelectorAll(
+const focusableElementsModal = document.querySelectorAll(
   "#close, #firstname, #lastname, #email, #message, #submit"
 );
-const firstElement = focusableElements[0];
-const lastElement = focusableElements[focusableElements.length - 1];
+const firstElement = focusableElementsModal[0];
+const lastElement = focusableElementsModal[focusableElementsModal.length - 1];
 const closeModal = document.querySelector(".modal__close");
 const form = document.querySelector(".form");
 const submitBtn = document.querySelector("form__btn");
 const lightboxOverlay = document.querySelector(".lightbox");
 const carousel = document.querySelector(".carousel");
-const carouselItems = document.getElementById("carousel__items");
+const carouselItemsWrapper = document.getElementById("carousel__items");
 const closeCarousel = document.querySelector(".carousel__controls--close");
 const nextImage = document.querySelector(".carousel__controls--right");
 const previousImage = document.querySelector(".carousel__controls--left");
@@ -382,7 +382,7 @@ modal.addEventListener("keydown", (e) => {
       if (document.activeElement === firstElement) {
         e.preventDefault();
         lastElement.focus();
-      } else if (document.activeElement === focusableElements[1]) {
+      } else if (document.activeElement === focusableElementsModal[1]) {
         e.preventDefault();
         firstElement.focus();
       }
@@ -411,246 +411,29 @@ form.addEventListener("submit", (e) => {
 // ------------------------- GALLERY------------------------ //
 // --------------------------------------------------------- //
 
-// could sort media into video and image array beforehand?
-
 // Factory Method: "Define an interface for creating an object,
 // but let the classes which implement the interface decide which class
 // to instantiate. The Factory method lets a class defer
 // instantiation to subclasses" (c) GoF.
 
-// can this be a class or does it have to be a
-// constructor function?
-
 // --------------- Image & Video Factories --------------- //
 
-class Video {
-  constructor(element) {
-    this.element = element;
-  }
+// in separate js files
 
-  #getTitle(string) {
-    let title = string.substring(string.indexOf("_") + 1);
-    title = title.replace(/_/g, " ");
-    title = title.replace(/.mp4/g, "");
-    return title;
-  }
-
-  #getSource(string) {
-    let source = string;
-    source = source.replace(/.mp4/g, "");
-    return source;
-  }
-
-  gallery() {
-    // create container for gallery element
-    const galleryElement = document.createElement("div");
-    galleryElement.classList.add("gallery__element");
-    galleryElement.setAttribute("data-date", this.element.date);
-    galleryElement.setAttribute("data-likes", this.element.likes);
-    galleryElement.setAttribute("data-id", this.element.id);
-    galleryElement.setAttribute(
-      "data-title",
-      this.#getTitle(this.element.video)
-    );
-
-    // create video
-    const videoTag = document.createElement("video");
-    videoTag.classList.add("gallery__mediaItem");
-    const sourceTag = document.createElement("source");
-    sourceTag.src = `../img/photographers/${photographerID}/${this.#getSource(
-      this.element.video
-    )}.mp4`;
-    videoTag.appendChild(sourceTag);
-
-    // create container for title, price, likes
-    const mediaInfo = document.createElement("div");
-    mediaInfo.classList.add("gallery__mediaInfo");
-
-    // create title, price, likes
-    const title = document.createElement("p");
-    title.textContent = this.#getTitle(this.element.video);
-    title.classList.add("gallery__mediaInfo--title");
-    const likes = document.createElement("p");
-    likes.textContent = this.element.likes;
-    likes.classList.add("gallery__mediaInfo--likes");
-    const heart = document.createElement("img");
-    heart.src = "../img/heart-red.svg";
-    heart.alt = "likes";
-    heart.classList.add("gallery__mediaInfo--likesImg");
-    const price = document.createElement("p");
-    price.textContent = `${this.element.price} $`;
-    price.classList.add("gallery__mediaInfo--price");
-
-    // append all
-    mediaInfo.appendChild(title);
-    mediaInfo.appendChild(price);
-    mediaInfo.appendChild(likes);
-    mediaInfo.appendChild(heart);
-    galleryElement.appendChild(videoTag);
-    galleryElement.appendChild(mediaInfo);
-
-    return galleryElement;
-  }
-
-  // create container for lightbox element
-  lightbox() {
-    // create container
-    const carouselItem = document.createElement("div");
-    carouselItem.classList.add("carousel__item");
-    carouselItem.setAttribute("role", "group");
-    carouselItem.setAttribute("aria-roledescription", "slide");
-    carouselItem.setAttribute("aria-label", this.element.alt);
-    carouselItem.setAttribute("data-id", this.element.id);
-
-    // create video element
-    const carouselVid = document.createElement("video");
-    carouselVid.classList.add("carousel__video");
-    carouselVid.setAttribute("controls", "true");
-
-    // create video source element
-    const source = document.createElement("source");
-    source.src = `../img/photographers/${photographerID}/${this.#getSource(
-      this.element.video
-    )}.mp4`;
-    carouselVid.appendChild(source);
-
-    // create title
-    const title = document.createElement("p");
-    title.textContent = this.#getTitle(this.element.video);
-    title.classList.add("carousel__image--title");
-
-    // append all
-    carouselItem.appendChild(carouselVid);
-    carouselItem.appendChild(title);
-
-    return carouselItem;
-  }
-}
-
-class Image {
-  constructor(element) {
-    this.element = element;
-  }
-
-  #getTitle(string) {
-    // "Sport_Sky_Cross.jpg";
-    let title = string.substring(string.indexOf("_") + 1);
-    title = title.replace(/_/g, " ");
-    title = title.replace(/.jpg/g, "");
-    return title;
-  }
-
-  #getSource(string) {
-    let source = this.element.image;
-    source = source.replace(/.jpg/g, "");
-    return source;
-  }
-
-  gallery() {
-    // create container for gallery element
-    const galleryElement = document.createElement("div");
-    galleryElement.classList.add("gallery__element");
-    galleryElement.setAttribute("data-date", this.element.date);
-    galleryElement.setAttribute("data-likes", this.element.likes);
-    galleryElement.setAttribute("data-id", this.element.id);
-    galleryElement.setAttribute(
-      "data-title",
-      this.#getTitle(this.element.image)
-    );
-
-    // create image
-    const imgTag = document.createElement("img");
-    imgTag.src = `../img/photographers/${photographerID}/${this.#getSource(
-      this.element.image
-    )}.jpg`;
-    imgTag.classList.add("gallery__mediaItem");
-
-    // create container for title, price, likes
-    const mediaInfo = document.createElement("div");
-    mediaInfo.classList.add("gallery__mediaInfo");
-
-    // create title, price, likes
-    const title = document.createElement("p");
-    title.textContent = this.#getTitle(this.element.image);
-    title.classList.add("gallery__mediaInfo--title");
-    const likes = document.createElement("p");
-    likes.textContent = this.element.likes;
-    likes.classList.add("gallery__mediaInfo--likes");
-    const heart = document.createElement("img");
-    heart.src = "../img/heart-red.svg";
-    heart.alt = "likes";
-    heart.classList.add("gallery__mediaInfo--likesImg");
-    const price = document.createElement("p");
-    price.textContent = `${this.element.price} $`;
-    price.classList.add("gallery__mediaInfo--price");
-
-    // append all
-    mediaInfo.appendChild(title);
-    mediaInfo.appendChild(price);
-    mediaInfo.appendChild(likes);
-    mediaInfo.appendChild(heart);
-    galleryElement.appendChild(imgTag);
-    galleryElement.appendChild(mediaInfo);
-
-    return galleryElement;
-  }
-
-  // create container for lightbox element
-  lightbox() {
-    // create container
-    const carouselItem = document.createElement("div");
-    carouselItem.classList.add("carousel__item");
-    carouselItem.setAttribute("role", "group");
-    carouselItem.setAttribute("aria-roledescription", "slide");
-    carouselItem.setAttribute("aria-label", this.element.alt);
-    carouselItem.setAttribute("data-id", this.element.id);
-
-    // create image element
-    const carouselImg = document.createElement("img");
-    carouselImg.src = `../img/photographers/${photographerID}/${this.#getSource(
-      this.element.image
-    )}.jpg`;
-    carouselImg.alt = " ";
-    carouselImg.classList.add("carousel__image");
-
-    // create title element
-    const title = document.createElement("p");
-    title.textContent = this.#getTitle(this.element.image);
-    title.classList.add("carousel__image--title");
-
-    // append all
-    carouselItem.appendChild(carouselImg);
-    carouselItem.appendChild(title);
-
-    return carouselItem;
-  }
-}
-
-// -------------------- Constructor Function ------------------- //
+// ----------------- Constructor Function ----------------- //
 
 // actual Factory Method in form of a constructor function (called with new)
 // client instructs factory what type of media to create by
 // passing a type argument into the Factory Method
 
 // exposes the API for video and image factories, i.e. creating new instances
-function Factory() {
-  this.createMedia = function (element) {
-    let type;
+// function Factory() {
+//   this.createMedia = function (element) {
+//     let type;
 
-    // wieso nicht this.element und this.type in constructor function?
-    if ("image" in element) {
-      type = "image";
-    } else {
-      type = "video";
-    }
-    switch (type) {
-      case "image":
-        return new Image(element);
-      case "video":
-        return new Video(element);
-    }
-  };
-}
+// in separate file
+
+// -------------------- Create Gallery -------------------- //
 
 // function that runs the factory by calling the Factory
 // that accesses the media classes to instantiate an object
@@ -706,62 +489,37 @@ function lightBoxElement(element) {
 function createLightBox(data) {
   console.log(data);
   data.forEach((item) => {
-    carouselItems.appendChild(lightBoxElement(item));
+    carouselItemsWrapper.appendChild(lightBoxElement(item));
   });
 }
 
-// ------------------- Focus in Lightbox ------------------- //
+// ----------------- Keyboard Trap Lightbox ----------------- //
 
 const focusableElementsLightbox = Array.from(
   document.getElementsByClassName("carousel__controls")
 );
 
 carousel.addEventListener("keydown", (e) => {
-  console.log("carousel event listener activated");
-  const firstElement = focusableElementsLightbox[0];
-  const lastElement =
+  const firstLightboxButton = focusableElementsLightbox[0];
+  const lastLightboxButton =
     focusableElementsLightbox[focusableElementsLightbox.length - 1];
 
-  if (document.activeElement === firstElement) {
-    console.log("closeModal is active Element");
+  if (document.activeElement === firstLightboxButton) {
     if (e.shiftKey && e.key === "Tab") {
       e.preventDefault();
-      lastElement.focus();
-      console.log("shiftkey pressed");
-      if (e.key === "Tab") {
-        e.preventDefault();
-        console.log("Shift and Tab pressed");
-        lastElement.focus();
-      }
+      lastLightboxButton.focus();
     }
-  }
-
-  if (document.activeElement === lastElement) {
-    if (e.key === "Tab") {
+  } else if (document.activeElement === lastLightboxButton) {
+    if (e.key === "Tab" && !e.shiftKey) {
       e.preventDefault();
-      firstElement.focus();
+      firstLightboxButton.focus();
     }
   }
 });
-// carousel.addEventListener("keydown", (e) => {
-//   console.log("carousel eventlistener");
-//   if (e.key === "Tab") {
-//     if (e.shiftKey) {
-//       if (document.activeElement === closeCarousel) {
-//         e.preventDefault();
-//         nextImage.focus();
-//       }
-//     }
-//     if (document.activeElement === nextImage) {
-//       e.preventDefault();
-//       closeModal.focus();
-//     }
-//   }
-// });
 
-// ---------------- Lightbox functionality ----------------- //
+// ---------------- Lightbox Functionality ----------------- //
 
-// function to open lightbox, set initial caroulse item, set event listeners
+// function to open lightbox, set initial carousel item, set event listeners and close lightbox
 function openLightbox(e) {
   const activeElement = document.activeElement;
   const firstGalleryElement = document.querySelector(".gallery")
@@ -769,57 +527,34 @@ function openLightbox(e) {
   const lastGalleryElement = document.querySelector(".gallery")
     .lastElementChild;
 
-  // get all lightbox elements
+  // get all lightbox elements from DOM
   const lightboxElements = Array.from(
     document.querySelectorAll(".carousel__item")
   );
+
+  // get event target id to match lightbox element
   const target = e.target;
   let galleryItem = target.parentElement;
   let galleryItemID = target.parentElement.getAttribute("data-id");
 
-  // find lightbox element with same ID as event target
+  // find lightbox element with same ID as event target and display
   let carouselItem = lightboxElements.find(
     (element) => element.getAttribute("data-id") === galleryItemID
   );
   lightboxOverlay.style.display = "flex";
   carouselItem.classList.add("active");
-  // if (target.classList.contains("gallery__mediaItem")) {
 
-  // }
-
-  // set initial focus on button to close lightbox
-  closeCarousel.focus();
-
-  // click event to close lightbox
-  closeCarousel.addEventListener("click", () => {
-    lightboxOverlay.style.display = "none";
-    lightboxElements.forEach((el) => {
-      el.classList.remove("active");
-      activeElement.focus();
-    });
-  });
-
-  // keydown event to close lightbox and manage keyboard trap
-  closeCarousel.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === "Escape" || e.key === " ") {
-      e.stopPropagation();
-      e.preventDefault();
-      lightboxOverlay.style.display = "none";
-      lightboxElements.forEach((el) => {
-        el.classList.remove("active");
-      });
-      activeElement.focus();
-    }
-  });
+  // LIGHTBOX CAROUSEL NEXT AND PREVIOUS CONTROLS EVENT HANDLING
 
   // click event for next image button
-  nextImage.addEventListener("click", seeNextImage);
-
-  // click event to previous image button
-  previousImage.addEventListener("click", seePreviousImage);
+  function keydownNextImage(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      seeNextImage();
+    }
+  }
 
   function seeNextImage(e) {
-    carouselItem.style.display = "none";
+    carouselItem.classList.remove("active");
     // if gallery item is last item, then show first item
     if (galleryItem === lastGalleryElement) {
       galleryItem = firstGalleryElement;
@@ -830,11 +565,24 @@ function openLightbox(e) {
     carouselItem = lightboxElements.find(
       (element) => element.getAttribute("data-id") === galleryItemID
     );
-    carouselItem.style.display = "block";
+    carouselItem.classList.add("active");
   }
 
+  nextImage.addEventListener("click", seeNextImage);
+  nextImage.addEventListener("keydown", keydownNextImage);
+
+  // click event to previous image button
+  function keydownPreviousImage(e) {
+    if (e.key === "Enter" || e.key === " ") {
+      seePreviousImage();
+    }
+  }
+
+  previousImage.addEventListener("click", seePreviousImage);
+  previousImage.addEventListener("keydown", keydownPreviousImage);
+
   function seePreviousImage(e) {
-    carouselItem.style.display = "none";
+    carouselItem.classList.remove("active");
     // if gallery item is first item, then show last item
     if (galleryItem === firstGalleryElement) {
       galleryItem = lastGalleryElement;
@@ -845,6 +593,49 @@ function openLightbox(e) {
     carouselItem = lightboxElements.find(
       (element) => element.getAttribute("data-id") === galleryItemID
     );
-    carouselItem.style.display = "block";
+    carouselItem.classList.add("active");
+  }
+
+  // set initial focus on lightbox close button
+  closeCarousel.focus();
+
+  // LIGHTBOX CAROUSEL CLOSE BUTTON AND ESCAPE EVENT HANDLING
+
+  // Escape event on carousel
+  carousel.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeLightbox();
+    }
+  });
+
+  // click event on close button
+  closeCarousel.addEventListener("click", () => {
+    closeLightbox();
+  });
+
+  // keydown event on close button
+  closeCarousel.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.stopPropagation();
+      e.preventDefault();
+      closeLightbox();
+    }
+  });
+
+  // closing lightbox and removing Event Listeners to avoid multiple similar event listeners on one element
+  function closeLightbox() {
+    lightboxOverlay.style.display = "none";
+    lightboxElements.forEach((el) => {
+      el.classList.remove("active");
+    });
+    activeElement.focus();
+
+    // remove click event for next image button
+    nextImage.removeEventListener("click", seeNextImage);
+    nextImage.removeEventListener("keydown", keydownNextImage);
+
+    // remove click event to previous image button
+    previousImage.removeEventListener("click", seePreviousImage);
+    previousImage.removeEventListener("keydown", keydownPreviousImage);
   }
 }

@@ -570,6 +570,9 @@ body {
     left: -60px;
   }
 }
+.carousel__controls {
+  cursor: pointer;
+}
 .carousel__controls--right {
   position: absolute;
   right: -18px;
