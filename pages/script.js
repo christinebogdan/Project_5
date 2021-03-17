@@ -480,7 +480,10 @@ function createGallery(data) {
     "gallery__mediaInfo--likesImg"
   );
   for (let i = 0; i < likeButtons.length; i++) {
-    likeButtons[i].addEventListener("click", countLikes);
+    likeButtons[i].addEventListener("click", (e) => {
+      e.stopPropagation();
+      countLikes(e);
+    });
   }
 }
 
