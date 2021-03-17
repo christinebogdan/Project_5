@@ -2,6 +2,7 @@ const pathname = window.location.pathname.split("/")[
   window.location.pathname.split("/").length - 1
 ];
 const photographerID = parseInt(pathname.replace(/[^0-9]/g, ""));
+const body = document.querySelector("body");
 
 // change class of main__article
 const articleElement = document.querySelector(".main__article");
@@ -135,14 +136,17 @@ function createPhotographerInfo(data) {
   const button = document.createElement("button");
   button.textContent = "Contact me";
   button.classList.add("main__article--btn");
-  button.addEventListener("click", openingModal);
+  button.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openingModal();
+  });
 
   wrapper.appendChild(textContainer);
   wrapper.appendChild(button);
 
   const img = document.createElement("img");
   img.src = `../img/photographers/ID_Photos/${photographer.portrait}`;
-  img.alt = " ";
+  img.alt = "";
   img.classList.add("main__article--img");
 
   articleElement.appendChild(wrapper);
@@ -198,7 +202,10 @@ function hideListBox() {
 // -------------------- Focus on Button -------------------- //
 
 // Click Event on Button
-filterButton.addEventListener("click", showListBox);
+filterButton.addEventListener("click", (e) => {
+  e.stopPropagation();
+  showListBox();
+});
 
 // Keydown Event on Button
 filterButton.addEventListener("keydown", (e) => {
@@ -277,8 +284,13 @@ listbox.addEventListener("keydown", (e) => {
   }
   currentOption.classList.remove("is-active");
   selectedOption.classList.add("is-active");
+  currentOption.setAttribute("aria-selected", "false");
+  selectedOption.setAttribute("aria-selected", "true");
   listbox.setAttribute("aria-activedescendant", selectedOption.id);
 });
+
+// close listbox with click on body
+document.querySelector(".body").addEventListener("click", hideListBox);
 
 // sort gallery by popularity, date, title
 function sortGallery(sortBy) {
@@ -350,6 +362,9 @@ function closingModal() {
 
 // escape event
 modal.addEventListener("keydown", (e) => {
+  console.log("escape to close form");
+
+  e.stopPropagation();
   if (e.key === "Escape") {
     closingModal();
   }
@@ -357,13 +372,17 @@ modal.addEventListener("keydown", (e) => {
 
 // close modal with click on overlay
 modalOverlay.addEventListener("click", (e) => {
+  e.stopPropagation();
   if (e.target === modalOverlay) {
     closingModal();
   }
 });
 
 // click events
-closeModal.addEventListener("click", closingModal);
+closeModal.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closingModal();
+});
 
 // keydown events
 closeModal.addEventListener("keydown", (e) => {
@@ -401,6 +420,7 @@ modal.addEventListener("keydown", (e) => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  e.stopPropagation();
   console.log(
     `First name: ${firstname.value}, Last name: ${lastname.value}, Email: ${email.value}, Message: ${message.value}`
   );
@@ -441,7 +461,10 @@ function galleryElement(element) {
   const factory = new Factory();
   const galleryElement = factory.createMedia(element).gallery();
   galleryElement.firstElementChild.setAttribute("tabindex", "0");
-  galleryElement.firstElementChild.addEventListener("click", openLightbox);
+  galleryElement.firstElementChild.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openLightbox(e);
+  });
   galleryElement.firstElementChild.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       openLightbox(e);
@@ -596,17 +619,31 @@ function openLightbox(e) {
     carouselItem.classList.add("active");
   }
 
+  // LIGHTBOX CAROUSEL CLOSE BUTTON AND ESCAPE EVENT HANDLING
+
   // set initial focus on lightbox close button
   closeCarousel.focus();
 
-  // LIGHTBOX CAROUSEL CLOSE BUTTON AND ESCAPE EVENT HANDLING
-
   // Escape event on carousel
-  carousel.addEventListener("keydown", (e) => {
+  // carousel.addEventListener("keydown", (e) => {
+  //   if (e.key === "Escape") {
+  //     closeLightbox();
+  //   }
+  // });
+  carousel.addEventListener("keydown", keydownCarousel);
+
+  function keydownCarousel(e) {
     if (e.key === "Escape") {
+      e.preventDefault();
       closeLightbox();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      seeNextImage();
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      seePreviousImage();
     }
-  });
+  }
 
   // click event on close button
   closeCarousel.addEventListener("click", () => {
@@ -629,6 +666,9 @@ function openLightbox(e) {
       el.classList.remove("active");
     });
     activeElement.focus();
+
+    // remove keydown event for next and previous image on carousel
+    carousel.removeEventListener("keydown", keydownCarousel);
 
     // remove click event for next image button
     nextImage.removeEventListener("click", seeNextImage);

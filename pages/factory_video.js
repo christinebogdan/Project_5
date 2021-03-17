@@ -36,6 +36,7 @@ class Video {
       this.element.video
     )}.mp4`;
     videoTag.appendChild(sourceTag);
+    videoTag.setAttribute("aria-label", `${this.element.alt}, closeup view`);
 
     // create container for title, price, likes
     const mediaInfo = document.createElement("div");
@@ -74,13 +75,14 @@ class Video {
     carouselItem.classList.add("carousel__item");
     carouselItem.setAttribute("role", "group");
     carouselItem.setAttribute("aria-roledescription", "slide");
-    carouselItem.setAttribute("aria-label", this.element.alt);
+    // carouselItem.setAttribute("aria-label", this.element.alt);
     carouselItem.setAttribute("data-id", this.element.id);
 
     // create video element
     const carouselVid = document.createElement("video");
     carouselVid.classList.add("carousel__video");
     carouselVid.setAttribute("controls", "true");
+    carouselVid.setAttribute("aria-label", this.element.alt);
 
     // create video source element
     const source = document.createElement("source");

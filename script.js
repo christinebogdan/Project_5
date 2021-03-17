@@ -198,13 +198,12 @@ function buildOverview(data) {
     // create clickable image and headline wrapped in anchor tag //
     let link = document.createElement("a");
     link.className = "photographer__link";
+
+    // set aria-label to person name
     link.setAttribute("aria-label", person.name);
 
     // create href attribute
     link.href = `./pages/${person.name.replace(/ /g, "_")}_${person.id}.html`;
-
-    // set aria-label to person name
-    link.setAttribute = ("aria-label", `${person.name}`);
 
     // create image
     let img = document.createElement("img");
@@ -212,7 +211,7 @@ function buildOverview(data) {
     img.src = `./img/photographers/ID_Photos/${person.portrait}`;
 
     // How to set empty alt attribute
-    img.setAttribute("alt", `""`);
+    img.setAttribute("alt", "");
     img.className = "photographer__img";
 
     // create name

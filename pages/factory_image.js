@@ -33,6 +33,7 @@ class Image {
     imgTag.src = `../img/photographers/${photographerID}/${this.#getSource(
       this.element.image
     )}.jpg`;
+    imgTag.alt = `${this.element.alt}, closeup view`;
     imgTag.classList.add("gallery__mediaItem");
 
     // create container for title, price, likes
@@ -72,7 +73,7 @@ class Image {
     carouselItem.classList.add("carousel__item");
     carouselItem.setAttribute("role", "group");
     carouselItem.setAttribute("aria-roledescription", "slide");
-    carouselItem.setAttribute("aria-label", this.element.alt);
+    // carouselItem.setAttribute("aria-label", this.element.alt);
     carouselItem.setAttribute("data-id", this.element.id);
 
     // create image element
@@ -80,7 +81,7 @@ class Image {
     carouselImg.src = `../img/photographers/${photographerID}/${this.#getSource(
       this.element.image
     )}.jpg`;
-    carouselImg.alt = " ";
+    carouselImg.alt = this.element.alt;
     carouselImg.classList.add("carousel__image");
 
     // create title element
