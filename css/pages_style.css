@@ -478,10 +478,6 @@ body {
   .gallery {
     margin-top: 58px;
   }
-  .gallery:after {
-    content: "";
-    flex: auto;
-  }
 }
 .gallery__element {
   display: flex;

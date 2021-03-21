@@ -537,10 +537,10 @@ body {
   justify-content: space-between;
   @include responsive(tablet) {
     margin-top: 58px;
-    &:after {
-      content: "";
-      flex: auto;
-    }
+    // &:after {
+    //   content: "";
+    //   flex: auto;
+    // }
   }
   &__element {
     display: flex;

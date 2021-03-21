@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/pages_style.css" />
+    <title>Tracy Galindo</title>
+  </head>
+  <body class="body">
+    <!-- header -->
+    <header class="header">
+      <a href="../index.html"
+        ><img
+          src="../img/logo.svg"
+          alt="Fisheye Home page"
+          class="header__logo"
+      /></a>
+    </header>
+    <main class="main">
+      <!-- photographer info -->
+      <article class="main__article"></article>
+      <!-- Select Element -->
+      <!-- kann listbox-area hier raus? -->
+      <div class="listbox-area">
+        <div class="left-area">
+          <span id="area-label">Order by</span>
+          <div id="list-wrapper">
+            <button
+              role="button"
+              aria-haspopup="listbox"
+              aria-labelledby="area-label filter-button"
+              id="filter-button"
+            >
+              Popularity
+            </button>
+            <img src="../img/arrow.svg" alt="" id="filter-button-arrow" />
+            <ul
+              id="listbox"
+              tabindex="-1"
+              role="listbox"
+              aria-labelledby="area-label"
+            >
+              <li
+                id="popularity"
+                role="option"
+                class="is-active"
+                aria-selected="true"
+              >
+                Popularity
+              </li>
+              <li id="date" role="option" aria-selected="false">Date</li>
+              <li id="title" role="option" aria-selected="false">Title</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- media gallery -->
+      <article class="gallery"></article>
+    </main>
+    <!-- aside with likes cound and price per day -->
+    <aside class="aside"></aside>
+    <!-- modal -->
+    <div
+      class="modal__overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dialog-headline"
+    >
+      <div class="modal">
+        <img
+          src="../img/form-close.svg"
+          id="close"
+          alt="Close Contact Form"
+          class="modal__close"
+          role="button"
+          aria-label="Close Contact Form"
+          tabindex="-1"
+        />
+        <form class="form" novalidate>
+          <h1 class="form__headline" id="dialog-headline">
+            Contact me<br />Mimi Keel
+          </h1>
+          <label for="firstname" class="form__label">First name</label>
+          <input
+            id="firstname"
+            type="text"
+            name="firstname"
+            class="form__input form__input--text"
+          />
+          <label for="lastname" class="form__label">Last name</label>
+          <input
+            id="lastname"
+            type="text"
+            name="lastname"
+            class="form__input form__input--text"
+          />
+          <label for="email" class="form__label">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            class="form__input form__input--text"
+          />
+          <label for="message" class="form__label">Your message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="15"
+            cols="30"
+            class="form__input form__input--textarea"
+          ></textarea>
+          <input type="submit" value="Send" class="form__btn" id="submit" />
+        </form>
+      </div>
+    </div>
+    <!-- lightbox -->
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="image closeup view"
+      class="lightbox"
+    >
+      <section
+        class="carousel"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="image closeup views"
+      >
+        <img
+          role="button"
+          aria-label="Close dialog"
+          alt=""
+          src="../img/lightbox-close.svg"
+          class="carousel__controls--close carousel__controls"
+          tabindex="0"
+        />
+        <img
+          role="link"
+          aria-label="Previous image"
+          aria-controls="carousel__items"
+          alt=""
+          src="../img/lightbox-arrow-left.svg"
+          class="carousel__controls--left carousel__controls"
+          tabindex="0"
+        />
+        <img
+          role="link"
+          aria-label="Next image"
+          aria-controls="carousel__items"
+          alt=""
+          src="../img/lightbox-arrow-right.svg"
+          class="carousel__controls--right carousel__controls"
+          tabindex="0"
+        />
+
+        <div id="carousel__items" aria-live="polite"></div>
+      </section>
+    </div>
+    <script src="./factory_video.js"></script>
+    <script src="./factory_image.js"></script>
+    <script src="./factory.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

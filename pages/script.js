@@ -485,6 +485,12 @@ function createGallery(data) {
       countLikes(e);
     });
   }
+  if (data.length % 3 !== 0) {
+    console.log("anhängung");
+    let placeholder = document.createElement("div");
+    placeholder.classList.add("gallery__element");
+    gallery.appendChild(placeholder);
+  }
 }
 
 // function to add event Listeners to Like Count
