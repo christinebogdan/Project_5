@@ -69,11 +69,29 @@ $font: "DM Sans", sans-serif;
   cursor: pointer;
 }
 
-@mixin responsive {
-  @media (min-width: 1330px) {
-    @content;
+@mixin responsive($size) {
+  @if $size == tablet {
+    @media (min-width: 900px) {
+      @content;
+    }
+  } @else if $size == desktop {
+    @media (min-width: 1330px) {
+      @content;
+    }
   }
 }
+
+// @mixin responsive($size) {
+//   @if $size == tablet {
+//     @media (min-width: 700px) {
+//       @content;
+//     }
+//   } @else if $size == desktop {
+//     @media (min-width: 1300px) {
+//       @content;
+//     }
+//   }
+// }
 
 // ---------------------------------------- //
 // ---------------FUNCTIONS---------------- //
@@ -89,6 +107,12 @@ $font: "DM Sans", sans-serif;
 
 * {
   font-family: $font;
+}
+
+body {
+  max-width: 1500px;
+  margin: auto;
+  position: relative;
 }
 
 // ---------------------------------------- //
@@ -117,7 +141,7 @@ $font: "DM Sans", sans-serif;
 }
 
 .header {
-  @include responsive {
+  @include responsive(desktop) {
     display: flex;
     align-items: center;
   }
@@ -127,7 +151,7 @@ $font: "DM Sans", sans-serif;
     margin-top: 40px;
     margin-left: 20px;
     margin-bottom: 31px;
-    @include responsive {
+    @include responsive(desktop) {
       width: 200px;
       height: 50px;
       margin-top: 42px;
@@ -141,7 +165,7 @@ $font: "DM Sans", sans-serif;
     justify-content: center;
     list-style: none;
     margin: 0 40px;
-    @include responsive {
+    @include responsive(desktop) {
       margin-top: 15px;
     }
     &--li {
@@ -186,7 +210,7 @@ $font: "DM Sans", sans-serif;
     line-height: getRem(18);
     letter-spacing: 0em;
     text-align: center;
-    @include responsive {
+    @include responsive(desktop) {
       font-size: getRem(36);
       font-weight: 400;
       line-height: getRem(47);
@@ -196,11 +220,16 @@ $font: "DM Sans", sans-serif;
   }
   &__overview {
     margin-top: 15px;
-    @include responsive {
-      margin-top: 0;
+    @include responsive(tablet) {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+    }
+    @include responsive(desktop) {
+      margin-top: 0;
+      // display: flex;
+      // flex-wrap: wrap;
+      // justify-content: space-between;
     }
   }
 }
@@ -210,7 +239,11 @@ $font: "DM Sans", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  @include responsive {
+  @include responsive(tablet) {
+    flex-basis: 48%;
+    margin-top: 20px;
+  }
+  @include responsive(desktop) {
     flex-basis: 32%;
     margin-top: 20px;
   }

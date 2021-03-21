@@ -289,8 +289,8 @@ listbox.addEventListener("keydown", (e) => {
   listbox.setAttribute("aria-activedescendant", selectedOption.id);
 });
 
-// close listbox with click on body
-document.querySelector(".body").addEventListener("click", hideListBox);
+// close listbox with click on main
+document.querySelector(".main").addEventListener("click", hideListBox);
 
 // sort gallery by popularity, date, title
 function sortGallery(sortBy) {

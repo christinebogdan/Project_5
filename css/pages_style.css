@@ -13,7 +13,7 @@ body {
   margin: auto;
 }
 
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .header {
     display: flex;
     align-items: center;
@@ -26,7 +26,7 @@ body {
   margin-left: 20px;
   margin-bottom: 31px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .header__logo {
     width: 200px;
     height: 50px;
@@ -50,7 +50,7 @@ body {
 .main {
   margin: 0 20px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main {
     margin: 0 100px;
   }
@@ -59,7 +59,7 @@ body {
   display: flex;
   justify-content: space-between;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article {
     margin: 50px 0 20px;
     background-color: #fafafa;
@@ -76,7 +76,7 @@ body {
   font-size: 2.25rem;
   line-height: 2.9375rem;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--headline {
     font-size: 4rem;
     line-height: 5.1875rem;
@@ -88,7 +88,7 @@ body {
   line-height: 1.0625rem;
   color: #901c1c;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--location {
     font-size: 1.5rem;
     line-height: 1.9375rem;
@@ -101,7 +101,7 @@ body {
   line-height: 1.0625rem;
   color: #757575;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--tagline {
     font-size: 1.125rem;
     line-height: 1.4375rem;
@@ -114,7 +114,7 @@ body {
   margin-top: 6px;
   margin-bottom: 40px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--tags {
     margin-top: 9px;
   }
@@ -135,7 +135,7 @@ body {
   margin-right: 5px;
   margin-bottom: 6px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--tag {
     font-size: 1.125rem;
     padding: 6px 12px;
@@ -168,11 +168,11 @@ body {
   background-color: #d3573c;
   color: #000000;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--btn {
     height: 70px;
     position: static;
-    margin-left: 118px;
+    margin-left: 10px;
   }
 }
 .main__article--img {
@@ -184,7 +184,7 @@ body {
   border-radius: 50px;
   flex-shrink: 0;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .main__article--img {
     height: 200px;
     width: 200px;
@@ -195,7 +195,7 @@ body {
 .listbox-area {
   display: none;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .listbox-area {
     display: block;
   }
@@ -299,7 +299,7 @@ body {
   line-height: 1.9375rem;
   padding: 21px 37px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .aside {
     display: block;
   }
@@ -328,16 +328,23 @@ body {
   border-radius: 5px;
   padding: 0px 19px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .modal {
-    width: 669px;
-    height: 900px;
+    width: 500px;
+    height: 690px;
     padding: 0px 35px;
     position: relative;
     filter: drop-shadow(-5px 10px 30px rgba(0, 0, 0, 0.25));
   }
 }
+@media (min-width: 1330px) {
+  .modal {
+    width: 669px;
+    height: 900px;
+  }
+}
 .modal__overlay {
+  z-index: 4;
   display: none;
   justify-content: center;
   align-items: center;
@@ -354,7 +361,7 @@ body {
   top: 26.5px;
   cursor: pointer;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .modal__close {
     width: 42px;
     height: 42px;
@@ -389,6 +396,11 @@ body {
   color: #312e2e;
   margin-bottom: 6px;
 }
+@media (min-width: 1100px) {
+  .form__label {
+    margin-bottom: 0;
+  }
+}
 @media (min-width: 1330px) {
   .form__label {
     font-size: 2.25rem;
@@ -403,6 +415,11 @@ body {
   margin-bottom: 14px;
   font-size: 1.5rem;
   padding: 5px;
+}
+@media (min-width: 1100px) {
+  .form__input {
+    margin-bottom: 0;
+  }
 }
 @media (min-width: 1330px) {
   .form__input {
@@ -457,7 +474,7 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery {
     margin-top: 58px;
   }
@@ -471,7 +488,7 @@ body {
   flex-wrap: wrap;
   width: 335px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery__element {
     width: 350px;
   }
@@ -484,7 +501,7 @@ body {
   border-radius: 5px;
   margin-bottom: 10px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery__mediaItem {
     width: 350px;
     height: 300px;
@@ -502,7 +519,7 @@ body {
   line-height: 1.125rem;
   color: #911c1c;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery__mediaInfo--title {
     font-size: 1.5rem;
     line-height: 1.9375rem;
@@ -518,7 +535,7 @@ body {
   color: #911c1c;
   flex-shrink: 0;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery__mediaInfo--price {
     font-size: 1.5rem;
     line-height: 1.9375rem;
@@ -530,7 +547,7 @@ body {
   line-height: 1.125rem;
   color: #911c1c;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery__mediaInfo--likes {
     font-size: 1.5rem;
     line-height: 1.9375rem;
@@ -542,7 +559,7 @@ body {
   width: 10px;
   height: 11px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .gallery__mediaInfo--likesImg {
     width: 17px;
     height: 18px;
@@ -572,7 +589,7 @@ body {
   position: absolute;
   left: -18px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .carousel__controls--left {
     height: 48px;
     width: auto;
@@ -586,7 +603,7 @@ body {
   position: absolute;
   right: -18px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .carousel__controls--right {
     height: 48px;
     width: auto;
@@ -598,7 +615,7 @@ body {
   right: -18px;
   top: 3px;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .carousel__controls--close {
     height: 42px;
     width: auto;
@@ -618,6 +635,12 @@ body {
   object-fit: cover;
   border-radius: 5px;
 }
+@media (min-width: 1100px) {
+  .carousel__image, .carousel__video {
+    width: 696px;
+    height: 600px;
+  }
+}
 @media (min-width: 1330px) {
   .carousel__image, .carousel__video {
     width: 1050px;
@@ -631,7 +654,7 @@ body {
   line-height: 1.125rem;
   color: #901c1c;
 }
-@media (min-width: 1330px) {
+@media (min-width: 1100px) {
   .carousel__image--title, .carousel__video--title {
     font-size: 1.5rem;
     line-height: 1.9375rem;

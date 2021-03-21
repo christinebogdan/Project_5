@@ -23,6 +23,18 @@ $font: "DM Sans", sans-serif;
 // -----------------MIXINS----------------- //
 // ---------------------------------------- //
 
+@mixin responsive($size) {
+  @if $size == tablet {
+    @media (min-width: 1100px) {
+      @content;
+    }
+  } @else if $size == desktop {
+    @media (min-width: 1330px) {
+      @content;
+    }
+  }
+}
+
 @mixin button-static {
   text-align: center;
   width: 170px;
@@ -56,7 +68,7 @@ $font: "DM Sans", sans-serif;
   line-height: getRem(16);
   margin-right: 5px;
   margin-bottom: 6px;
-  @include responsive {
+  @include responsive(tablet) {
     font-size: getRem(18);
     padding: 6px 12px;
     border-radius: 22px;
@@ -73,11 +85,11 @@ $font: "DM Sans", sans-serif;
   cursor: pointer;
 }
 
-@mixin responsive {
-  @media (min-width: 1330px) {
-    @content;
-  }
-}
+// @mixin responsive {
+//   @media (min-width: 1100px) {
+//     @content;
+//   }
+// }
 
 // ---------------------------------------- //
 // ---------------FUNCTIONS---------------- //
@@ -105,7 +117,7 @@ body {
 // ---------------------------------------- //
 
 .header {
-  @include responsive {
+  @include responsive(tablet) {
     display: flex;
     align-items: center;
   }
@@ -115,7 +127,7 @@ body {
     margin-top: 40px;
     margin-left: 20px;
     margin-bottom: 31px;
-    @include responsive {
+    @include responsive(tablet) {
       width: 200px;
       height: 50px;
       margin-top: 42px;
@@ -142,14 +154,14 @@ body {
 
 .main {
   margin: 0 20px;
-  @include responsive {
+  @include responsive(tablet) {
     margin: 0 100px;
   }
 
   &__article {
     display: flex;
     justify-content: space-between;
-    @include responsive {
+    @include responsive(tablet) {
       margin: 50px 0 20px;
       background-color: #fafafa;
       border-radius: 5px;
@@ -163,7 +175,7 @@ body {
       font-weight: 400;
       font-size: getRem(36);
       line-height: getRem(47);
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(64);
         line-height: getRem(83);
       }
@@ -173,7 +185,7 @@ body {
       font-size: getRem(13);
       line-height: getRem(17);
       color: $secondary-text-dark;
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(24);
         line-height: getRem(31);
       }
@@ -184,7 +196,7 @@ body {
       font-size: getRem(13);
       line-height: getRem(17);
       color: #757575;
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(18);
         line-height: getRem(23);
         margin-top: 19px;
@@ -194,7 +206,7 @@ body {
       display: flex;
       flex-wrap: wrap;
       margin-top: 6px;
-      @include responsive {
+      @include responsive(tablet) {
         margin-top: 9px;
       }
       margin-bottom: 40px;
@@ -221,10 +233,11 @@ body {
       &:focus {
         @include button-hover-focus;
       }
-      @include responsive {
+      @include responsive(tablet) {
         height: 70px;
         position: static;
-        margin-left: 118px;
+        // was margin-left 118px;
+        margin-left: 10px;
       }
     }
     &--img {
@@ -235,7 +248,7 @@ body {
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
       border-radius: 50px;
       flex-shrink: 0;
-      @include responsive {
+      @include responsive(tablet) {
         height: 200px;
         width: 200px;
         border-radius: 100px;
@@ -250,7 +263,7 @@ body {
 
 .listbox-area {
   display: none;
-  @include responsive {
+  @include responsive(tablet) {
     display: block;
   }
 }
@@ -353,7 +366,7 @@ body {
 
 .aside {
   display: none;
-  @include responsive {
+  @include responsive(tablet) {
     display: block;
   }
   position: fixed;
@@ -395,14 +408,21 @@ body {
   background-color: #db8876;
   border-radius: 5px;
   padding: 0px 19px;
-  @include responsive {
-    width: 669px;
-    height: 900px;
+  @include responsive(tablet) {
+    // width: 669px;
+    width: 500px;
+    height: 690px;
+    // height: 900px;
     padding: 0px 35px;
     position: relative;
     filter: drop-shadow(-5px 10px 30px rgba(0, 0, 0, 0.25));
   }
+  @include responsive(desktop) {
+    width: 669px;
+    height: 900px;
+  }
   &__overlay {
+    z-index: 4;
     display: none;
     justify-content: center;
     align-items: center;
@@ -419,7 +439,7 @@ body {
     top: 26.5px;
     // opacity: 1;
     cursor: pointer;
-    @include responsive {
+    @include responsive(tablet) {
       width: 42px;
       height: 42px;
       right: 35px;
@@ -437,7 +457,7 @@ body {
     margin-top: 20px;
     margin-bottom: 26px;
     font-weight: 400;
-    @include responsive {
+    @include responsive(desktop) {
       font-size: getRem(64);
       line-height: getRem(83);
     }
@@ -450,7 +470,10 @@ body {
     font-weight: 400;
     color: #312e2e;
     margin-bottom: 6px;
-    @include responsive {
+    @include responsive(tablet) {
+      margin-bottom: 0;
+    }
+    @include responsive(desktop) {
       font-size: getRem(36);
       line-height: getRem(46);
       margin-bottom: 0;
@@ -463,19 +486,22 @@ body {
     margin-bottom: 14px;
     font-size: getRem(24);
     padding: 5px;
-    @include responsive {
+    @include responsive(tablet) {
+      margin-bottom: 0;
+    }
+    @include responsive(desktop) {
       margin-bottom: 0;
     }
     &--text {
       height: 52px;
-      @include responsive {
+      @include responsive(desktop) {
         height: 68px;
       }
     }
     &--textarea {
       height: 184px;
       margin-bottom: 26px;
-      @include responsive {
+      @include responsive(desktop) {
         height: 170px;
       }
     }
@@ -484,7 +510,7 @@ body {
     cursor: pointer;
     @include button-static;
     margin: auto;
-    @include responsive {
+    @include responsive(desktop) {
       width: 170px;
       height: 70px;
       margin: 0;
@@ -509,7 +535,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  @include responsive {
+  @include responsive(tablet) {
     margin-top: 58px;
     &:after {
       content: "";
@@ -520,7 +546,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     width: 335px;
-    @include responsive {
+    @include responsive(tablet) {
       width: 350px;
     }
   }
@@ -531,7 +557,7 @@ body {
     flex-basis: 100%;
     border-radius: 5px;
     margin-bottom: 10px;
-    @include responsive {
+    @include responsive(tablet) {
       width: 350px;
       height: 300px;
     }
@@ -546,7 +572,7 @@ body {
       font-size: getRem(14);
       line-height: getRem(18);
       color: #911c1c;
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(24);
         line-height: getRem(31);
       }
@@ -560,7 +586,7 @@ body {
       text-align: right;
       color: #911c1c;
       flex-shrink: 0;
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(24);
         line-height: getRem(31);
       }
@@ -570,7 +596,7 @@ body {
       font-size: getRem(14);
       line-height: getRem(18);
       color: #911c1c;
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(24);
         line-height: getRem(31);
       }
@@ -580,7 +606,7 @@ body {
       margin-left: 5px;
       width: 10px;
       height: 11px;
-      @include responsive {
+      @include responsive(tablet) {
         width: 17px;
         height: 18px;
       }
@@ -613,7 +639,7 @@ body {
   &__controls--left {
     position: absolute;
     left: -18px;
-    @include responsive {
+    @include responsive(tablet) {
       height: 48px;
       width: auto;
       left: -60px;
@@ -625,7 +651,7 @@ body {
   &__controls--right {
     position: absolute;
     right: -18px;
-    @include responsive {
+    @include responsive(tablet) {
       height: 48px;
       width: auto;
       right: -60px;
@@ -635,7 +661,7 @@ body {
     position: absolute;
     right: -18px;
     top: 3px;
-    @include responsive {
+    @include responsive(tablet) {
       height: 42px;
       width: auto;
       right: -68px;
@@ -656,7 +682,11 @@ body {
     height: 248px;
     object-fit: cover;
     border-radius: 5px;
-    @include responsive {
+    @include responsive(tablet) {
+      width: 696px;
+      height: 600px;
+    }
+    @include responsive(desktop) {
       width: 1050px;
       height: 900px;
     }
@@ -666,7 +696,7 @@ body {
       font-size: getRem(14);
       line-height: getRem(18);
       color: $secondary-text-dark;
-      @include responsive {
+      @include responsive(tablet) {
         font-size: getRem(24);
         line-height: getRem(31);
         margin-top: 12px;

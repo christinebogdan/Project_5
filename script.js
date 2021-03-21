@@ -162,7 +162,11 @@ function buildTags(array) {
   for (let i = 0; i < array.length; i++) {
     // create tag list element
     let tag = document.createElement("li");
-    tag.textContent = `#${array[i]}`;
+    if (array[i] === "sport") {
+      tag.textContent = "#sports";
+    } else {
+      tag.textContent = `#${array[i]}`;
+    }
     tag.className = "photographer__tag";
     tag.setAttribute("data-name", array[i]);
     tag.setAttribute("data-state", "inactive");
@@ -186,6 +190,12 @@ function buildTags(array) {
 function buildOverview(data) {
   for (let i = 0; i < data.length; i++) {
     let person = data[i];
+
+    // scan person.tags array for sport tag and replace with sports
+    if (person.tags.includes("sport")) {
+      person.tags.splice(person.tags.indexOf("sport"), 1, "sports");
+    }
+
     // populate photographerCategories object
     categories[`${person.id}`] = person.tags;
     photographerDisplay[`${person.id}`] = "display";
