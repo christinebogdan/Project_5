@@ -489,6 +489,16 @@ body {
     width: 350px;
   }
 }
+.gallery__placeholder {
+  display: flex;
+  flex-wrap: wrap;
+  width: 335px;
+}
+@media (min-width: 1100px) {
+  .gallery__placeholder {
+    width: 350px;
+  }
+}
 .gallery__mediaItem {
   width: 335px;
   height: 190px;

@@ -31,7 +31,6 @@ $font: "DM Sans", sans-serif;
   height: 69px;
   border-radius: 5px;
   background-color: $primary-background;
-  //   padding: 23px 51px;
   line-height: getRem(23);
   font-size: getRem(18);
   font-weight: 700;
@@ -43,9 +42,6 @@ $font: "DM Sans", sans-serif;
 }
 
 @mixin tag {
-  // display: flex;
-  // justify-content: center;
-  // align-content: center;
   text-align: center;
   height: 22px;
   border: 0.5px solid #c4c4c4;
@@ -80,18 +76,6 @@ $font: "DM Sans", sans-serif;
     }
   }
 }
-
-// @mixin responsive($size) {
-//   @if $size == tablet {
-//     @media (min-width: 700px) {
-//       @content;
-//     }
-//   } @else if $size == desktop {
-//     @media (min-width: 1300px) {
-//       @content;
-//     }
-//   }
-// }
 
 // ---------------------------------------- //
 // ---------------FUNCTIONS---------------- //
@@ -175,9 +159,6 @@ body {
         @include tag-hover;
         @include tag-focus;
       }
-      // &[data-state="active"] {
-      //   @include tag-focus;
-      // }
     }
   }
 }
@@ -227,9 +208,6 @@ body {
     }
     @include responsive(desktop) {
       margin-top: 0;
-      // display: flex;
-      // flex-wrap: wrap;
-      // justify-content: space-between;
     }
   }
 }
@@ -305,8 +283,5 @@ body {
       @include tag-hover;
       @include tag-focus;
     }
-    // &[data-state="active"] {
-    //   @include tag-focus;
-    // }
   }
 }

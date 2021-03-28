@@ -260,7 +260,6 @@ listbox.addEventListener("keydown", (e) => {
           selectedOption = listbox.lastElementChild;
         }
         break;
-      // warum button focus style, wenn Enter, aber nicht, wenn click
       case "Enter":
         selectedOption = document.querySelector(".is-active");
         filterButton.textContent = selectedOption.innerText;
@@ -362,8 +361,6 @@ function closingModal() {
 
 // escape event
 modal.addEventListener("keydown", (e) => {
-  console.log("escape to close form");
-
   e.stopPropagation();
   if (e.key === "Escape") {
     closingModal();
@@ -395,7 +392,6 @@ closeModal.addEventListener("keydown", (e) => {
 // -------------- Manage Focus Inside Modal --------------- //
 
 modal.addEventListener("keydown", (e) => {
-  // funktioniert nur mit Extra IF (s.u.)
   if (e.key === "Tab") {
     if (e.shiftKey) {
       if (document.activeElement === firstElement) {
@@ -486,9 +482,8 @@ function createGallery(data) {
     });
   }
   if (data.length % 3 !== 0) {
-    console.log("anhängung");
     let placeholder = document.createElement("div");
-    placeholder.classList.add("gallery__element");
+    placeholder.classList.add("gallery__placeholder");
     gallery.appendChild(placeholder);
   }
 }
@@ -554,10 +549,19 @@ carousel.addEventListener("keydown", (e) => {
 // function to open lightbox, set initial carousel item, set event listeners and close lightbox
 function openLightbox(e) {
   const activeElement = document.activeElement;
-  const firstGalleryElement = document.querySelector(".gallery")
+  let firstGalleryElement = document.querySelector(".gallery")
     .firstElementChild;
-  const lastGalleryElement = document.querySelector(".gallery")
-    .lastElementChild;
+  let lastGalleryElement;
+  if (
+    document
+      .querySelector(".gallery")
+      .lastElementChild.classList.contains("gallery__placeholder")
+  ) {
+    lastGalleryElement = document.querySelector(".gallery").lastElementChild
+      .previousElementSibling;
+  } else {
+    lastGalleryElement = document.querySelector(".gallery").lastElementChild;
+  }
 
   // get all lightbox elements from DOM
   const lightboxElements = Array.from(
@@ -633,12 +637,6 @@ function openLightbox(e) {
   // set initial focus on lightbox close button
   closeCarousel.focus();
 
-  // Escape event on carousel
-  // carousel.addEventListener("keydown", (e) => {
-  //   if (e.key === "Escape") {
-  //     closeLightbox();
-  //   }
-  // });
   carousel.addEventListener("keydown", keydownCarousel);
 
   function keydownCarousel(e) {
