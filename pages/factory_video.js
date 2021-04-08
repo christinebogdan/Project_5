@@ -3,14 +3,14 @@ class Video {
     this.element = element;
   }
 
-  #getTitle(string) {
+  getTitle(string) {
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
     title = title.replace(/.mp4/g, "");
     return title;
   }
 
-  #getSource(string) {
+  getSource(string) {
     let source = string;
     source = source.replace(/.mp4/g, "");
     return source;
@@ -25,14 +25,14 @@ class Video {
     galleryElement.setAttribute("data-id", this.element.id);
     galleryElement.setAttribute(
       "data-title",
-      this.#getTitle(this.element.video)
+      this.getTitle(this.element.video)
     );
 
     // create video
     const videoTag = document.createElement("video");
     videoTag.classList.add("gallery__mediaItem");
     const sourceTag = document.createElement("source");
-    sourceTag.src = `../img/photographers/${photographerID}/${this.#getSource(
+    sourceTag.src = `../img/photographers/${photographerID}/${this.getSource(
       this.element.video
     )}.mp4`;
     videoTag.appendChild(sourceTag);
@@ -44,7 +44,7 @@ class Video {
 
     // create title, price, likes
     const title = document.createElement("p");
-    title.textContent = this.#getTitle(this.element.video);
+    title.textContent = this.getTitle(this.element.video);
     title.classList.add("gallery__mediaInfo--title");
     const likes = document.createElement("p");
     likes.textContent = this.element.likes;
@@ -86,14 +86,14 @@ class Video {
 
     // create video source element
     const source = document.createElement("source");
-    source.src = `../img/photographers/${photographerID}/${this.#getSource(
+    source.src = `../img/photographers/${photographerID}/${this.getSource(
       this.element.video
     )}.mp4`;
     carouselVid.appendChild(source);
 
     // create title
     const title = document.createElement("p");
-    title.textContent = this.#getTitle(this.element.video);
+    title.textContent = this.getTitle(this.element.video);
     title.classList.add("carousel__image--title");
 
     // append all
