@@ -205,6 +205,7 @@ function buildOverview(data) {
     const urlPara = url.substring(url.indexOf("?") + 1);
     if (urlPara) {
       document.querySelector(`[data-name=${urlPara}]`).click();
+      document.querySelector(`[data-name=${urlPara}]`).parentNode.focus();
     }
   }
 }
