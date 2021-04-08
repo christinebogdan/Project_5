@@ -30,7 +30,14 @@ for (let i = 0; i < navTags.length; i++) {
 // --------------------------------------------------------- //
 
 function filterFunction(e) {
-  let target = e.target;
+  let target;
+  {
+    if (e.type === "click") {
+      target = e.target;
+    } else if (e.type === "keydown") {
+      target = e.target.firstElementChild;
+    }
+  }
   let filterName = target.getAttribute("data-name");
   let filterState = target.getAttribute("data-state");
 
