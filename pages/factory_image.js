@@ -3,14 +3,14 @@ class Image {
     this.element = element;
   }
 
-  getTitle(string) {
+  #getTitle(string) {
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
     title = title.replace(/.jpg/g, "");
     return title;
   }
 
-  getSource(string) {
+  #getSource(string) {
     let source = this.element.image;
     source = source.replace(/.jpg/g, "");
     return source;
@@ -25,14 +25,14 @@ class Image {
     galleryElement.setAttribute("data-id", this.element.id);
     galleryElement.setAttribute(
       "data-title",
-      this.getTitle(this.element.image)
+      this.#getTitle(this.element.image)
     );
 
     // create image
     const imgTag = document.createElement("img");
     imgTag.src = `../img/photographers/${
       this.element.photographerId
-    }/${this.getSource(this.element.image)}.jpg`;
+    }/${this.#getSource(this.element.image)}.jpg`;
     imgTag.alt = `${this.element.alt}, closeup view`;
     imgTag.classList.add("gallery__mediaItem");
 
@@ -42,7 +42,7 @@ class Image {
 
     // create title, price, likes
     const title = document.createElement("p");
-    title.textContent = this.getTitle(this.element.image);
+    title.textContent = this.#getTitle(this.element.image);
     title.classList.add("gallery__mediaInfo--title");
     const likes = document.createElement("p");
     likes.textContent = this.element.likes;
@@ -80,13 +80,13 @@ class Image {
     const carouselImg = document.createElement("img");
     carouselImg.src = `../img/photographers/${
       this.element.photographerId
-    }/${this.getSource(this.element.image)}.jpg`;
+    }/${this.#getSource(this.element.image)}.jpg`;
     carouselImg.alt = this.element.alt;
     carouselImg.classList.add("carousel__image");
 
     // create title element
     const title = document.createElement("p");
-    title.textContent = this.getTitle(this.element.image);
+    title.textContent = this.#getTitle(this.element.image);
     title.classList.add("carousel__image--title");
 
     // append all

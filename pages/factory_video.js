@@ -3,14 +3,14 @@ class Video {
     this.element = element;
   }
 
-  getTitle(string) {
+  #getTitle(string) {
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
     title = title.replace(/.mp4/g, "");
     return title;
   }
 
-  getSource(string) {
+  #getSource(string) {
     let source = string;
     source = source.replace(/.mp4/g, "");
     return source;
@@ -25,7 +25,7 @@ class Video {
     galleryElement.setAttribute("data-id", this.element.id);
     galleryElement.setAttribute(
       "data-title",
-      this.getTitle(this.element.video)
+      this.#getTitle(this.element.video)
     );
 
     // create video
@@ -34,7 +34,7 @@ class Video {
     const sourceTag = document.createElement("source");
     sourceTag.src = `../img/photographers/${
       this.element.photographerId
-    }/${this.getSource(this.element.video)}.mp4`;
+    }/${this.#getSource(this.element.video)}.mp4`;
     videoTag.appendChild(sourceTag);
     videoTag.setAttribute("aria-label", `${this.element.alt}, closeup view`);
 
@@ -44,7 +44,7 @@ class Video {
 
     // create title, price, likes
     const title = document.createElement("p");
-    title.textContent = this.getTitle(this.element.video);
+    title.textContent = this.#getTitle(this.element.video);
     title.classList.add("gallery__mediaInfo--title");
     const likes = document.createElement("p");
     likes.textContent = this.element.likes;
@@ -88,12 +88,12 @@ class Video {
     const source = document.createElement("source");
     source.src = `../img/photographers/${
       this.element.photographerId
-    }/${this.getSource(this.element.video)}.mp4`;
+    }/${this.#getSource(this.element.video)}.mp4`;
     carouselVid.appendChild(source);
 
     // create title
     const title = document.createElement("p");
-    title.textContent = this.getTitle(this.element.video);
+    title.textContent = this.#getTitle(this.element.video);
     title.classList.add("carousel__image--title");
 
     // append all
