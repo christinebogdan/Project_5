@@ -103,3 +103,5 @@ class Video {
     return carouselItem;
   }
 }
+
+// export default Video;

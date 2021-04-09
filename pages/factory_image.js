@@ -96,3 +96,4 @@ class Image {
     return carouselItem;
   }
 }
+// export default Image;

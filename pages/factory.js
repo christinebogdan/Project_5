@@ -1,3 +1,6 @@
+// import Video from "./factory_video";
+// import Image from "./factory_image";
+
 function Factory() {
   this.createMedia = function (element) {
     let type;
@@ -15,3 +18,5 @@ function Factory() {
     }
   };
 }
+
+// export default Factory;

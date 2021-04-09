@@ -4,7 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "sass": "sass --watch ./scss/main.scss:./css/style.css ./scss/pages.scss:./css/pages_style.css"
+    "sass": "sass --watch ./scss/main.scss:./css/style.css ./scss/pages.scss:./css/pages_style.css",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,18 @@
   "bugs": {
     "url": "https://github.com/christinebogdan/Project_5/issues"
   },
-  "homepage": "https://github.com/christinebogdan/Project_5#readme"
+  "homepage": "https://github.com/christinebogdan/Project_5#readme",
+  "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-transform-regenerator": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.31.0",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.13.10",
+    "regenerator-runtime": "^0.13.7"
+  }
 }
