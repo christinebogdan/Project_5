@@ -32,9 +32,9 @@ class Video {
     const videoTag = document.createElement("video");
     videoTag.classList.add("gallery__mediaItem");
     const sourceTag = document.createElement("source");
-    sourceTag.src = `../img/photographers/${photographerID}/${this.getSource(
-      this.element.video
-    )}.mp4`;
+    sourceTag.src = `../img/photographers/${
+      this.element.photographerId
+    }/${this.getSource(this.element.video)}.mp4`;
     videoTag.appendChild(sourceTag);
     videoTag.setAttribute("aria-label", `${this.element.alt}, closeup view`);
 
@@ -86,9 +86,9 @@ class Video {
 
     // create video source element
     const source = document.createElement("source");
-    source.src = `../img/photographers/${photographerID}/${this.getSource(
-      this.element.video
-    )}.mp4`;
+    source.src = `../img/photographers/${
+      this.element.photographerId
+    }/${this.getSource(this.element.video)}.mp4`;
     carouselVid.appendChild(source);
 
     // create title
@@ -104,4 +104,4 @@ class Video {
   }
 }
 
-// export default Video;
+export default Video;

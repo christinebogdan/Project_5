@@ -1,4 +1,4 @@
-// import Factory from "./factory";
+import Factory from "./factory";
 
 const pathname = window.location.pathname.split("/")[
   window.location.pathname.split("/").length - 1

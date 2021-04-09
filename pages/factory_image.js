@@ -30,9 +30,9 @@ class Image {
 
     // create image
     const imgTag = document.createElement("img");
-    imgTag.src = `../img/photographers/${photographerID}/${this.getSource(
-      this.element.image
-    )}.jpg`;
+    imgTag.src = `../img/photographers/${
+      this.element.photographerId
+    }/${this.getSource(this.element.image)}.jpg`;
     imgTag.alt = `${this.element.alt}, closeup view`;
     imgTag.classList.add("gallery__mediaItem");
 
@@ -78,9 +78,9 @@ class Image {
 
     // create image element
     const carouselImg = document.createElement("img");
-    carouselImg.src = `../img/photographers/${photographerID}/${this.getSource(
-      this.element.image
-    )}.jpg`;
+    carouselImg.src = `../img/photographers/${
+      this.element.photographerId
+    }/${this.getSource(this.element.image)}.jpg`;
     carouselImg.alt = this.element.alt;
     carouselImg.classList.add("carousel__image");
 
@@ -96,4 +96,4 @@ class Image {
     return carouselItem;
   }
 }
-// export default Image;
+export default Image;

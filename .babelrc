@@ -11,6 +11,13 @@
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-transform-regenerator"
+    // "@babel/transform-runtime",
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": false,
+        "regenerator": true
+      }
+    ]
   ]
 }
