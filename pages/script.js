@@ -1,3 +1,5 @@
+// import Factory from "./factory";
+
 const pathname = window.location.pathname.split("/")[
   window.location.pathname.split("/").length - 1
 ];
@@ -484,6 +486,9 @@ function createGallery(data) {
   if (data.length % 3 !== 0) {
     let placeholder = document.createElement("div");
     placeholder.classList.add("gallery__placeholder");
+    placeholder.setAttribute("data-date", "1900-01-01");
+    placeholder.setAttribute("data-title", "zzz");
+    placeholder.setAttribute("data-likes", "0");
     gallery.appendChild(placeholder);
   }
 }
