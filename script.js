@@ -1,14 +1,8 @@
-const skipLink = document.querySelector(".skip-to-content");
-const nav = document.querySelector(".header__nav");
-const main = document.getElementById("main");
 const overview = document.getElementById("overview");
 const navTags = document.querySelectorAll(".header__nav-ul--li");
-const firstTag = navTags[0];
-const lastTag = navTags[navTags.length - 1];
 const categories = {};
 const photographerDisplay = {};
 const url = window.location.href;
-const filter = [];
 
 // --------------------------------------------------------- //
 // ------------------- NAVIGATION FOCUS -------------------- //

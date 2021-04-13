@@ -1,17 +1,15 @@
-import Factory from "./factory";
+import Factory from "./factory.js";
 
 const pathname = window.location.pathname.split("/")[
   window.location.pathname.split("/").length - 1
 ];
 const photographerID = parseInt(pathname.replace(/[^0-9]/g, ""));
-const body = document.querySelector("body");
 
 // change class of main__article
 const articleElement = document.querySelector(".main__article");
 const filterButton = document.getElementById("filter-button");
 const listbox = document.getElementById("listbox");
 const buttonArrow = document.getElementById("filter-button-arrow");
-const optionItems = document.querySelectorAll("#listbox li");
 const gallery = document.querySelector(".gallery");
 const aside = document.querySelector(".aside");
 const modal = document.querySelector(".modal");
@@ -24,7 +22,6 @@ const firstElement = focusableElementsModal[0];
 const lastElement = focusableElementsModal[focusableElementsModal.length - 1];
 const closeModal = document.querySelector(".modal__close");
 const form = document.querySelector(".form");
-const submitBtn = document.querySelector("form__btn");
 const lightboxOverlay = document.querySelector(".lightbox");
 const carousel = document.querySelector(".carousel");
 const carouselItemsWrapper = document.getElementById("carousel__items");
@@ -241,7 +238,6 @@ listbox.addEventListener("keydown", (e) => {
   e.preventDefault();
   const currentOption = document.querySelector(".is-active");
   let selectedOption;
-  let buttonText;
   if (document.activeElement === listbox) {
     switch (e.key) {
       case "Home":
@@ -419,6 +415,10 @@ modal.addEventListener("keydown", (e) => {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   e.stopPropagation();
+  const firstname = form.querySelector("#firstname");
+  const lastname = form.querySelector("#lastname");
+  const email = form.querySelector("#email");
+  const message = form.querySelector("#message");
   console.log(
     `First name: ${firstname.value}, Last name: ${lastname.value}, Email: ${email.value}, Message: ${message.value}`
   );
@@ -594,7 +594,7 @@ function openLightbox(e) {
     }
   }
 
-  function seeNextImage(e) {
+  function seeNextImage() {
     carouselItem.classList.remove("active");
     // if gallery item is last item, then show first item
     if (galleryItem === lastGalleryElement) {
@@ -622,7 +622,7 @@ function openLightbox(e) {
   previousImage.addEventListener("click", seePreviousImage);
   previousImage.addEventListener("keydown", keydownPreviousImage);
 
-  function seePreviousImage(e) {
+  function seePreviousImage() {
     carouselItem.classList.remove("active");
     // if gallery item is first item, then show last item
     if (galleryItem === firstGalleryElement) {

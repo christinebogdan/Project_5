@@ -1,5 +1,5 @@
-import Video from "./factory_video";
-import Image from "./factory_image";
+import Video from "./factory_video.js";
+import Image from "./factory_image.js";
 
 function Factory() {
   this.createMedia = function (element) {

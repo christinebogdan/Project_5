@@ -3,6 +3,8 @@ class Video {
     this.element = element;
   }
 
+  // https://standardjs.com/#how-do-i-use-experimental-javascript-es-next-features
+
   #getTitle(string) {
     let title = string.substring(string.indexOf("_") + 1);
     title = title.replace(/_/g, " ");
