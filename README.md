@@ -61,6 +61,13 @@ Aim of the project was to create a prototype for the website with a **homepage**
 - implement factory method pattern
 - use Babel and set up webpack
 
+## Acquired Skills
+
+- Manage website events
+- Develop a modular app with design patterns
+- Write maintainable JavaScript code
+- Ensure the accessibility of a website
+
 ## Demo
 
 [Link to website](https://christinebogdan.github.io/p4_FreelancerSourcingPlatform/)
